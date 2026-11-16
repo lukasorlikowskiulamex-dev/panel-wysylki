@@ -217,6 +217,46 @@ Pozdrawiam
 `Dzień dobry, czy udało się już znaleźć wykonawcę do cięcia? Jeśli nie, na zlecenialaser.pl można dodać zlecenie za darmo i poczekać na oferty od firm z laserami.
 
 Pozdrawiam
+Łukasz Orlikowski`},
+  {id:'E', v:2, group:'wyk', name:'E · Luźna z emotką', followup:false, text:
+`Cześć 👋 Szybkie pytanie, bo widzę, że macie laser: bierzecie jeszcze zlecenia z zewnątrz? 🔥
+
+Na zlecenialaser.pl wpadają zapytania na cięcie blach od firm i osób prywatnych, a ja szukam ekip, które chcą je realizować. Przeglądanie zleceń nic nie kosztuje 😉
+
+Rzucisz okiem? 👀 zlecenialaser.pl
+
+Łukasz`},
+  {id:'F', v:2, group:'wyk', name:'F · Na ciekawość', followup:false, text:
+`Hej! Mam coś, co może zapełnić laser w spokojniejsze dni 😉
+
+Zbieram w jednym miejscu zlecenia na cięcie blach: konkretne detale, materiał, grubość, ilość. Wy wybieracie tylko to, co Wam pasuje 🎯
+
+Zajrzyj: zlecenialaser.pl
+
+Łukasz`},
+  {id:'G', v:2, group:'wyk', name:'G · Z filmem', followup:false, text:
+`Dzień dobry 👋
+
+Nagrałem krótki film, jak działa zlecenialaser.pl. Zajmuje mniej niż minutę 🎬
+{film}
+
+W skrócie: ludzie dodają zlecenia na cięcie blach, a firmy z laserami wybierają, co chcą wziąć. Przeglądanie jest darmowe 🙂
+
+Pozdrawiam
+Łukasz Orlikowski`},
+  {id:'H', v:2, group:'zle', name:'H · Luźna z emotką', followup:false, text:
+`Cześć 👋 Widziałem, że szukasz kogoś do cięcia laserem 🔧
+
+Wrzuć temat na zlecenialaser.pl. To nic nie kosztuje, a firmy z laserami same się odezwą z ofertą. Szybciej niż obdzwanianie warsztatów 😉
+
+Łukasz`},
+  {id:'I', v:2, group:'zle', name:'I · Z filmem', followup:false, text:
+`Dzień dobry 👋 Jeśli szuka Pan/Pani wykonawcy do cięcia blachy, tu jest krótki film, jak w minutę dodać zlecenie i dostać oferty 🎬
+{film}
+
+Dodanie zlecenia jest darmowe: zlecenialaser.pl
+
+Pozdrawiam
 Łukasz Orlikowski`}
 ];
 
@@ -232,11 +272,15 @@ function load(){
       const s = JSON.parse(raw);
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
         s.settings = Object.assign({remindDays:3}, s.settings||{});
+        if((s.settings.tplVer||1) < 2){
+          DEFAULT_TEMPLATES.filter(d=>d.v===2 && !s.templates.some(t=>t.id===d.id)).forEach(d=>s.templates.push(JSON.parse(JSON.stringify(d))));
+          s.settings.tplVer = 2;
+        }
         return s;
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3}};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3, tplVer:2}};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -251,6 +295,11 @@ function needsReminder(c){
   return c.status==='sent' && !c.followAt && daysSince(c.sentAt) >= (state.settings.remindDays||3);
 }
 function tplById(id){ return state.templates.find(t=>t.id===id); }
+function fillText(txt){
+  const f = (state.settings.filmUrl||'').trim();
+  if(f) return txt.split('{film}').join(f);
+  return txt.split('\n').filter(l=>!l.includes('{film}')).join('\n');
+}
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200); }
 function closeDlg(id){ document.getElementById(id).close(); }
 
@@ -415,11 +464,12 @@ function openSend(id){
 function renderSendPreview(){
   const c = state.contacts.find(x=>x.id===sendingId);
   const t = tplById(sTpl.value);
-  sPreview.textContent = t ? t.text : '';
+  sPreview.textContent = t ? fillText(t.text) : '';
   const parts = [];
   if(c.status==='new') parts.push('Domyślnie podpowiadam wersję, która była wysłana najmniej razy, żeby test był równy.');
   if(t && t.followup) parts.push('To przypomnienie: nie zmienia wersji przypisanej do kontaktu, zapisze tylko datę przypomnienia.');
   if(!c.link) parts.push('Ten kontakt nie ma linku, tekst zostanie tylko skopiowany.');
+  if(t && t.text.includes('{film}') && !(state.settings.filmUrl||'').trim()) parts.push('Nie ustawiono linku do filmu (zakładka Szablony), linia z filmem zostanie pominięta.');
   sHint.textContent = parts.join(' ');
 }
 async function copyText(txt){
@@ -435,7 +485,7 @@ async function doSend(copyAndOpen){
   const t = tplById(sTpl.value);
   if(!t) return;
   if(copyAndOpen){
-    const ok = await copyText(t.text);
+    const ok = await copyText(fillText(t.text));
     if(c.link) window.open(c.link,'_blank','noopener');
     toast(ok?'Skopiowano. Wklej wiadomość w Messengerze (Ctrl+V).':'Nie udało się skopiować, zaznacz tekst ręcznie.');
   }
@@ -464,6 +514,11 @@ function renderTemplates(){
     <button onclick="resetTemplates()">Przywróć domyślne</button>
     <button class="primary" onclick="addTemplate()">+ Nowa wersja</button>
   </div>
+  <div class="card" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <b style="white-space:nowrap">🎬 Link do filmu</b>
+    <input style="flex:1;min-width:220px" placeholder="np. link do rolki na FB albo filmu na YouTube" value="${esc(state.settings.filmUrl||'')}" onchange="state.settings.filmUrl=this.value.trim();save();toast('Zapisano link do filmu')">
+    <span class="hint">W szablonie wpisz <b>{film}</b> tam, gdzie ma się pojawić link. Bez ustawionego linku ta linia zostanie pominięta.</span>
+  </div>
   <p class="hint" style="margin-top:0">Każda wersja ma krótki kod (A, B, C…), który widać przy kontakcie i w statystykach. Zmiany zapisują się od razu. Jeśli mocno zmienisz treść wersji, która była już wysyłana, lepiej dodaj nową, żeby wyniki się nie mieszały.</p>
   ${list.map(t=>`
     <div class="tpl">
@@ -471,7 +526,7 @@ function renderTemplates(){
         <input style="max-width:90px" value="${esc(t.id)}" title="Kod wersji" onchange="renameTplId('${esc(t.id)}',this.value)">
         <input value="${esc(t.name)}" onchange="updTpl('${esc(t.id)}','name',this.value)">
         <label style="display:flex;gap:6px;align-items:center;white-space:nowrap;font-size:13px"><input type="checkbox" style="width:auto" ${t.followup?'checked':''} onchange="updTpl('${esc(t.id)}','followup',this.checked)"> przypomnienie</label>
-        <button class="small" onclick="copyText(tplById('${esc(t.id)}').text).then(()=>toast('Skopiowano'))">Kopiuj</button>
+        <button class="small" onclick="copyText(fillText(tplById('${esc(t.id)}').text)).then(()=>toast('Skopiowano'))">Kopiuj</button>
         <button class="small ghost" onclick="delTemplate('${esc(t.id)}')">✕</button>
       </div>
       <textarea oninput="updTpl('${esc(t.id)}','text',this.value,true)">${esc(t.text)}</textarea>
