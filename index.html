@@ -8,14 +8,12 @@
 :root{
   --bg:#f4f5f7; --card:#fff; --ink:#1c2230; --muted:#6b7385; --line:#e3e6ec;
   --head:#161b26; --laser:#ff5a1f; --laser-soft:#fff0ea;
-  --ok:#1f9d55; --ok-soft:#e6f6ed; --warn:#c98a00; --warn-soft:#fff6dc;
-  --info:#2563eb; --info-soft:#e8efff; --bad:#c53030; --bad-soft:#fdeaea;
-  --r:10px;
+  --ok:#1f9d55; --ok-soft:#e6f6ed; --bad:#c53030; --r:10px;
 }
 *{box-sizing:border-box}
 body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
 header{background:var(--head);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-header .logo{font-weight:700;font-size:17px;letter-spacing:.2px}
+header .logo{font-weight:700;font-size:17px}
 header .logo span{color:var(--laser)}
 header .beam{height:3px;flex:0 0 60px;background:linear-gradient(90deg,var(--laser),transparent);border-radius:2px}
 header .spacer{flex:1}
@@ -25,82 +23,62 @@ nav{display:flex;gap:4px;padding:0 22px;background:var(--head);border-top:1px so
 nav button{background:none;border:none;color:#aab2c3;padding:12px 16px;border-bottom:3px solid transparent;border-radius:0;font-weight:600}
 nav button.active{color:#fff;border-bottom-color:var(--laser)}
 nav button .cnt{background:#2b3343;color:#cfd5e2;border-radius:20px;padding:1px 8px;font-size:12px;margin-left:6px}
-main{padding:20px 22px;max-width:1400px;margin:0 auto}
+main{padding:20px 22px;max-width:1200px;margin:0 auto}
 button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 12px}
 button:hover{border-color:#c4c9d4}
 button.primary{background:var(--laser);border-color:var(--laser);color:#fff;font-weight:600}
-button.primary:hover{filter:brightness(1.05)}
 button.small{padding:4px 9px;font-size:13px}
 button.ghost{border-color:transparent;background:transparent;color:var(--muted)}
 button.ghost:hover{color:var(--bad)}
 input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;color:var(--ink);width:100%}
 textarea{resize:vertical}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--laser-soft);border-color:var(--laser)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
-.kpi .v{font-size:24px;font-weight:700}
-.kpi .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
-.kpi.hl{border-color:var(--laser);background:var(--laser-soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .toolbar input{max-width:260px}
-.toolbar select{max-width:200px}
-.toolbar .spacer{flex:1}
+.toolbar select{max-width:180px}
+.spacer{flex:1}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
 th{background:#fafbfc;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.4px;font-weight:600;white-space:nowrap}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#fcfcfd}
-td.name a{color:var(--ink);font-weight:600;text-decoration:none}
-td.name a:hover{color:var(--laser)}
 td .sub{color:var(--muted);font-size:12px}
-td select{padding:4px 6px;font-size:13px;width:auto}
+td.mail{font-family:ui-monospace,Consolas,monospace;font-size:13px}
 .actions{white-space:nowrap;text-align:right}
 .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
 .b-new{background:#eef0f4;color:#4a5263}
-.b-sent{background:var(--info-soft);color:var(--info)}
-.b-replied{background:var(--warn-soft);color:var(--warn)}
-.b-won{background:var(--ok-soft);color:var(--ok)}
-.b-lost{background:var(--bad-soft);color:var(--bad)}
-.remind{background:var(--laser);color:#fff}
+.b-sent{background:var(--ok-soft);color:var(--ok)}
 .empty{text-align:center;color:var(--muted);padding:40px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:900px){.grid2{grid-template-columns:1fr}.hide-m{display:none}}
 .tpl{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:#fff;margin-bottom:12px}
-.tpl h4{margin:0 0 8px;display:flex;align-items:center;gap:8px}
-.tpl textarea{min-height:160px}
-.tpl .row{display:flex;gap:8px;margin-bottom:8px}
-h2{font-size:16px;margin:0 0 12px}
-h3{font-size:14px;margin:0 0 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.bars .bar{margin-bottom:14px}
-.bars .lbl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
-.bars .track{height:10px;background:#eef0f4;border-radius:6px;overflow:hidden;display:flex}
-.bars .fill-r{background:#f5b74a}
-.bars .fill-w{background:var(--ok)}
-.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-bottom:12px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
-.stat-table td,.stat-table th{text-align:right}
-.stat-table td:first-child,.stat-table th:first-child{text-align:left}
-.best{color:var(--ok);font-weight:700}
+.tpl .row{display:flex;gap:8px;margin-bottom:8px;align-items:center;flex-wrap:wrap}
+.tpl textarea{min-height:110px}
+.tpl .lbl{font-size:12px;color:var(--muted);font-weight:600;min-width:42px}
+.chips{display:flex;gap:6px}
+.chips button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hint{color:var(--muted);font-size:12.5px}
+h2{font-size:15px;margin:0 0 10px}
+.found{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:8px;margin:10px 0}
+.found label{display:flex;gap:10px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line)}
+.found label:last-child{border-bottom:none}
+.found input{width:auto}
+.found .dup{color:var(--muted);text-decoration:line-through}
 dialog{border:none;border-radius:14px;padding:0;width:min(620px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(15,20,30,.5)}
 dialog .dh{padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700;display:flex;justify-content:space-between;align-items:center}
 dialog .db{padding:16px 18px;display:grid;gap:10px}
-dialog .df{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}
+dialog .df{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
-.preview{white-space:pre-wrap;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:12px;max-height:280px;overflow:auto;font-size:13.5px}
+.preview{white-space:pre-wrap;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:12px;max-height:260px;overflow:auto;font-size:13.5px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--head);color:#fff;padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99}
 .toast.show{opacity:1}
-.hint{color:var(--muted);font-size:12.5px}
-.tabs-in{display:flex;gap:6px;margin-bottom:12px}
-.tabs-in button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:800px){.hide-m{display:none}}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">zlecenia<span>laser</span>.pl</div>
   <div class="beam"></div>
-  <div style="color:#aab2c3">Panel wysyłki zaproszeń</div>
+  <div style="color:#aab2c3">Panel wysyłki</div>
   <div class="spacer"></div>
   <button onclick="exportJSON()">Kopia zapasowa</button>
   <button onclick="document.getElementById('importFile').click()">Wczytaj kopię</button>
@@ -111,47 +89,31 @@ label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
 
 <dialog id="dlgContact">
   <form method="dialog" onsubmit="return false">
-    <div class="dh"><span id="dcTitle">Nowy kontakt</span><button class="ghost" onclick="closeDlg('dlgContact')">✕</button></div>
+    <div class="dh"><span id="dcTitle">Nowy adres</span><button class="ghost" onclick="closeDlg('dlgContact')">✕</button></div>
     <div class="db">
-      <label class="f">Nazwa firmy / osoby<input id="cName" required></label>
-      <label class="f">Link do profilu FB / Messengera<input id="cLink" placeholder="https://facebook.com/..."></label>
-      <div class="grid2" style="gap:10px">
-        <label class="f">Miasto / region<input id="cCity"></label>
-        <label class="f">Skąd kontakt (np. nazwa grupy)<input id="cSource"></label>
-      </div>
-      <div class="grid2" style="gap:10px">
-        <label class="f">Grupa<select id="cGroup"><option value="wyk">Firma z laserem (wykonawca)</option><option value="zle">Szuka cięcia (zlecający)</option></select></label>
-        <label class="f">Status<select id="cStatus"></select></label>
-      </div>
-      <label class="f">Notatka<textarea id="cNote" rows="3"></textarea></label>
+      <label class="f">Nazwa (firma albo osoba)<input id="cName"></label>
+      <label class="f">E-mail<input id="cEmail" type="email"></label>
+      <label class="f">Skąd (np. nazwa grupy FB)<input id="cSource"></label>
+      <label class="f">Notatka<textarea id="cNote" rows="2"></textarea></label>
     </div>
     <div class="df"><button onclick="closeDlg('dlgContact')">Anuluj</button><button class="primary" onclick="saveContact()">Zapisz</button></div>
   </form>
 </dialog>
 
-<dialog id="dlgBulk">
-  <form method="dialog" onsubmit="return false">
-    <div class="dh"><span>Dodaj wiele kontaktów</span><button class="ghost" onclick="closeDlg('dlgBulk')">✕</button></div>
-    <div class="db">
-      <div class="hint">Jeden kontakt w linii, pola oddzielone średnikiem:<br><b>nazwa ; link ; miasto ; skąd kontakt</b><br>Wystarczy sama nazwa, reszta jest opcjonalna.</div>
-      <textarea id="bulkText" rows="10" placeholder="Laser Serwis ; https://facebook.com/laserserwis ; Łódź ; grupa Cięcie laserem Polska"></textarea>
-    </div>
-    <div class="df"><button onclick="closeDlg('dlgBulk')">Anuluj</button><button class="primary" onclick="saveBulk()">Dodaj</button></div>
-  </form>
-</dialog>
-
 <dialog id="dlgSend">
   <form method="dialog" onsubmit="return false">
-    <div class="dh"><span id="dsTitle">Wyślij wiadomość</span><button class="ghost" onclick="closeDlg('dlgSend')">✕</button></div>
+    <div class="dh"><span id="dsTitle">Napisz maila</span><button class="ghost" onclick="closeDlg('dlgSend')">✕</button></div>
     <div class="db">
-      <label class="f">Wersja wiadomości<select id="sTpl" onchange="renderSendPreview()"></select></label>
+      <label class="f">Szablon<select id="sTpl" onchange="renderSendPreview()"></select></label>
+      <div><span class="hint">Temat:</span> <b id="sSubject"></b></div>
       <div class="preview" id="sPreview"></div>
       <div class="hint" id="sHint"></div>
     </div>
     <div class="df">
-      <button onclick="closeDlg('dlgSend')">Anuluj</button>
-      <button onclick="doSend(false)">Tylko oznacz jako wysłane</button>
-      <button class="primary" onclick="doSend(true)">Kopiuj i otwórz profil</button>
+      <button onclick="copyFromSend('mail')">Kopiuj adres</button>
+      <button onclick="copyFromSend('subject')">Kopiuj temat</button>
+      <button onclick="copyFromSend('body')">Kopiuj treść</button>
+      <button class="primary" onclick="openMail()">Otwórz w programie pocztowym</button>
     </div>
   </form>
 </dialog>
@@ -159,43 +121,41 @@ label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
 <div class="toast" id="toast"></div>
 
 <script>
-const LS_KEY = 'zlecenialaser_panel_v1';
-const GROUPS = {
-  wyk: {label:'Firmy z laserem', short:'Wykonawcy', won:'Założył konto'},
-  zle: {label:'Szukający cięcia', short:'Zlecający', won:'Dodał zlecenie'}
-};
-const STATUSES = ['new','sent','replied','won','lost'];
-function statusLabel(s, g){
-  return {new:'Do wysłania', sent:'Wysłano', replied:'Odpisał', won:GROUPS[g].won, lost:'Nie zainteresowany'}[s];
-}
+const LS_KEY = 'zlecenialaser_panel_v2';
+const GROUPS = {wyk:'Do firm z laserem', zle:'Do szukających cięcia'};
 
 const DEFAULT_TEMPLATES = [
-  {id:'A', group:'wyk', name:'A · Prosto', followup:false, text:
+  {id:'A', group:'wyk', name:'Prosto', subject:'Zlecenia na cięcie laserem bez dopytywania', text:
 `Dzień dobry, robię portal zlecenialaser.pl. Chcę, żeby zlecenia na cięcie przychodziły od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania o każdy szczegół. Zapraszam Waszą firmę do rejestracji na portalu. Wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'B', group:'wyk', name:'B · Znam ten problem', followup:false, text:
-`Hej, pewnie znacie to dopytywanie klienta o każdy szczegół przed wyceną. Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie. Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'C', group:'wyk', name:'C · Jedno zdanie', followup:false, text:
+  {id:'B', group:'wyk', name:'Znam ten problem', subject:'Koniec z dopytywaniem klienta przed wyceną', text:
+`Dzień dobry, pewnie znacie to dopytywanie klienta o każdy szczegół przed wyceną. Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie. Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'C', group:'wyk', name:'Jedno zdanie', subject:'Zlecenia na laser z kompletem danych', text:
 `Dzień dobry, robię miejsce, gdzie zlecenia na laser przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania. Zapraszam Waszą firmę do rejestracji na zlecenialaser.pl, wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'E', group:'wyk', name:'E · Z filmem', followup:false, text:
+  {id:'E', group:'wyk', name:'Z filmem', subject:'Krótki film: zlecenia na cięcie laserem', text:
 `Dzień dobry, nagrałem krótki film, jak działa zlecenialaser.pl:
 {film}
 Zlecenia przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania.
 Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'D', group:'zle', name:'D · Opisujesz raz', followup:false, text:
+  {id:'FW', group:'wyk', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
+`Dzień dobry, wracam jeszcze do zlecenialaser.pl. Jak to nie dla Was, nie ma sprawy, więcej nie piszę.`},
+  {id:'D', group:'zle', name:'Opisujesz raz', subject:'Cięcie laserem bez obdzwaniania firm', text:
 `Dzień dobry, jeśli szukasz kogoś do cięcia laserem, wrzuć zlecenie na zlecenialaser.pl. Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. Bez tłumaczenia wszystkiego od nowa każdej firmie.`},
-  {id:'F', group:'zle', name:'F · Z filmem', followup:false, text:
+  {id:'F', group:'zle', name:'Z filmem', subject:'Jak dodać zlecenie na cięcie laserem', text:
 `Dzień dobry, tu krótki film, jak dodać zlecenie na cięcie laserem:
 {film}
 Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. zlecenialaser.pl`},
-  {id:'FW', group:'wyk', name:'Przypomnienie (wykonawca)', followup:true, text:
-`Dzień dobry, wracam jeszcze do zlecenialaser.pl. Jak to nie dla Was, nie ma sprawy, więcej nie piszę.`},
-  {id:'FZ', group:'zle', name:'Przypomnienie (zlecający)', followup:true, text:
+  {id:'FZ', group:'zle', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, udało się już znaleźć kogoś do cięcia? Jak nie, wrzuć zlecenie na zlecenialaser.pl, to nic nie kosztuje.`}
 ];
+const DEFAULT_SIGNATURE = `Pozdrawiam
+Łukasz Orlikowski
+zlecenialaser.pl`;
 
 let state = load();
-let view = 'wyk';
-let filters = {q:'', status:'all', remind:false};
+let view = 'tpl';
+let tplFilter = 'all';
+let filters = {q:'', status:'all'};
+let found = [];
 let editingId = null, sendingId = null;
 
 function load(){
@@ -204,21 +164,12 @@ function load(){
     if(raw){
       const s = JSON.parse(raw);
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
-        s.settings = Object.assign({remindDays:3}, s.settings||{});
-        if((s.settings.tplVer||1) < 3){
-          const OLD = ['A','B','C','D','E','F','G','H','I','FW','FZ'];
-          s.templates = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)).concat(s.templates.filter(t=>!OLD.includes(t.id)));
-          s.settings.tplVer = 3;
-        }
-        if(s.settings.tplVer < 4){
-          ['A','B','C','E'].forEach(id=>{ const d=DEFAULT_TEMPLATES.find(x=>x.id===id), t=s.templates.find(x=>x.id===id); if(d&&t) t.text=d.text; });
-          s.settings.tplVer = 4;
-        }
+        s.settings = Object.assign({filmUrl:'', signature:DEFAULT_SIGNATURE, source:''}, s.settings||{});
         return s;
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3, tplVer:4}};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{filmUrl:'', signature:DEFAULT_SIGNATURE, source:''}};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -228,333 +179,290 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7
 const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today = () => new Date().toISOString().slice(0,10);
 function fmtDate(d){ if(!d) return ''; const [y,m,dd]=d.split('-'); return `${dd}.${m}.${y}`; }
-function daysSince(d){ if(!d) return 0; return Math.floor((Date.now() - new Date(d+'T00:00:00').getTime())/86400000); }
-function needsReminder(c){
-  return c.status==='sent' && !c.followAt && daysSince(c.sentAt) >= (state.settings.remindDays||3);
-}
 function tplById(id){ return state.templates.find(t=>t.id===id); }
 function fillText(txt){
   const f = (state.settings.filmUrl||'').trim();
   if(f) return txt.split('{film}').join(f);
   return txt.split('\n').filter(l=>!l.includes('{film}')).join('\n');
 }
+function mailBody(t){
+  const sig = (state.settings.signature||'').trim();
+  return fillText(t.text) + (sig ? '\n\n' + sig : '');
+}
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200); }
 function closeDlg(id){ document.getElementById(id).close(); }
+async function copyText(txt, msg){
+  let ok=false;
+  try{ await navigator.clipboard.writeText(txt); ok=true; }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+    try{ ok=document.execCommand('copy'); }catch(_){}
+    ta.remove();
+  }
+  toast(ok ? (msg||'Skopiowano') : 'Nie udało się skopiować');
+  return ok;
+}
 
 // ---------- NAV ----------
 function renderNav(){
-  const c = g => state.contacts.filter(x=>x.group===g).length;
-  const items = [
-    ['wyk', `Firmy z laserem <span class="cnt">${c('wyk')}</span>`],
-    ['zle', `Szukający cięcia <span class="cnt">${c('zle')}</span>`],
-    ['tpl', 'Szablony wiadomości'],
-    ['stats', 'Która wersja działa']
-  ];
+  const items = [['tpl','Szablony'], ['mail', `Maile <span class="cnt">${state.contacts.length}</span>`]];
   document.getElementById('nav').innerHTML = items.map(([k,l]) =>
     `<button class="${view===k?'active':''}" onclick="go('${k}')">${l}</button>`).join('');
 }
-function go(v){ view=v; filters={q:'',status:'all',remind:false}; render(); }
+function go(v){ view=v; render(); }
 
-// ---------- CONTACTS ----------
-function renderContacts(g){
-  const all = state.contacts.filter(x=>x.group===g);
-  const cnt = s => all.filter(x=>x.status===s).length;
-  const sentTotal = all.filter(x=>x.status!=='new').length;
-  const reminders = all.filter(needsReminder).length;
-  const replyRate = sentTotal ? Math.round((cnt('replied')+cnt('won')+cnt('lost'))/sentTotal*100) : 0;
+// ---------- TEMPLATES ----------
+function renderTemplates(){
+  const list = state.templates.filter(t=>tplFilter==='all' || t.group===tplFilter);
+  const chip = (k,l) => `<button class="${tplFilter===k?'active':''}" onclick="tplFilter='${k}';render()">${l}</button>`;
+  return `
+  <div class="toolbar">
+    <div class="chips">${chip('all','Wszystkie')}${chip('wyk','Do firm z laserem')}${chip('zle','Do szukających cięcia')}</div>
+    <div class="spacer"></div>
+    <button onclick="resetTemplates()">Przywróć domyślne</button>
+    <button class="primary" onclick="addTemplate()">+ Nowy szablon</button>
+  </div>
+  ${list.map(t=>`
+    <div class="tpl">
+      <div class="row">
+        <input style="flex:1;min-width:160px;font-weight:600" value="${esc(t.name)}" onchange="updTpl('${t.id}','name',this.value)">
+        <select style="width:auto" onchange="updTpl('${t.id}','group',this.value)">
+          <option value="wyk" ${t.group==='wyk'?'selected':''}>${GROUPS.wyk}</option>
+          <option value="zle" ${t.group==='zle'?'selected':''}>${GROUPS.zle}</option>
+        </select>
+        <button class="small primary" onclick="copyText(fillText(tplById('${t.id}').text),'Skopiowano treść')">Kopiuj treść</button>
+        <button class="small" onclick="copyText(tplById('${t.id}').subject||'','Skopiowano temat')">Kopiuj temat</button>
+        <button class="small ghost" onclick="delTemplate('${t.id}')" title="Usuń">✕</button>
+      </div>
+      <div class="row"><span class="lbl">Temat</span><input style="flex:1" value="${esc(t.subject||'')}" onchange="updTpl('${t.id}','subject',this.value)"></div>
+      <textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea>
+    </div>`).join('') || '<div class="card empty">Brak szablonów.</div>'}
+  <div class="card">
+    <h2>Ustawienia</h2>
+    <label class="f" style="margin-bottom:10px">🎬 Link do filmu (wstawiany w miejsce {film} w treści; bez linku ta linia znika)
+      <input value="${esc(state.settings.filmUrl)}" placeholder="np. link do rolki na FB albo filmu na YouTube" onchange="state.settings.filmUrl=this.value.trim();save();toast('Zapisano')">
+    </label>
+    <label class="f">Podpis dodawany na końcu maili (przy „Kopiuj treść” w szablonach podpisu nie ma, żeby pasowało też do Messengera)
+      <textarea rows="3" onchange="state.settings.signature=this.value;save();toast('Zapisano')">${esc(state.settings.signature)}</textarea>
+    </label>
+  </div>`;
+}
+function updTpl(id, field, val, silent){
+  const t = tplById(id); if(!t) return;
+  t[field]=val; save(); if(!silent) render();
+}
+function addTemplate(){
+  const id = uid();
+  state.templates.unshift({id, group: tplFilter==='zle'?'zle':'wyk', name:'Nowy szablon', subject:'', text:'Dzień dobry, '});
+  save(); render();
+}
+function delTemplate(id){
+  if(!confirm('Usunąć ten szablon?')) return;
+  state.templates = state.templates.filter(t=>t.id!==id); save(); render();
+}
+function resetTemplates(){
+  if(!confirm('Przywrócić domyślne szablony? Zmiany w nich zostaną nadpisane, Twoje nowe szablony zostaną.')) return;
+  DEFAULT_TEMPLATES.forEach(d=>{
+    const i = state.templates.findIndex(t=>t.id===d.id);
+    const copy = JSON.parse(JSON.stringify(d));
+    if(i>=0) state.templates[i] = copy; else state.templates.push(copy);
+  });
+  save(); render();
+}
 
-  let list = all.filter(x=>{
-    if(filters.status!=='all' && x.status!==filters.status) return false;
-    if(filters.remind && !needsReminder(x)) return false;
-    if(filters.q){
-      const q = filters.q.toLowerCase();
-      if(![x.name,x.city,x.source,x.note].join(' ').toLowerCase().includes(q)) return false;
-    }
+// ---------- EMAIL EXTRACTION ----------
+const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const EMAIL_ONE = new RegExp(EMAIL_RE.source);
+const SKIP_LINE = /^(\*\s*)?(odpowiedz|udostępnij|edytowano|lubię to!?|reply|share|like)\s*$/i;
+function cleanName(line){
+  const m = line.match(/^\[([^\]]+)\]\(/);
+  return (m ? m[1] : line).trim();
+}
+function isSep(line){ return /^[·•\s]+$/.test(line) && line.includes('·'); }
+function extractEmails(text){
+  const lines = text.split(/\r?\n/).map(l=>l.trim());
+  const out = []; const seen = new Set();
+  let name = '';
+  for(let i=0;i<lines.length;i++){
+    const l = lines[i];
+    if(!l) continue;
+    // a line followed by a "·" separator line is the author's name (Facebook comment layout)
+    let j=i+1; while(j<lines.length && !lines[j]) j++;
+    if(isSep(l) || SKIP_LINE.test(l)) continue;
+    if(j<lines.length && isSep(lines[j]) && !EMAIL_ONE.test(l)){ name = cleanName(l); continue; }
+    const ms = l.match(EMAIL_RE) || [];
+    ms.forEach(e=>{
+      e = e.replace(/\.+$/,'').toLowerCase();
+      if(seen.has(e)) return; seen.add(e);
+      out.push({email:e, name: name || guessName(e)});
+    });
+  }
+  return out;
+}
+function guessName(e){
+  const [local, dom] = e.split('@');
+  const free = /^(gmail|onet|wp|o2|interia|op|yahoo|hotmail|outlook|icloud|poczta|tlen|vp|buziaczek|gazeta|protonmail)\./i;
+  return free.test(dom) ? local : dom;
+}
+
+// ---------- MAILS ----------
+function renderMails(){
+  const all = state.contacts;
+  const toSend = all.filter(c=>!c.sentAt);
+  let list = all.filter(c=>{
+    if(filters.status==='new' && c.sentAt) return false;
+    if(filters.status==='sent' && !c.sentAt) return false;
+    if(filters.q){ const q=filters.q.toLowerCase(); if(![c.name,c.email,c.source,c.note].join(' ').toLowerCase().includes(q)) return false; }
     return true;
-  }).sort((a,b)=>(STATUSES.indexOf(a.status)-STATUSES.indexOf(b.status)) || (b.updatedAt||'').localeCompare(a.updatedAt||''));
+  }).sort((a,b)=>(!!a.sentAt - !!b.sentAt) || (b.createdAt||'').localeCompare(a.createdAt||''));
 
-  const statusOpts = STATUSES.map(s=>`<option value="${s}" ${filters.status===s?'selected':''}>${statusLabel(s,g)}</option>`).join('');
+  const existing = new Set(all.map(c=>c.email));
+  const foundHtml = found.length ? `
+    <div class="found">${found.map((f,i)=>{
+      const dup = existing.has(f.email);
+      return `<label><input type="checkbox" ${dup?'disabled':'checked'} data-i="${i}"><span class="${dup?'dup':''}" style="flex:1"><b>${esc(f.name)}</b> <span class="sub">${esc(f.email)}</span></span>${dup?'<span class="sub">już jest</span>':''}</label>`;
+    }).join('')}</div>
+    <div class="toolbar" style="margin:0">
+      <input id="srcInput" style="max-width:280px" placeholder="Skąd (np. nazwa grupy FB)" value="${esc(state.settings.source)}">
+      <div class="spacer"></div>
+      <button onclick="found=[];render()">Anuluj</button>
+      <button class="primary" onclick="addFound()">Dodaj zaznaczone</button>
+    </div>` : '';
 
-  const rows = list.map(x=>{
-    const t = tplById(x.tpl);
-    const link = x.link ? `<a href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.name)}</a>` : esc(x.name);
-    const sel = STATUSES.map(s=>`<option value="${s}" ${x.status===s?'selected':''}>${statusLabel(s,g)}</option>`).join('');
-    const rem = needsReminder(x) ? ` <span class="badge remind" title="Brak odpowiedzi od ${daysSince(x.sentAt)} dni">przypomnij</span>` : '';
+  const rows = list.map(c=>{
+    const t = c.tpl ? tplById(c.tpl) : null;
     return `<tr>
-      <td class="name">${link}${x.note?`<div class="sub">${esc(x.note)}</div>`:''}</td>
-      <td class="hide-m">${esc(x.city)}<div class="sub">${esc(x.source)}</div></td>
-      <td><select onchange="setStatus('${x.id}',this.value)" class="badge b-${x.status}" style="border:none">${sel}</select>${rem}</td>
-      <td class="hide-m">${t?esc(t.id):(x.tpl?esc(x.tpl):'<span class="sub">brak</span>')}</td>
-      <td class="hide-m">${fmtDate(x.sentAt)}${x.followAt?`<div class="sub">przypomn. ${fmtDate(x.followAt)}</div>`:''}</td>
+      <td><b>${esc(c.name)}</b>${c.note?`<div class="sub">${esc(c.note)}</div>`:''}</td>
+      <td class="mail">${esc(c.email)}</td>
+      <td class="hide-m"><span class="sub">${esc(c.source)}</span></td>
+      <td>${c.sentAt ? `<span class="badge b-sent" title="${t?esc(t.name):''}">wysłano ${fmtDate(c.sentAt)}</span>` : '<span class="badge b-new">do wysłania</span>'}</td>
       <td class="actions">
-        <button class="small primary" onclick="openSend('${x.id}')">${x.status==='new'?'Wyślij':'Napisz'}</button>
-        <button class="small" onclick="openContact('${x.id}')">Edytuj</button>
-        <button class="small ghost" onclick="delContact('${x.id}')" title="Usuń">✕</button>
+        <button class="small primary" onclick="openSend('${c.id}')">Napisz</button>
+        <button class="small" onclick="toggleSent('${c.id}')">${c.sentAt?'Cofnij':'Oznacz wysłany'}</button>
+        <button class="small" onclick="openContact('${c.id}')">Edytuj</button>
+        <button class="small ghost" onclick="delContact('${c.id}')" title="Usuń">✕</button>
       </td></tr>`;
   }).join('');
 
   return `
-  <div class="kpis">
-    <div class="kpi"><div class="v">${all.length}</div><div class="l">Kontaktów</div></div>
-    <div class="kpi"><div class="v">${cnt('new')}</div><div class="l">Do wysłania</div></div>
-    <div class="kpi"><div class="v">${sentTotal}</div><div class="l">Wysłanych</div></div>
-    <div class="kpi"><div class="v">${replyRate}%</div><div class="l">Odpowiedzi</div></div>
-    <div class="kpi hl"><div class="v">${cnt('won')}</div><div class="l">${GROUPS[g].won}</div></div>
-    <div class="kpi" style="cursor:pointer" onclick="filters.remind=!filters.remind;render()"><div class="v" style="color:${reminders?'var(--laser)':'inherit'}">${reminders}</div><div class="l">Do przypomnienia</div></div>
+  <div class="card">
+    <h2>Zbierz maile</h2>
+    <div class="hint" style="margin-bottom:8px">Wklej cały skopiowany tekst, np. komentarze spod posta na Facebooku. Panel sam wyciągnie adresy i dopasuje nazwę autora komentarza.</div>
+    <textarea id="pasteBox" rows="5" placeholder="Wklej tutaj tekst z adresami e-mail…"></textarea>
+    <div class="toolbar" style="margin:10px 0 0">
+      <button class="primary" onclick="doExtract()">Wyciągnij maile</button>
+      <button onclick="openContact()">+ Dodaj ręcznie</button>
+    </div>
+    ${foundHtml}
   </div>
   <div class="toolbar">
-    <input placeholder="Szukaj: nazwa, miasto, grupa…" value="${esc(filters.q)}" oninput="filters.q=this.value;renderTable()" id="qInput">
-    <select onchange="filters.status=this.value;render()"><option value="all">Wszystkie statusy</option>${statusOpts}</select>
-    <label style="display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" style="width:auto" ${filters.remind?'checked':''} onchange="filters.remind=this.checked;render()"> tylko do przypomnienia</label>
+    <input placeholder="Szukaj…" value="${esc(filters.q)}" oninput="filters.q=this.value;renderKeepFocus('qInput')" id="qInput">
+    <select onchange="filters.status=this.value;render()">
+      <option value="all" ${filters.status==='all'?'selected':''}>Wszystkie (${all.length})</option>
+      <option value="new" ${filters.status==='new'?'selected':''}>Do wysłania (${toSend.length})</option>
+      <option value="sent" ${filters.status==='sent'?'selected':''}>Wysłane (${all.length-toSend.length})</option>
+    </select>
     <div class="spacer"></div>
-    <button onclick="openBulk()">Dodaj wiele</button>
-    <button class="primary" onclick="openContact()">+ Dodaj kontakt</button>
+    <button onclick="copyText(toSend().map(c=>c.email).join(', '),'Skopiowano adresy do wysłania')">Kopiuj adresy do wysłania</button>
+    <button onclick="exportCSV()">Eksport CSV</button>
   </div>
-  <div id="tableWrap">${list.length ? `<table>
-    <thead><tr><th>Nazwa</th><th class="hide-m">Miasto / skąd</th><th>Status</th><th class="hide-m">Wersja</th><th class="hide-m">Wysłano</th><th></th></tr></thead>
-    <tbody>${rows}</tbody></table>` : `<div class="card empty">${all.length?'Brak kontaktów dla tego filtra.':'Nie ma jeszcze kontaktów. Dodaj pierwszy przyciskiem „Dodaj kontakt” albo wklej całą listę przez „Dodaj wiele”.'}</div>`}</div>
-  <p class="hint" style="margin-top:12px">„Przypomnij” pojawia się, gdy od wysłania minęło ${state.settings.remindDays} dni bez odpowiedzi. Dane zapisują się w tej przeglądarce, więc co jakiś czas zrób kopię zapasową (przycisk u góry).</p>`;
+  ${list.length ? `<table>
+    <thead><tr><th>Nazwa</th><th>E-mail</th><th class="hide-m">Skąd</th><th>Status</th><th></th></tr></thead>
+    <tbody>${rows}</tbody></table>` : `<div class="card empty">${all.length?'Nic nie pasuje do filtra.':'Lista jest pusta. Wklej tekst z adresami powyżej.'}</div>`}`;
 }
-function renderTable(){
-  // re-render keeping search focus
-  const pos = document.getElementById('qInput')?.selectionStart;
+function toSend(){ return state.contacts.filter(c=>!c.sentAt); }
+function renderKeepFocus(id){
+  const el = document.getElementById(id); const pos = el?.selectionStart;
+  const paste = document.getElementById('pasteBox')?.value;
   render();
-  const q = document.getElementById('qInput');
-  if(q){ q.focus(); try{q.setSelectionRange(pos,pos);}catch(e){} }
+  const pb = document.getElementById('pasteBox'); if(pb && paste) pb.value = paste;
+  const n = document.getElementById(id); if(n){ n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){} }
 }
-
+function doExtract(){
+  const txt = document.getElementById('pasteBox').value;
+  found = extractEmails(txt);
+  if(!found.length){ toast('Nie znalazłem żadnego adresu e-mail'); return; }
+  render();
+  const pb = document.getElementById('pasteBox'); if(pb) pb.value = txt;
+  toast(`Znaleziono ${found.length} adresów`);
+}
+function addFound(){
+  const src = (document.getElementById('srcInput')?.value||'').trim();
+  state.settings.source = src;
+  const existing = new Set(state.contacts.map(c=>c.email));
+  let n=0;
+  document.querySelectorAll('.found input[type=checkbox]').forEach(cb=>{
+    if(!cb.checked || cb.disabled) return;
+    const f = found[+cb.dataset.i];
+    if(existing.has(f.email)) return;
+    existing.add(f.email);
+    state.contacts.push({id:uid(), name:f.name, email:f.email, source:src, note:'', sentAt:'', tpl:'', createdAt:new Date().toISOString()});
+    n++;
+  });
+  found = []; save(); render(); toast(`Dodano ${n} adresów`);
+}
 function openContact(id){
   editingId = id||null;
-  const c = id ? state.contacts.find(x=>x.id===id) : {group:view==='zle'?'zle':'wyk', status:'new'};
-  document.getElementById('dcTitle').textContent = id ? 'Edytuj kontakt' : 'Nowy kontakt';
-  cName.value=c.name||''; cLink.value=c.link||''; cCity.value=c.city||''; cSource.value=c.source||''; cNote.value=c.note||'';
-  cGroup.value=c.group;
-  const fillStatus = ()=>{ cStatus.innerHTML = STATUSES.map(s=>`<option value="${s}">${statusLabel(s,cGroup.value)}</option>`).join(''); };
-  fillStatus(); cStatus.value=c.status; cGroup.onchange=()=>{const v=cStatus.value;fillStatus();cStatus.value=v;};
-  document.getElementById('dlgContact').showModal();
-  cName.focus();
+  const c = id ? state.contacts.find(x=>x.id===id) : {};
+  document.getElementById('dcTitle').textContent = id ? 'Edytuj adres' : 'Nowy adres';
+  cName.value=c.name||''; cEmail.value=c.email||''; cSource.value=c.source||state.settings.source||''; cNote.value=c.note||'';
+  document.getElementById('dlgContact').showModal(); (id?cName:cEmail).focus();
 }
 function saveContact(){
-  const name = cName.value.trim();
-  if(!name){ cName.focus(); return; }
-  const data = {name, link:normLink(cLink.value), city:cCity.value.trim(), source:cSource.value.trim(), note:cNote.value.trim(), group:cGroup.value, status:cStatus.value, updatedAt:new Date().toISOString()};
-  if(editingId){
-    const c = state.contacts.find(x=>x.id===editingId);
-    if(data.status!=='new' && !c.sentAt) data.sentAt = today();
-    Object.assign(c, data);
-  } else {
-    if(data.link && state.contacts.some(x=>x.link===data.link)){ if(!confirm('Kontakt z tym linkiem już jest na liście. Dodać mimo to?')) return; }
-    state.contacts.push(Object.assign({id:uid(), createdAt:new Date().toISOString(), tpl:'', sentAt:data.status!=='new'?today():'', followAt:''}, data));
+  const email = cEmail.value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast('Podaj poprawny adres e-mail'); cEmail.focus(); return; }
+  const data = {name:cName.value.trim()||guessName(email), email, source:cSource.value.trim(), note:cNote.value.trim()};
+  if(editingId){ Object.assign(state.contacts.find(x=>x.id===editingId), data); }
+  else{
+    if(state.contacts.some(x=>x.email===email)){ toast('Ten adres już jest na liście'); return; }
+    state.contacts.push(Object.assign({id:uid(), sentAt:'', tpl:'', createdAt:new Date().toISOString()}, data));
   }
   save(); closeDlg('dlgContact'); render(); toast('Zapisano');
 }
-function normLink(l){ l=l.trim(); if(l && !/^https?:\/\//i.test(l)) l='https://'+l; return l; }
 function delContact(id){
   const c = state.contacts.find(x=>x.id===id);
-  if(!confirm(`Usunąć „${c.name}”?`)) return;
+  if(!confirm(`Usunąć ${c.email}?`)) return;
   state.contacts = state.contacts.filter(x=>x.id!==id); save(); render();
 }
-function setStatus(id, s){
+function toggleSent(id){
   const c = state.contacts.find(x=>x.id===id);
-  c.status = s; c.updatedAt = new Date().toISOString();
-  if(s!=='new' && !c.sentAt) c.sentAt = today();
-  if(s==='new'){ c.sentAt=''; c.followAt=''; }
-  save(); render();
-}
-function openBulk(){ bulkText.value=''; document.getElementById('dlgBulk').showModal(); bulkText.focus(); }
-function saveBulk(){
-  const g = view==='zle'?'zle':'wyk';
-  const existing = new Set(state.contacts.filter(x=>x.link).map(x=>x.link));
-  let added=0, skipped=0;
-  bulkText.value.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{
-    const [name,link,city,source] = l.split(';').map(s=>(s||'').trim());
-    if(!name) return;
-    const nl = link?normLink(link):'';
-    if(nl && existing.has(nl)){ skipped++; return; }
-    existing.add(nl);
-    state.contacts.push({id:uid(), group:g, name, link:nl, city:city||'', source:source||'', note:'', status:'new', tpl:'', sentAt:'', followAt:'', createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()});
-    added++;
-  });
-  save(); closeDlg('dlgBulk'); render(); toast(`Dodano ${added}${skipped?`, pominięto ${skipped} duplikatów`:''}`);
+  c.sentAt = c.sentAt ? '' : today(); save(); render();
 }
 
 // ---------- SEND ----------
 function openSend(id){
   sendingId = id;
   const c = state.contacts.find(x=>x.id===id);
-  const tpls = state.templates.filter(t=>t.group===c.group);
-  const firstMsg = c.status==='new';
-  document.getElementById('dsTitle').textContent = (firstMsg?'Wyślij do: ':'Napisz ponownie do: ') + c.name;
-  // pick sensible default: for new contacts the least used main version (equal split for A/B test), otherwise follow-up
-  let def;
-  if(firstMsg){
-    const mains = tpls.filter(t=>!t.followup && (!t.text.includes('{film}') || (state.settings.filmUrl||'').trim()));
-    const usage = t => state.contacts.filter(x=>x.tpl===t.id).length;
-    def = mains.slice().sort((a,b)=>usage(a)-usage(b))[0];
-  } else {
-    def = tpls.find(t=>t.followup) || tpls[0];
-  }
-  sTpl.innerHTML = tpls.map(t=>`<option value="${t.id}">${esc(t.name)}${t.followup?'':` (użyta ${state.contacts.filter(x=>x.tpl===t.id).length}×)`}</option>`).join('');
-  if(def) sTpl.value = def.id;
+  document.getElementById('dsTitle').textContent = 'Napisz do: ' + c.email;
+  const opts = g => state.templates.filter(t=>t.group===g).map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
+  sTpl.innerHTML = `<optgroup label="${GROUPS.wyk}">${opts('wyk')}</optgroup><optgroup label="${GROUPS.zle}">${opts('zle')}</optgroup>`;
+  if(c.tpl && tplById(c.tpl)) sTpl.value = c.tpl;
   renderSendPreview();
   document.getElementById('dlgSend').showModal();
 }
 function renderSendPreview(){
+  const t = tplById(sTpl.value);
+  sSubject.textContent = t ? (t.subject||'') : '';
+  sPreview.textContent = t ? mailBody(t) : '';
+  sHint.textContent = (t && t.text.includes('{film}') && !(state.settings.filmUrl||'').trim()) ? 'Nie ustawiono linku do filmu (zakładka Szablony), linia z filmem zostanie pominięta.' : '';
+}
+function markSent(){
+  const c = state.contacts.find(x=>x.id===sendingId);
+  c.sentAt = today(); c.tpl = sTpl.value; save();
+}
+async function copyFromSend(what){
   const c = state.contacts.find(x=>x.id===sendingId);
   const t = tplById(sTpl.value);
-  sPreview.textContent = t ? fillText(t.text) : '';
-  const parts = [];
-  if(c.status==='new') parts.push('Domyślnie podpowiadam wersję, która była wysłana najmniej razy, żeby test był równy.');
-  if(t && t.followup) parts.push('To przypomnienie: nie zmienia wersji przypisanej do kontaktu, zapisze tylko datę przypomnienia.');
-  if(!c.link) parts.push('Ten kontakt nie ma linku, tekst zostanie tylko skopiowany.');
-  if(t && t.text.includes('{film}') && !(state.settings.filmUrl||'').trim()) parts.push('Nie ustawiono linku do filmu (zakładka Szablony), linia z filmem zostanie pominięta.');
-  sHint.textContent = parts.join(' ');
+  if(what==='mail') await copyText(c.email,'Skopiowano adres');
+  if(what==='subject') await copyText(t.subject||'','Skopiowano temat');
+  if(what==='body'){ await copyText(mailBody(t),'Skopiowano treść'); markSent(); render(); }
 }
-async function copyText(txt){
-  try{ await navigator.clipboard.writeText(txt); return true; }
-  catch(e){
-    const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
-    let ok=false; try{ ok=document.execCommand('copy'); }catch(_){}
-    ta.remove(); return ok;
-  }
-}
-async function doSend(copyAndOpen){
+function openMail(){
   const c = state.contacts.find(x=>x.id===sendingId);
-  const t = tplById(sTpl.value);
-  if(!t) return;
-  if(copyAndOpen){
-    const ok = await copyText(fillText(t.text));
-    if(c.link) window.open(c.link,'_blank','noopener');
-    toast(ok?'Skopiowano. Wklej wiadomość w Messengerze (Ctrl+V).':'Nie udało się skopiować, zaznacz tekst ręcznie.');
-  }
-  if(t.followup){
-    c.followAt = today();
-  } else {
-    c.tpl = t.id;
-    if(c.status==='new') c.status='sent';
-    c.sentAt = today();
-  }
-  c.updatedAt = new Date().toISOString();
-  save(); closeDlg('dlgSend'); render();
-}
-
-// ---------- TEMPLATES ----------
-let tplGroup = 'wyk';
-function renderTemplates(){
-  const list = state.templates.filter(t=>t.group===tplGroup);
-  return `
-  <div class="toolbar">
-    <div class="tabs-in">
-      <button class="${tplGroup==='wyk'?'active':''}" onclick="tplGroup='wyk';render()">Do firm z laserem</button>
-      <button class="${tplGroup==='zle'?'active':''}" onclick="tplGroup='zle';render()">Do szukających cięcia</button>
-    </div>
-    <div class="spacer"></div>
-    <button onclick="resetTemplates()">Przywróć domyślne</button>
-    <button class="primary" onclick="addTemplate()">+ Nowa wersja</button>
-  </div>
-  <div class="card" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-    <b style="white-space:nowrap">🎬 Link do filmu</b>
-    <input style="flex:1;min-width:220px" placeholder="np. link do rolki na FB albo filmu na YouTube" value="${esc(state.settings.filmUrl||'')}" onchange="state.settings.filmUrl=this.value.trim();save();toast('Zapisano link do filmu')">
-    <span class="hint">W szablonie wpisz <b>{film}</b> tam, gdzie ma się pojawić link. Bez ustawionego linku ta linia zostanie pominięta.</span>
-  </div>
-  <p class="hint" style="margin-top:0">Każda wersja ma krótki kod (A, B, C…), który widać przy kontakcie i w statystykach. Zmiany zapisują się od razu. Jeśli mocno zmienisz treść wersji, która była już wysyłana, lepiej dodaj nową, żeby wyniki się nie mieszały.</p>
-  ${list.map(t=>`
-    <div class="tpl">
-      <div class="row">
-        <input style="max-width:90px" value="${esc(t.id)}" title="Kod wersji" onchange="renameTplId('${esc(t.id)}',this.value)">
-        <input value="${esc(t.name)}" onchange="updTpl('${esc(t.id)}','name',this.value)">
-        <label style="display:flex;gap:6px;align-items:center;white-space:nowrap;font-size:13px"><input type="checkbox" style="width:auto" ${t.followup?'checked':''} onchange="updTpl('${esc(t.id)}','followup',this.checked)"> przypomnienie</label>
-        <button class="small" onclick="copyText(fillText(tplById('${esc(t.id)}').text)).then(()=>toast('Skopiowano'))">Kopiuj</button>
-        <button class="small ghost" onclick="delTemplate('${esc(t.id)}')">✕</button>
-      </div>
-      <textarea oninput="updTpl('${esc(t.id)}','text',this.value,true)">${esc(t.text)}</textarea>
-      <div class="hint">${t.text.length} znaków · wysłana ${state.contacts.filter(x=>x.tpl===t.id).length}×</div>
-    </div>`).join('') || '<div class="card empty">Brak szablonów w tej grupie.</div>'}`;
-}
-function updTpl(id, field, val, silent){
-  const t = tplById(id); if(!t) return;
-  t[field]=val; save(); if(!silent) render();
-}
-function renameTplId(oldId, newId){
-  newId = newId.trim().toUpperCase();
-  if(!newId || newId===oldId) return render();
-  if(tplById(newId)){ toast('Taki kod już istnieje'); return render(); }
-  tplById(oldId).id = newId;
-  state.contacts.forEach(c=>{ if(c.tpl===oldId) c.tpl=newId; });
-  save(); render();
-}
-function addTemplate(){
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let id = [...letters].find(l=>!tplById(l)) || uid().slice(0,4).toUpperCase();
-  state.templates.push({id, group:tplGroup, name:`${id} · Nowa wersja`, followup:false, text:'Dzień dobry,\n\n\n\nPozdrawiam\nŁukasz Orlikowski'});
-  save(); render();
-}
-function delTemplate(id){
-  const used = state.contacts.filter(x=>x.tpl===id).length;
-  if(!confirm(used?`Ta wersja była wysłana ${used}×. Kontakty zachowają kod, ale szablon zniknie. Usunąć?`:'Usunąć szablon?')) return;
-  state.templates = state.templates.filter(t=>t.id!==id); save(); render();
-}
-function resetTemplates(){
-  if(!confirm('Przywrócić domyślne szablony? Twoje zmiany w treściach zostaną nadpisane, dodane wersje zostaną.')) return;
-  DEFAULT_TEMPLATES.forEach(d=>{
-    const i = state.templates.findIndex(t=>t.id===d.id);
-    if(i>=0) state.templates[i] = JSON.parse(JSON.stringify(d)); else state.templates.push(JSON.parse(JSON.stringify(d)));
-  });
-  save(); render();
-}
-
-// ---------- STATS ----------
-function renderStats(){
-  const block = g => {
-    const tpls = state.templates.filter(t=>t.group===g && !t.followup);
-    const ids = new Set(tpls.map(t=>t.id));
-    // include codes used by contacts even if template was deleted
-    state.contacts.filter(c=>c.group===g && c.tpl && !ids.has(c.tpl)).forEach(c=>{ ids.add(c.tpl); tpls.push({id:c.tpl,name:c.tpl+' (usunięty szablon)'}); });
-    const rows = tpls.map(t=>{
-      const cs = state.contacts.filter(c=>c.group===g && c.tpl===t.id && c.status!=='new');
-      const sent = cs.length;
-      const replied = cs.filter(c=>['replied','won','lost'].includes(c.status)).length;
-      const won = cs.filter(c=>c.status==='won').length;
-      const fol = cs.filter(c=>c.followAt).length;
-      return {t, sent, replied, won, fol, rr: sent?replied/sent:0, wr: sent?won/sent:0};
-    });
-    const bestR = Math.max(0,...rows.filter(r=>r.sent>=5).map(r=>r.rr));
-    const bestW = Math.max(0,...rows.filter(r=>r.sent>=5).map(r=>r.wr));
-    const pct = v => Math.round(v*100)+'%';
-    return `
-    <div class="card">
-      <h2>${GROUPS[g].label}</h2>
-      <div class="legend"><span><i style="background:#f5b74a"></i>odpowiedzi</span><span><i style="background:var(--ok)"></i>${GROUPS[g].won.toLowerCase()}</span></div>
-      <div class="bars">${rows.map(r=>`
-        <div class="bar">
-          <div class="lbl"><span><b>${esc(r.t.id)}</b> ${esc((r.t.name||'').replace(/^[A-Z0-9]+\s+·\s+/,''))}</span><span>${r.sent} wysł.</span></div>
-          <div class="track"><div class="fill-w" style="width:${r.wr*100}%"></div><div class="fill-r" style="width:${(r.rr-r.wr)*100}%"></div></div>
-        </div>`).join('') || '<div class="hint">Brak wersji.</div>'}
-      </div>
-      <table class="stat-table" style="margin-top:6px">
-        <thead><tr><th>Wersja</th><th>Wysłane</th><th>Odpisali</th><th>% odp.</th><th>${GROUPS[g].won}</th><th>% skut.</th><th>Przypomn.</th></tr></thead>
-        <tbody>${rows.map(r=>`<tr>
-          <td><b>${esc(r.t.id)}</b></td><td>${r.sent}</td><td>${r.replied}</td>
-          <td class="${r.sent>=5&&r.rr===bestR&&bestR>0?'best':''}">${pct(r.rr)}</td>
-          <td>${r.won}</td>
-          <td class="${r.sent>=5&&r.wr===bestW&&bestW>0?'best':''}">${pct(r.wr)}</td>
-          <td>${r.fol}</td></tr>`).join('')}</tbody>
-      </table>
-    </div>`;
-  };
-  return `
-  <div class="grid2">${block('wyk')}${block('zle')}</div>
-  <div class="card" style="margin-top:16px">
-    <h3>Jak czytać wyniki</h3>
-    <p class="hint" style="margin:0">Zielonym wyróżniam najlepszą wersję, ale dopiero gdy wysłałeś ją co najmniej 5 razy. Wiarygodne porównanie wymaga około 20 wysłanych wiadomości na wersję. Najważniejsza jest kolumna „% skut.”, bo liczy osoby, które faktycznie założyły konto lub dodały zlecenie, a nie tylko odpisały.</p>
-    <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <span class="hint">Przypomnienie po</span>
-      <input type="number" min="1" max="30" value="${state.settings.remindDays}" style="width:70px" onchange="state.settings.remindDays=Math.max(1,+this.value||3);save();toast('Zapisano')">
-      <span class="hint">dniach bez odpowiedzi</span>
-      <div style="flex:1"></div>
-      <button onclick="exportCSV()">Eksport kontaktów do CSV (Excel)</button>
-    </div>
-  </div>`;
+  const t = tplById(sTpl.value); if(!t) return;
+  const url = `mailto:${encodeURIComponent(c.email)}?subject=${encodeURIComponent(t.subject||'')}&body=${encodeURIComponent(mailBody(t))}`;
+  markSent(); closeDlg('dlgSend'); render();
+  window.location.href = url;
 }
 
 // ---------- IMPORT / EXPORT ----------
@@ -570,8 +478,8 @@ function importJSON(input){
     try{
       const s = JSON.parse(r.result);
       if(!Array.isArray(s.contacts) || !Array.isArray(s.templates)) throw 0;
-      if(!confirm(`Wczytać kopię (${s.contacts.length} kontaktów)? Obecne dane w tej przeglądarce zostaną zastąpione.`)) return;
-      s.settings = Object.assign({remindDays:3}, s.settings||{});
+      if(!confirm(`Wczytać kopię (${s.contacts.length} adresów)? Obecne dane w tej przeglądarce zostaną zastąpione.`)) return;
+      s.settings = Object.assign({filmUrl:'', signature:DEFAULT_SIGNATURE, source:''}, s.settings||{});
       state = s; save(); render(); toast('Wczytano kopię');
     }catch(e){ toast('To nie jest plik kopii z tego panelu'); }
     input.value='';
@@ -579,19 +487,16 @@ function importJSON(input){
   r.readAsText(f);
 }
 function exportCSV(){
-  const head = ['Grupa','Nazwa','Link','Miasto','Skąd','Status','Wersja','Wysłano','Przypomnienie','Notatka'];
   const q = v => `"${String(v??'').replace(/"/g,'""')}"`;
-  const lines = state.contacts.map(c=>[GROUPS[c.group].short,c.name,c.link,c.city,c.source,statusLabel(c.status,c.group),c.tpl,c.sentAt,c.followAt,c.note].map(q).join(';'));
-  download(`kontakty-${today()}.csv`, '﻿'+[head.map(q).join(';'),...lines].join('\r\n'), 'text/csv;charset=utf-8');
+  const head = ['Nazwa','E-mail','Skąd','Wysłano','Szablon','Notatka'];
+  const lines = state.contacts.map(c=>[c.name,c.email,c.source,c.sentAt,(tplById(c.tpl)||{}).name||'',c.note].map(q).join(';'));
+  download(`maile-${today()}.csv`, '﻿'+[head.map(q).join(';'),...lines].join('\r\n'), 'text/csv;charset=utf-8');
 }
 
 // ---------- RENDER ----------
 function render(){
   renderNav();
-  const m = document.getElementById('main');
-  if(view==='wyk' || view==='zle') m.innerHTML = renderContacts(view);
-  else if(view==='tpl') m.innerHTML = renderTemplates();
-  else m.innerHTML = renderStats();
+  document.getElementById('main').innerHTML = view==='mail' ? renderMails() : renderTemplates();
 }
 render();
 </script>
