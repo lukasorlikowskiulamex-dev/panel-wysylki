@@ -170,94 +170,26 @@ function statusLabel(s, g){
 }
 
 const DEFAULT_TEMPLATES = [
-  {id:'A', group:'wyk', name:'A · Pełna prezentacja', followup:false, text:
-`Dzień dobry,
-
-piszę, bo widzę, że zajmujecie się cięciem laserowym. Uruchomiłem portal zlecenialaser.pl, na którym firmy i osoby prywatne dodają zlecenia na cięcie blach. Każde zlecenie to konkretny detal z opisem materiału, grubości i ilości, więc od razu widać, czy temat Wam pasuje.
-
-Przeglądanie zleceń jest darmowe, płaci się tylko za kontakt do klienta, który Was interesuje. Bez abonamentu i stałych opłat.
-
-Jeśli szukacie dodatkowych zleceń, zapraszam do założenia konta: zlecenialaser.pl
-
-Chętnie odpowiem na pytania.
-
-Pozdrawiam
-Łukasz Orlikowski
-kontakt@zlecenialaser.pl`},
-  {id:'B', group:'wyk', name:'B · Krótka, na zagajenie', followup:false, text:
-`Dzień dobry, czy przyjmujecie zlecenia na cięcie laserowe od nowych klientów? Prowadzę portal zlecenialaser.pl, na którym pojawiają się takie zapytania, i szukam firm, które chciałyby je realizować. Mogę podesłać szczegóły?
-
-Łukasz Orlikowski`},
-  {id:'C', group:'wyk', name:'C · Pytanie o wolne moce', followup:false, text:
-`Dzień dobry,
-
-mam krótkie pytanie: zdarza się, że laser u Was stoi albo macie wolne moce przerobowe?
-
-Pytam, bo prowadzę portal zlecenialaser.pl. Ludzie i firmy wrzucają tam konkretne detale do wycięcia z blachy, a wykonawcy wybierają to, co im pasuje. Zlecenia można przeglądać za darmo, płaci się tylko wtedy, gdy chce się odezwać do danego klienta.
-
-Jeśli to dla Was ciekawe, wystarczy założyć konto na zlecenialaser.pl. Mogę też podesłać przykładowe zlecenia, żeby było widać, jakie tematy się pojawiają.
-
-Pozdrawiam
-Łukasz Orlikowski`},
-  {id:'D', group:'zle', name:'D · Do szukającego wykonawcy', followup:false, text:
-`Dzień dobry,
-
-widziałem, że szuka Pan/Pani kogoś do wycięcia detalu z blachy. Może się przydać portal zlecenialaser.pl. Dodaje się tam zlecenie za darmo (opis detalu, materiał, ilość, najlepiej z rysunkiem lub DXF), a wykonawcy z laserami sami się odzywają z ofertą. Nie trzeba obdzwaniać kilku firm.
-
-Dodanie zlecenia zajmuje dosłownie kilka minut: zlecenialaser.pl
-
-Pozdrawiam
-Łukasz Orlikowski`},
+  {id:'A', group:'wyk', name:'A · Prosto', followup:false, text:
+`Dzień dobry, robię portal zlecenialaser.pl. Chcę, żeby zlecenia na cięcie przychodziły od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania o każdy szczegół. Zapraszam do założenia konta.`},
+  {id:'B', group:'wyk', name:'B · Znam ten problem', followup:false, text:
+`Hej, pewnie znacie to dopytywanie klienta o każdy szczegół przed wyceną. Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie.`},
+  {id:'C', group:'wyk', name:'C · Jedno zdanie', followup:false, text:
+`Dzień dobry, robię miejsce, gdzie zlecenia na laser przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania. zlecenialaser.pl, może się przyda.`},
+  {id:'E', group:'wyk', name:'E · Z filmem', followup:false, text:
+`Dzień dobry, nagrałem krótki film, jak działa zlecenialaser.pl:
+{film}
+Zlecenia przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania.`},
+  {id:'D', group:'zle', name:'D · Opisujesz raz', followup:false, text:
+`Dzień dobry, jeśli szukasz kogoś do cięcia laserem, wrzuć zlecenie na zlecenialaser.pl. Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. Bez tłumaczenia wszystkiego od nowa każdej firmie.`},
+  {id:'F', group:'zle', name:'F · Z filmem', followup:false, text:
+`Dzień dobry, tu krótki film, jak dodać zlecenie na cięcie laserem:
+{film}
+Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. zlecenialaser.pl`},
   {id:'FW', group:'wyk', name:'Przypomnienie (wykonawca)', followup:true, text:
-`Dzień dobry, wracam jeszcze do mojej wiadomości o zlecenialaser.pl. Jeśli temat nie jest dla Was, nie ma problemu, nie będę więcej pisał. A jeśli chcecie zobaczyć, jakie zlecenia się pojawiają, zapraszam na stronę.
-
-Pozdrawiam
-Łukasz Orlikowski`},
+`Dzień dobry, wracam jeszcze do zlecenialaser.pl. Jak to nie dla Was, nie ma sprawy, więcej nie piszę.`},
   {id:'FZ', group:'zle', name:'Przypomnienie (zlecający)', followup:true, text:
-`Dzień dobry, czy udało się już znaleźć wykonawcę do cięcia? Jeśli nie, na zlecenialaser.pl można dodać zlecenie za darmo i poczekać na oferty od firm z laserami.
-
-Pozdrawiam
-Łukasz Orlikowski`},
-  {id:'E', v:2, group:'wyk', name:'E · Luźna z emotką', followup:false, text:
-`Cześć 👋 Szybkie pytanie, bo widzę, że macie laser: bierzecie jeszcze zlecenia z zewnątrz? 🔥
-
-Na zlecenialaser.pl wpadają zapytania na cięcie blach od firm i osób prywatnych, a ja szukam ekip, które chcą je realizować. Przeglądanie zleceń nic nie kosztuje 😉
-
-Rzucisz okiem? 👀 zlecenialaser.pl
-
-Łukasz`},
-  {id:'F', v:2, group:'wyk', name:'F · Na ciekawość', followup:false, text:
-`Hej! Mam coś, co może zapełnić laser w spokojniejsze dni 😉
-
-Zbieram w jednym miejscu zlecenia na cięcie blach: konkretne detale, materiał, grubość, ilość. Wy wybieracie tylko to, co Wam pasuje 🎯
-
-Zajrzyj: zlecenialaser.pl
-
-Łukasz`},
-  {id:'G', v:2, group:'wyk', name:'G · Z filmem', followup:false, text:
-`Dzień dobry 👋
-
-Nagrałem krótki film, jak działa zlecenialaser.pl. Zajmuje mniej niż minutę 🎬
-{film}
-
-W skrócie: ludzie dodają zlecenia na cięcie blach, a firmy z laserami wybierają, co chcą wziąć. Przeglądanie jest darmowe 🙂
-
-Pozdrawiam
-Łukasz Orlikowski`},
-  {id:'H', v:2, group:'zle', name:'H · Luźna z emotką', followup:false, text:
-`Cześć 👋 Widziałem, że szukasz kogoś do cięcia laserem 🔧
-
-Wrzuć temat na zlecenialaser.pl. To nic nie kosztuje, a firmy z laserami same się odezwą z ofertą. Szybciej niż obdzwanianie warsztatów 😉
-
-Łukasz`},
-  {id:'I', v:2, group:'zle', name:'I · Z filmem', followup:false, text:
-`Dzień dobry 👋 Jeśli szuka Pan/Pani wykonawcy do cięcia blachy, tu jest krótki film, jak w minutę dodać zlecenie i dostać oferty 🎬
-{film}
-
-Dodanie zlecenia jest darmowe: zlecenialaser.pl
-
-Pozdrawiam
-Łukasz Orlikowski`}
+`Dzień dobry, udało się już znaleźć kogoś do cięcia? Jak nie, wrzuć zlecenie na zlecenialaser.pl, to nic nie kosztuje.`}
 ];
 
 let state = load();
@@ -272,15 +204,16 @@ function load(){
       const s = JSON.parse(raw);
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
         s.settings = Object.assign({remindDays:3}, s.settings||{});
-        if((s.settings.tplVer||1) < 2){
-          DEFAULT_TEMPLATES.filter(d=>d.v===2 && !s.templates.some(t=>t.id===d.id)).forEach(d=>s.templates.push(JSON.parse(JSON.stringify(d))));
-          s.settings.tplVer = 2;
+        if((s.settings.tplVer||1) < 3){
+          const OLD = ['A','B','C','D','E','F','G','H','I','FW','FZ'];
+          s.templates = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)).concat(s.templates.filter(t=>!OLD.includes(t.id)));
+          s.settings.tplVer = 3;
         }
         return s;
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3, tplVer:2}};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3, tplVer:3}};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -450,7 +383,7 @@ function openSend(id){
   // pick sensible default: for new contacts the least used main version (equal split for A/B test), otherwise follow-up
   let def;
   if(firstMsg){
-    const mains = tpls.filter(t=>!t.followup);
+    const mains = tpls.filter(t=>!t.followup && (!t.text.includes('{film}') || (state.settings.filmUrl||'').trim()));
     const usage = t => state.contacts.filter(x=>x.tpl===t.id).length;
     def = mains.slice().sort((a,b)=>usage(a)-usage(b))[0];
   } else {
