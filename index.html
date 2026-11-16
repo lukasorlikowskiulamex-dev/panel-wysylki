@@ -171,15 +171,16 @@ function statusLabel(s, g){
 
 const DEFAULT_TEMPLATES = [
   {id:'A', group:'wyk', name:'A · Prosto', followup:false, text:
-`Dzień dobry, robię portal zlecenialaser.pl. Chcę, żeby zlecenia na cięcie przychodziły od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania o każdy szczegół. Zapraszam do założenia konta.`},
+`Dzień dobry, robię portal zlecenialaser.pl. Chcę, żeby zlecenia na cięcie przychodziły od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania o każdy szczegół. Zapraszam Waszą firmę do rejestracji na portalu. Wybieracie tylko te zlecenia, które Was interesują.`},
   {id:'B', group:'wyk', name:'B · Znam ten problem', followup:false, text:
-`Hej, pewnie znacie to dopytywanie klienta o każdy szczegół przed wyceną. Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie.`},
+`Hej, pewnie znacie to dopytywanie klienta o każdy szczegół przed wyceną. Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie. Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
   {id:'C', group:'wyk', name:'C · Jedno zdanie', followup:false, text:
-`Dzień dobry, robię miejsce, gdzie zlecenia na laser przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania. zlecenialaser.pl, może się przyda.`},
+`Dzień dobry, robię miejsce, gdzie zlecenia na laser przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania. Zapraszam Waszą firmę do rejestracji na zlecenialaser.pl, wybieracie tylko te zlecenia, które Was interesują.`},
   {id:'E', group:'wyk', name:'E · Z filmem', followup:false, text:
 `Dzień dobry, nagrałem krótki film, jak działa zlecenialaser.pl:
 {film}
-Zlecenia przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania.`},
+Zlecenia przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania.
+Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
   {id:'D', group:'zle', name:'D · Opisujesz raz', followup:false, text:
 `Dzień dobry, jeśli szukasz kogoś do cięcia laserem, wrzuć zlecenie na zlecenialaser.pl. Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. Bez tłumaczenia wszystkiego od nowa każdej firmie.`},
   {id:'F', group:'zle', name:'F · Z filmem', followup:false, text:
@@ -209,11 +210,15 @@ function load(){
           s.templates = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)).concat(s.templates.filter(t=>!OLD.includes(t.id)));
           s.settings.tplVer = 3;
         }
+        if(s.settings.tplVer < 4){
+          ['A','B','C','E'].forEach(id=>{ const d=DEFAULT_TEMPLATES.find(x=>x.id===id), t=s.templates.find(x=>x.id===id); if(d&&t) t.text=d.text; });
+          s.settings.tplVer = 4;
+        }
         return s;
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3, tplVer:3}};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{remindDays:3, tplVer:4}};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
