@@ -280,7 +280,7 @@ Dodaj zlecenie: zlecenialaser.pl/dodaj-zlecenie`,
 • Twój numer widzi najwyżej 5 firm
 • zlecenie widzą firmy z Twojego województwa i z całej Polski
 • nie masz pliku DXF? Jest kalkulator ceny, generator DXF i sprawdzanie pliku`,
-  source:'', lastTpl:'', tplVer:TPL_VER
+  source:'', lastTpl:'', tplVer:TPL_VER, postVer:2
 };
 const DEFAULT_POSTS = [
   {id:'p1', group:'wyk', title:'Wszystkie zlecenia w jednym miejscu', img:'img/g1-wszystkie-zlecenia.jpg', canva:'https://canva.link/kkz6ggz28zkig4x', text:
@@ -315,6 +315,30 @@ zlecenialaser.pl/dodaj-zlecenie`},
   {id:'p8', group:'zle', title:'Nie masz pliku DXF?', img:'img/g8-nie-masz-dxf.jpg', canva:'https://www.canva.com/d/OpIVnXFqniZHhPp', text:
 `Nie masz pliku DXF? Nie szkodzi. Na zlecenialaser.pl jest kalkulator ceny, generator DXF i sprawdzanie pliku. Wystarczy szkic z wymiarami.
 
+zlecenialaser.pl/dodaj-zlecenie`},
+  {id:'p9', group:'wyk', title:'Tylko zlecenia pasujące do maszyny', img:'img/g9-filtry.jpg', canva:'https://canva.link/erile0906xqs8mo', text:
+`Nie musisz przeglądać wszystkiego. Na zlecenialaser.pl filtrujesz zlecenia po materiale, grubości, województwie i technologii: laser fiber, CO2, plazma, waterjet, gięcie. Zostają tylko te, które zrobisz na swojej maszynie.
+
+zlecenialaser.pl/zlecenia`},
+  {id:'p10', group:'wyk', title:'Wycena z pliku DXF w kilka sekund', img:'img/g10-wycena-dxf.jpg', canva:'https://canva.link/xss5880t7ucny3t', text:
+`Zlecenie przyszło z plikiem DXF? Na zlecenialaser.pl portal sam podpowiada cenę na podstawie Twoich stawek. Sprawdzasz, poprawiasz, jeśli trzeba, i wysyłasz ofertę.
+
+zlecenialaser.pl/moje-konto`},
+  {id:'p11', group:'wyk', title:'Zobacz zlecenia bez rejestracji', img:'img/g11-bez-rejestracji.jpg', canva:'https://www.canva.com/d/c-R3q_FmVVLVT3D', text:
+`Chcesz najpierw zobaczyć, jakie są zlecenia? Na zlecenialaser.pl przeglądasz je bez zakładania konta. Rejestrujesz firmę dopiero wtedy, gdy trafisz na coś dla siebie.
+
+zlecenialaser.pl/zlecenia`},
+  {id:'p12', group:'zle', title:'Ile kosztuje cięcie laserem?', img:'img/g12-kalkulator.jpg', canva:'https://www.canva.com/d/YtKBC8GksYa8cLs', text:
+`Ile kosztuje cięcie laserem? Zanim dodasz zlecenie, sprawdź cenę w kalkulatorze na zlecenialaser.pl. Zobaczysz, co najbardziej wpływa na koszt: materiał, grubość, długość cięcia i ilość sztuk.
+
+zlecenialaser.pl/ile-kosztuje-ciecie-laserem`},
+  {id:'p13', group:'zle', title:'Bez konta, bez hasła', img:'img/g13-bez-konta.jpg', canva:'https://www.canva.com/d/QKXe4xtnbLsUnge', text:
+`Dodajesz zlecenie na cięcie i nie musisz zakładać konta ani pamiętać hasła. Numer potwierdzasz kodem SMS, a link do zlecenia przychodzi na maila. Stamtąd odpowiadasz na oferty, zmieniasz albo zamykasz zlecenie.
+
+zlecenialaser.pl/dodaj-zlecenie`},
+  {id:'p14', group:'zle', title:'Uczciwe oceny firm', img:'img/g14-oceny.jpg', canva:'https://www.canva.com/d/7zHTrQOcs9yw8xg', text:
+`Na zlecenialaser.pl firmę może ocenić tylko ten, kto naprawdę wybrał jej ofertę. Jedna ocena na jedno zlecenie, więc widzisz opinie prawdziwych klientów, zanim kogoś wybierzesz.
+
 zlecenialaser.pl/dodaj-zlecenie`}
 ];
 
@@ -333,9 +357,13 @@ function load(){
     if(raw){
       const s = JSON.parse(raw);
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
-        s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1}, s.settings||{});
+        s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1, postVer:1}, s.settings||{});
         if(!Array.isArray(s.films)) s.films = JSON.parse(JSON.stringify(DEFAULT_FILMS));
         if(!Array.isArray(s.posts)) s.posts = JSON.parse(JSON.stringify(DEFAULT_POSTS));
+        if(!(s.settings.postVer >= 2)){
+          DEFAULT_POSTS.forEach(d=>{ if(!s.posts.some(p=>p.id===d.id)) s.posts.push(JSON.parse(JSON.stringify(d))); });
+          s.settings.postVer = 2;
+        }
         if(s.settings.tplVer === 3){
           s.templates.forEach(t=>{ const d = DEFAULT_TEMPLATES.find(x=>x.id===t.id); if(d && d.type==='hook') t.features = d.features; });
           s.settings.tplVer = 4;
