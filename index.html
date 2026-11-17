@@ -74,6 +74,10 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--acc-soft);border
 .tpl-subj b{color:var(--ink);font-weight:600}
 .tpl-body{padding:12px 18px 16px;white-space:pre-wrap;font-size:16px;line-height:1.62;flex:1}
 .tpl-body .sig{color:var(--muted)}
+.tpl-body .feat{color:#3b4456}
+.post-img{width:100%;display:block;aspect-ratio:1/1;object-fit:cover;background:#141a26}
+.post-text{border:none;border-top:1px solid var(--line);border-radius:0;min-height:170px;padding:14px 18px;font-size:15px;line-height:1.6;flex:1}
+.tpl-foot a{text-decoration:none}
 .film{display:inline-flex;align-items:center;gap:6px;margin:0 18px 12px;padding:5px 10px;border-radius:8px;background:#fee2e2;color:#b91c1c;font-size:13px;font-weight:600;text-decoration:none;align-self:flex-start}
 .tpl-foot{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid var(--line);background:#fafbfc}
 .uses{font-size:13px;color:var(--muted)}
@@ -173,11 +177,11 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 
 <script>
 const LS_KEY = 'zlecenialaser_panel_v2';
-const TPL_VER = 3;
+const TPL_VER = 4;
 const GROUPS = {wyk:'Firmy z laserem', zle:'Szukający cięcia'};
 const TYPES = {hook:'Pierwsza wiadomość', reply:'Odpowiedzi', follow:'Przypomnienia'};
 const TYPE_HINT = {
-  hook:'Wysyłasz jako pierwszą. Na końcu zawsze dochodzi podpis z linkiem.',
+  hook:'Wysyłasz jako pierwszą. Na końcu dochodzi lista funkcji portalu i podpis z linkiem.',
   reply:'Gdy ktoś odpisze, wybierz odpowiedź pasującą do tego, o co pyta.',
   follow:'Po kilku dniach bez odpowiedzi, jedno krótkie przypomnienie.'
 };
@@ -254,6 +258,7 @@ Zapraszam na zlecenialaser.pl. Wystawiasz ofertę gotową do wyceny, a firmy z l
   {id:'zf1', group:'zle', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, udało się już znaleźć kogoś do cięcia? Jak nie, zapraszam na zlecenialaser.pl, dodanie zlecenia nic nie kosztuje.`}
 ];
+DEFAULT_TEMPLATES.forEach(t=>{ if(t.type==='hook') t.features = t.id!=='k5'; });
 const DEFAULT_SETTINGS = {
   sigWyk:`Pozdrawiam
 Łukasz Orlikowski
@@ -263,8 +268,55 @@ zlecenialaser.pl/moje-konto`,
 Łukasz Orlikowski
 kontakt@zlecenialaser.pl
 Dodaj zlecenie: zlecenialaser.pl/dodaj-zlecenie`,
+  featWyk:`Co znajdziecie na zlecenialaser.pl:
+• wszystkie zlecenia na cięcie w jednym miejscu, z całej Polski
+• zlecenia podzielone na województwa, więc szybko znajdziecie te ze swojego regionu, a powiadomienia przyjdą na maila
+• w każdym zleceniu od razu rysunek, materiał, grubość i ilość
+• kontakt do klienta widzi najwyżej 5 firm
+• forum pomocy przy maszynach: gazy, zadziory, przebijanie, pliki DXF`,
+  featZle:`Dlaczego warto:
+• dodajesz zlecenie za darmo i bez zakładania konta
+• wszystkie oferty widzisz w jednej tabeli: cena i termin obok siebie
+• Twój numer widzi najwyżej 5 firm
+• zlecenie widzą firmy z Twojego województwa i z całej Polski
+• nie masz pliku DXF? Jest kalkulator ceny, generator DXF i sprawdzanie pliku`,
   source:'', lastTpl:'', tplVer:TPL_VER
 };
+const DEFAULT_POSTS = [
+  {id:'p1', group:'wyk', title:'Wszystkie zlecenia w jednym miejscu', img:'img/g1-wszystkie-zlecenia.jpg', canva:'https://canva.link/kkz6ggz28zkig4x', text:
+`Masz laser i szukasz zleceń? Na zlecenialaser.pl wszystkie zlecenia na cięcie blach z całej Polski są w jednym miejscu. Każde od razu z materiałem, grubością i ilością, gotowe do wyceny.
+
+Zobacz aktualne zlecenia: zlecenialaser.pl/zlecenia`},
+  {id:'p2', group:'wyk', title:'Zlecenia z Twojego regionu', img:'img/g2-twoj-region.jpg', canva:'https://canva.link/fhuz8mv53u4zz2d', text:
+`Szukasz zleceń blisko siebie? Na zlecenialaser.pl zlecenia są podzielone na 16 województw. Wybierasz swój region i dostajesz powiadomienia o nowych zleceniach na maila.
+
+zlecenialaser.pl/moje-konto`},
+  {id:'p3', group:'wyk', title:'Koniec z dopytywaniem', img:'img/g3-bez-dopytywania.jpg', canva:'https://canva.link/uwnmj6hkld58qq5', text:
+`Klient pisze „ile za to?” i wysyła zdjęcie bez wymiarów. Znasz to?
+Na zlecenialaser.pl zlecenie ma od razu rysunek, materiał, grubość i ilość. Ty tylko wyceniasz i tniesz.
+
+zlecenialaser.pl`},
+  {id:'p4', group:'wyk', title:'Forum pomocy przy maszynach', img:'img/g4-forum.jpg', canva:'https://canva.link/684jbk8v6a30ocx', text:
+`Zadziory na nierdzewce, przebarwienia po azocie, małe otwory w grubej blasze? Na forum zlecenialaser.pl ludzie, którzy tną na co dzień, odpowiadają na takie pytania.
+
+zlecenialaser.pl/forum`},
+  {id:'p5', group:'wyk', title:'Kontakt widzi najwyżej 5 firm', img:'img/g5-max-5-firm.jpg', canva:'https://www.canva.com/d/y6x4D2BuccA9Gbx', text:
+`Na zlecenialaser.pl kontakt do klienta widzi najwyżej 5 firm. Mniej konkurencji przy każdym zleceniu, a Ty wybierasz tylko te, które Cię interesują.
+
+zlecenialaser.pl/moje-konto`},
+  {id:'p6', group:'zle', title:'Dodaj zlecenie za darmo', img:'img/g6-dodaj-za-darmo.jpg', canva:'https://www.canva.com/d/K7Nv9uZqj-jfviq', text:
+`Potrzebujesz coś wyciąć laserem z blachy? Dodaj zlecenie na zlecenialaser.pl za darmo i bez zakładania konta. Opisujesz detal raz, a firmy z laserami same się odzywają.
+
+zlecenialaser.pl/dodaj-zlecenie`},
+  {id:'p7', group:'zle', title:'Oferty w jednej tabeli', img:'img/g7-oferty-w-tabeli.jpg', canva:'https://www.canva.com/d/MtZFQrvepp9jhwN', text:
+`Zamiast pisać do kilku firm i porównywać odpowiedzi w różnych miejscach, na zlecenialaser.pl widzisz wszystkie oferty w jednej tabeli: cena i termin obok siebie. Twój numer widzi najwyżej 5 firm.
+
+zlecenialaser.pl/dodaj-zlecenie`},
+  {id:'p8', group:'zle', title:'Nie masz pliku DXF?', img:'img/g8-nie-masz-dxf.jpg', canva:'https://www.canva.com/d/OpIVnXFqniZHhPp', text:
+`Nie masz pliku DXF? Nie szkodzi. Na zlecenialaser.pl jest kalkulator ceny, generator DXF i sprawdzanie pliku. Wystarczy szkic z wymiarami.
+
+zlecenialaser.pl/dodaj-zlecenie`}
+];
 
 let state = load();
 save();
@@ -283,7 +335,12 @@ function load(){
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
         s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1}, s.settings||{});
         if(!Array.isArray(s.films)) s.films = JSON.parse(JSON.stringify(DEFAULT_FILMS));
-        if(s.settings.tplVer < TPL_VER){
+        if(!Array.isArray(s.posts)) s.posts = JSON.parse(JSON.stringify(DEFAULT_POSTS));
+        if(s.settings.tplVer === 3){
+          s.templates.forEach(t=>{ const d = DEFAULT_TEMPLATES.find(x=>x.id===t.id); if(d && d.type==='hook') t.features = d.features; });
+          s.settings.tplVer = 4;
+        }
+        if(s.settings.tplVer < 3){
           const OLD = ['A','B','C','D','E','F','FW','FZ'].concat(DEFAULT_TEMPLATES.map(t=>t.id), ['k1','k2','k3','k4','k5','k6','r1','r2','r3','r4','r5','f1','z1','z2','z3','zr1','zr2','zf1']);
           const uses = {}; s.templates.forEach(t=>{ if(t.uses) uses[t.id]=t.uses; });
           const own = s.templates.filter(t=>!OLD.includes(t.id)).map(t=>Object.assign({type:'hook'}, t, {text:(t.text||'').replace('{film}','')}));
@@ -295,7 +352,7 @@ function load(){
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), films:JSON.parse(JSON.stringify(DEFAULT_FILMS)), settings:Object.assign({}, DEFAULT_SETTINGS)};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), films:JSON.parse(JSON.stringify(DEFAULT_FILMS)), posts:JSON.parse(JSON.stringify(DEFAULT_POSTS)), settings:Object.assign({}, DEFAULT_SETTINGS)};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -316,7 +373,11 @@ function sigFor(t){
   if(t.type!=='hook') return '';
   return ((t.group==='zle' ? state.settings.sigZle : state.settings.sigWyk) || '').trim();
 }
-function fullText(t){ const s = sigFor(t); return bodyText(t) + (s ? '\n\n' + s : ''); }
+function featFor(t){
+  if(t.type!=='hook' || !t.features) return '';
+  return ((t.group==='zle' ? state.settings.featZle : state.settings.featWyk) || '').trim();
+}
+function fullText(t){ return [bodyText(t), featFor(t), sigFor(t)].filter(Boolean).join('\n\n'); }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200); }
 function closeDlg(id){ document.getElementById(id).close(); }
 async function copyText(txt, msg){
@@ -333,10 +394,10 @@ async function copyText(txt, msg){
 
 // ---------- NAV ----------
 function renderNav(){
-  const items = [['tpl','Szablony',''], ['mail','Maile', `<span class="cnt">${state.contacts.filter(c=>!c.sentAt).length}</span>`]];
+  const items = [['tpl','Szablony',''], ['posts','Posty',''], ['mail','Maile', `<span class="cnt">${state.contacts.filter(c=>!c.sentAt).length}</span>`]];
   document.getElementById('nav').innerHTML = items.map(([k,l,x]) =>
     `<button class="${view===k?'active':''}" onclick="go('${k}')">${l}${x}</button>`).join('');
-  document.body.classList.toggle('zle', view==='tpl' && tplGroup==='zle');
+  document.body.classList.toggle('zle', (view==='tpl' && tplGroup==='zle') || (view==='posts' && postGroup==='zle'));
 }
 function go(v){ view=v; editTpl=null; render(); }
 function setGroup(g){ tplGroup=g; editTpl=null; render(); }
@@ -358,7 +419,15 @@ function renderTemplates(){
   <div class="stephint"><span>${TYPE_HINT[tplType]}</span><input id="tplSearch" placeholder="Szukaj w treści…" value="${esc(tplQ)}" oninput="tplQ=this.value;keepFocus('tplSearch')"><button class="primary" onclick="addTemplate()">+ Nowy</button></div>
   <div class="grid">${list.map(tplCard).join('') || '<div class="card empty">Brak wiadomości w tym widoku.</div>'}</div>
   <details class="card" style="margin-top:26px">
-    <summary>Ustawienia: podpisy i filmy</summary>
+    <summary>Ustawienia: funkcje portalu, podpisy i filmy</summary>
+    <div class="row2" style="margin-bottom:16px">
+      <label class="f">Funkcje portalu w pierwszej wiadomości do firm
+        <textarea rows="7" onchange="state.settings.featWyk=this.value;save();render();toast('Zapisano')">${esc(state.settings.featWyk)}</textarea>
+      </label>
+      <label class="f">Funkcje portalu w pierwszej wiadomości do szukających
+        <textarea rows="7" onchange="state.settings.featZle=this.value;save();render();toast('Zapisano')">${esc(state.settings.featZle)}</textarea>
+      </label>
+    </div>
     <div class="row2">
       <label class="f">Podpis w pierwszej wiadomości do firm
         <textarea rows="4" onchange="state.settings.sigWyk=this.value;save();render();toast('Zapisano')">${esc(state.settings.sigWyk)}</textarea>
@@ -384,16 +453,18 @@ function tplCard(t){
       </div>
       <label class="f">Temat maila<input value="${esc(t.subject||'')}" onchange="updTpl('${t.id}','subject',this.value)"></label>
       <label class="f">Film (wstawiany w miejsce {film})<select onchange="updTpl('${t.id}','film',this.value)"><option value="">bez filmu</option>${state.films.map(f=>`<option value="${f.id}" ${t.film===f.id?'selected':''}>${esc(f.title)}</option>`).join('')}</select></label>
-      <label class="f">Treść${t.type==='hook'?' (podpis dochodzi sam)':''}<textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea></label>
+      ${t.type==='hook'?`<label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" style="width:auto" ${t.features?'checked':''} onchange="updTpl('${t.id}','features',this.checked)"> Dodaj listę funkcji portalu (z ustawień na dole)</label>`:''}
+      <label class="f">Treść${t.type==='hook'?' (lista funkcji i podpis dochodzą same)':''}<textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea></label>
     </div>
     <div class="tpl-foot"><button class="ghost danger" onclick="delTemplate('${t.id}')">Usuń</button><div class="spacer"></div><button class="primary" onclick="editTpl=null;render()">Gotowe</button></div></div>`;
   }
   const f = t.film ? filmById(t.film) : null;
   const sig = sigFor(t);
+  const feat = featFor(t);
   return `<div class="tpl ${t.type}">
     <div class="tpl-head"><div class="tpl-name">${esc(t.name)}</div></div>
     ${t.subject?`<div class="tpl-subj">Temat: <b>${esc(t.subject)}</b></div>`:''}
-    <div class="tpl-body">${esc(bodyText(t))}${sig?`<span class="sig">\n\n${esc(sig)}</span>`:''}</div>
+    <div class="tpl-body">${esc(bodyText(t))}${feat?`<span class="feat">\n\n${esc(feat)}</span>`:''}${sig?`<span class="sig">\n\n${esc(sig)}</span>`:''}</div>
     ${f?`<a class="film" href="${esc(f.url)}" target="_blank" rel="noopener">▶ ${esc(f.title)}</a>`:''}
     <div class="tpl-foot">
       <button class="primary" onclick="copyTpl('${t.id}',this)">Kopiuj treść</button>
@@ -448,6 +519,38 @@ function delFilm(id){
   state.films = state.films.filter(f=>f.id!==id);
   state.templates.forEach(t=>{ if(t.film===id) t.film=''; });
   save(); render();
+}
+
+// ---------- POSTS ----------
+let postGroup = 'wyk';
+function renderPosts(){
+  const list = state.posts.filter(p=>p.group===postGroup);
+  return `
+  <div class="who">
+    <button class="firm ${postGroup==='wyk'?'active':''}" onclick="postGroup='wyk';render()"><span class="ic">🏭</span><span><b>Posty dla firm z laserem</b><small>grupy laserowe, CNC, ślusarskie</small></span></button>
+    <button class="seek ${postGroup==='zle'?'active':''}" onclick="postGroup='zle';render()"><span class="ic">📐</span><span><b>Posty dla szukających cięcia</b><small>grupy majsterkowiczów, warsztatów, budowlane</small></span></button>
+  </div>
+  <div class="stephint" style="margin:0 0 18px"><span>Grafiki z Canvy z gotowym tekstem. Pobierz grafikę, skopiuj tekst i wrzuć jako post. Tekst możesz poprawić w polu pod grafiką.</span></div>
+  <div class="grid">${list.map(p=>`
+    <div class="tpl">
+      <a href="${esc(p.img)}" target="_blank" rel="noopener"><img class="post-img" src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy"></a>
+      <div class="tpl-head" style="padding-bottom:12px"><div class="tpl-name">${esc(p.title)}</div></div>
+      <textarea class="post-text" oninput="updPost('${p.id}',this.value)">${esc(p.text)}</textarea>
+      <div class="tpl-foot">
+        <button class="primary" onclick="copyPost('${p.id}',this)">Kopiuj tekst posta</button>
+        <a href="${esc(p.img)}" download="${esc(p.img.split('/').pop())}"><button>Pobierz grafikę</button></a>
+        <div class="spacer"></div>
+        <a href="${esc(p.canva)}" target="_blank" rel="noopener"><button class="ghost">Edytuj w Canvie</button></a>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function updPost(id, val){ const p = state.posts.find(x=>x.id===id); if(p){ p.text = val; save(); } }
+async function copyPost(id, btn){
+  const p = state.posts.find(x=>x.id===id);
+  if(p && await copyText(p.text,'Skopiowano tekst posta')){
+    btn.textContent='✓ Skopiowano'; btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent='Kopiuj tekst posta'; btn.classList.remove('done'); }, 1400);
+  }
 }
 
 // ---------- EMAIL EXTRACTION ----------
@@ -679,7 +782,7 @@ function exportCSV(){
 // ---------- RENDER ----------
 function render(){
   renderNav();
-  document.getElementById('main').innerHTML = view==='mail' ? renderMails() : renderTemplates();
+  document.getElementById('main').innerHTML = view==='mail' ? renderMails() : view==='posts' ? renderPosts() : renderTemplates();
 }
 render();
 </script>
