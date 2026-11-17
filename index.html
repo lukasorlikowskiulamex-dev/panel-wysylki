@@ -6,79 +6,102 @@
 <title>Panel wysyłki · zlecenialaser.pl</title>
 <style>
 :root{
-  --bg:#f4f5f7; --card:#fff; --ink:#1c2230; --muted:#6b7385; --line:#e3e6ec;
-  --head:#161b26; --laser:#ff5a1f; --laser-soft:#fff0ea;
-  --ok:#1f9d55; --ok-soft:#e6f6ed; --bad:#c53030; --r:10px;
+  --bg:#f3f4f6; --card:#fff; --ink:#1a1f2b; --muted:#6b7385; --line:#e4e7ec;
+  --head:#161b26; --laser:#ff5a1f; --laser-soft:#fff1eb;
+  --ok:#1f9d55; --ok-soft:#e7f6ee; --blue:#2563eb; --blue-soft:#eaf0ff;
+  --amber:#b7791f; --amber-soft:#fdf5e4; --bad:#c53030; --r:12px;
 }
 *{box-sizing:border-box}
-body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:var(--head);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-header .logo{font-weight:700;font-size:17px}
+body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--head);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header .logo{font-weight:700;font-size:18px}
 header .logo span{color:var(--laser)}
-header .beam{height:3px;flex:0 0 60px;background:linear-gradient(90deg,var(--laser),transparent);border-radius:2px}
 header .spacer{flex:1}
-header button{background:transparent;color:#cfd5e2;border:1px solid #39404f}
+header button{background:transparent;color:#cfd5e2;border:1px solid #39404f;font-size:13px}
 header button:hover{border-color:var(--laser);color:#fff}
-nav{display:flex;gap:4px;padding:0 22px;background:var(--head);border-top:1px solid #262d3b}
-nav button{background:none;border:none;color:#aab2c3;padding:12px 16px;border-bottom:3px solid transparent;border-radius:0;font-weight:600}
+nav{display:flex;gap:4px;padding:0 24px;background:var(--head);border-top:1px solid #262d3b}
+nav button{background:none;border:none;color:#aab2c3;padding:13px 18px;border-bottom:3px solid transparent;border-radius:0;font-weight:600;font-size:15px}
 nav button.active{color:#fff;border-bottom-color:var(--laser)}
 nav button .cnt{background:#2b3343;color:#cfd5e2;border-radius:20px;padding:1px 8px;font-size:12px;margin-left:6px}
-main{padding:20px 22px;max-width:1200px;margin:0 auto}
-button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 12px}
+main{padding:22px 24px 60px;max-width:1240px;margin:0 auto}
+button{font:inherit;font-size:14px;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 13px}
 button:hover{border-color:#c4c9d4}
 button.primary{background:var(--laser);border-color:var(--laser);color:#fff;font-weight:600}
-button.small{padding:4px 9px;font-size:13px}
+button.primary.done{background:var(--ok);border-color:var(--ok)}
+button.small{padding:4px 10px;font-size:13px}
 button.ghost{border-color:transparent;background:transparent;color:var(--muted)}
-button.ghost:hover{color:var(--bad)}
-input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;color:var(--ink);width:100%}
-textarea{resize:vertical}
+button.ghost:hover{color:var(--ink)}
+button.danger:hover{color:var(--bad)}
+input,select,textarea{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff;color:var(--ink);width:100%}
+textarea{resize:vertical;line-height:1.55}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--laser-soft);border-color:var(--laser)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-.toolbar input{max-width:260px}
-.toolbar select{max-width:180px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:16px}
 .spacer{flex:1}
+.hint{color:var(--muted);font-size:13px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.seg{display:inline-flex;background:#e9ebef;border-radius:10px;padding:3px;gap:2px}
+.seg button{border:none;background:transparent;padding:7px 14px;border-radius:8px;font-weight:600;color:#4a5263}
+.seg button.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.seg button .n{color:var(--muted);font-weight:500;margin-left:4px}
+.search{max-width:240px}
+.intro{background:var(--laser-soft);border:1px solid #ffd9c9;border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+.tpl{background:#fff;border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden}
+.tpl-head{display:flex;align-items:center;gap:8px;padding:14px 16px 0}
+.tpl-name{font-weight:700;font-size:16px;flex:1}
+.chip{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+.c-hook{background:var(--laser-soft);color:#c2410c}
+.c-reply{background:var(--blue-soft);color:var(--blue)}
+.c-follow{background:var(--amber-soft);color:var(--amber)}
+.tpl-subj{padding:6px 16px 0;font-size:13px;color:var(--muted)}
+.tpl-subj b{color:var(--ink);font-weight:600}
+.tpl-body{padding:12px 16px 14px;white-space:pre-wrap;font-size:15px;line-height:1.6;flex:1}
+.tpl-foot{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--line);background:#fafbfc}
+.uses{font-size:12px;color:var(--muted)}
+.tpl.editing{border-color:var(--laser);box-shadow:0 0 0 3px var(--laser-soft)}
+.tpl.editing .fields{padding:14px 16px;display:grid;gap:10px}
+.tpl.editing textarea{min-height:170px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+details.card summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;align-items:center;gap:8px}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--laser);color:#fff;font-weight:700}
+details.card[open] summary::before{content:"−"}
+details.card[open] summary{margin-bottom:12px}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
-th{background:#fafbfc;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.4px;font-weight:600;white-space:nowrap}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{background:#fafbfc;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.4px;font-weight:600}
 tr:last-child td{border-bottom:none}
-td .sub{color:var(--muted);font-size:12px}
-td.mail{font-family:ui-monospace,Consolas,monospace;font-size:13px}
+tr.sent td{background:#fcfdfc}
+tr.sent .nm{color:var(--muted)}
+.nm{font-weight:600}
+.em{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--muted)}
 .actions{white-space:nowrap;text-align:right}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
 .b-new{background:#eef0f4;color:#4a5263}
 .b-sent{background:var(--ok-soft);color:var(--ok)}
-.empty{text-align:center;color:var(--muted);padding:40px}
-.tpl{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:#fff;margin-bottom:12px}
-.tpl .row{display:flex;gap:8px;margin-bottom:8px;align-items:center;flex-wrap:wrap}
-.tpl textarea{min-height:110px}
-.tpl .lbl{font-size:12px;color:var(--muted);font-weight:600;min-width:42px}
-.chips{display:flex;gap:6px}
-.chips button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-.hint{color:var(--muted);font-size:12.5px}
-h2{font-size:15px;margin:0 0 10px}
-.found{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:8px;margin:10px 0}
-.found label{display:flex;gap:10px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line)}
+.empty{text-align:center;color:var(--muted);padding:44px}
+.found{max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:8px;margin:12px 0}
+.found label{display:flex;gap:10px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--line);font-size:14px}
 .found label:last-child{border-bottom:none}
 .found input{width:auto}
 .found .dup{color:var(--muted);text-decoration:line-through}
-dialog{border:none;border-radius:14px;padding:0;width:min(620px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog{border:none;border-radius:14px;padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(15,20,30,.5)}
 dialog .dh{padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700;display:flex;justify-content:space-between;align-items:center}
 dialog .db{padding:16px 18px;display:grid;gap:10px}
 dialog .df{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
-label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
-.preview{white-space:pre-wrap;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:12px;max-height:260px;overflow:auto;font-size:13.5px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--head);color:#fff;padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99}
+.preview{white-space:pre-wrap;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:14px;max-height:280px;overflow:auto;font-size:14.5px;line-height:1.6}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--head);color:#fff;padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99}
 .toast.show{opacity:1}
-@media(max-width:800px){.hide-m{display:none}}
+@media(max-width:800px){.hide-m{display:none}.row2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">zlecenia<span>laser</span>.pl</div>
-  <div class="beam"></div>
-  <div style="color:#aab2c3">Panel wysyłki</div>
+  <div class="hint" style="color:#8e97a8">panel wysyłki</div>
   <div class="spacer"></div>
   <button onclick="exportJSON()">Kopia zapasowa</button>
   <button onclick="document.getElementById('importFile').click()">Wczytaj kopię</button>
@@ -104,8 +127,8 @@ label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
   <form method="dialog" onsubmit="return false">
     <div class="dh"><span id="dsTitle">Napisz maila</span><button class="ghost" onclick="closeDlg('dlgSend')">✕</button></div>
     <div class="db">
-      <label class="f">Szablon<select id="sTpl" onchange="renderSendPreview()"></select></label>
-      <div><span class="hint">Temat:</span> <b id="sSubject"></b></div>
+      <label class="f">Wiadomość<select id="sTpl" onchange="renderSendPreview()"></select></label>
+      <div class="hint">Temat: <b id="sSubject" style="color:var(--ink)"></b></div>
       <div class="preview" id="sPreview"></div>
       <div class="hint" id="sHint"></div>
     </div>
@@ -113,7 +136,7 @@ label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
       <button onclick="copyFromSend('mail')">Kopiuj adres</button>
       <button onclick="copyFromSend('subject')">Kopiuj temat</button>
       <button onclick="copyFromSend('body')">Kopiuj treść</button>
-      <button class="primary" onclick="openMail()">Otwórz w programie pocztowym</button>
+      <button class="primary" onclick="openMail()">Otwórz w poczcie</button>
     </div>
   </form>
 </dialog>
@@ -122,38 +145,75 @@ label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
 
 <script>
 const LS_KEY = 'zlecenialaser_panel_v2';
-const GROUPS = {wyk:'Do firm z laserem', zle:'Do szukających cięcia'};
+const TPL_VER = 2;
+const GROUPS = {wyk:'Firmy z laserem', zle:'Szukający cięcia'};
+const TYPES = {hook:'Pierwsza wiadomość', reply:'Odpowiedź', follow:'Przypomnienie'};
 
 const DEFAULT_TEMPLATES = [
-  {id:'A', group:'wyk', name:'Prosto', subject:'Zlecenia na cięcie laserem bez dopytywania', text:
-`Dzień dobry, robię portal zlecenialaser.pl. Chcę, żeby zlecenia na cięcie przychodziły od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania o każdy szczegół. Zapraszam Waszą firmę do rejestracji na portalu. Wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'B', group:'wyk', name:'Znam ten problem', subject:'Koniec z dopytywaniem klienta przed wyceną', text:
-`Dzień dobry, pewnie znacie to dopytywanie klienta o każdy szczegół przed wyceną. Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie. Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'C', group:'wyk', name:'Jedno zdanie', subject:'Zlecenia na laser z kompletem danych', text:
-`Dzień dobry, robię miejsce, gdzie zlecenia na laser przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania. Zapraszam Waszą firmę do rejestracji na zlecenialaser.pl, wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'E', group:'wyk', name:'Z filmem', subject:'Krótki film: zlecenia na cięcie laserem', text:
+  {id:'k1', group:'wyk', type:'hook', name:'Z komentarza na FB', subject:'Wasz komentarz pod postem o cięciu laserem', text:
+`Dzień dobry, trafiłem na Wasz komentarz pod postem o cięciu laserem. Widzę, że szukacie zleceń, więc piszę.
+
+Robię zlecenialaser.pl. Zlecenia przychodzą tam od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania o każdy szczegół.
+
+Zapraszam Waszą firmę do rejestracji. Wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'k2', group:'wyk', type:'hook', name:'Kartka w kratkę', subject:'Zdjęcie detalu na kartce i pytanie „ile to będzie?”', text:
+`Dzień dobry, klient przysyła zdjęcie detalu na kartce w kratkę i pyta „ile to będzie?”. Znacie to?
+
+Dlatego robię zlecenialaser.pl. Tu zlecenie ma od razu rysunek, materiał, grubość i ilość.
+
+Zapraszam Waszą firmę do rejestracji. Wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'k3', group:'wyk', type:'hook', name:'Ile razy dopytujecie?', subject:'Ile czasu schodzi Wam na dopytywanie klienta?', text:
+`Dzień dobry, ile razy w tygodniu dopytujecie klienta o materiał albo grubość, zanim w ogóle coś wycenicie?
+
+Robię zlecenialaser.pl, żeby to się skończyło. Zlecenie od razu ma wszystko, co trzeba, a Wy tylko wyceniacie i tniecie.
+
+Zapraszam Waszą firmę do rejestracji. Wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'k4', group:'wyk', type:'hook', name:'Krótko', subject:'Zlecenia na cięcie laserem z kompletem danych', text:
+`Dzień dobry, zbieram w jednym miejscu zlecenia na cięcie laserem. Każde od razu z rysunkiem, materiałem i ilością, bez dopytywania. Zapraszam Waszą firmę na zlecenialaser.pl, wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'k5', group:'wyk', type:'hook', name:'Jedno pytanie na start', subject:'Pytanie o cięcie laserem', text:
+`Dzień dobry, przyjmujecie zlecenia na cięcie laserem z zewnątrz?`},
+  {id:'k6', group:'wyk', type:'hook', name:'Z filmem', subject:'Krótki film: zlecenia na cięcie laserem', text:
 `Dzień dobry, nagrałem krótki film, jak działa zlecenialaser.pl:
 {film}
 Zlecenia przychodzą od razu z rysunkiem, materiałem i ilością, bez dopytywania.
 Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
-  {id:'FW', group:'wyk', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
+  {id:'r1', group:'wyk', type:'reply', name:'Gdy odpisze „tak”', subject:'', text:
+`To super. Robię zlecenialaser.pl, gdzie zlecenia przychodzą od razu kompletne: rysunek, materiał, grubość, ilość. Bez dopytywania. Zapraszam Waszą firmę do rejestracji, wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'r2', group:'wyk', type:'reply', name:'Gdy pytają o cenę', subject:'', text:
+`Przeglądanie zleceń jest za darmo. Płacicie dopiero wtedy, gdy chcecie zobaczyć kontakt do klienta przy konkretnym zleceniu. Bez abonamentu i bez stałych opłat.`},
+  {id:'r3', group:'wyk', type:'reply', name:'Gdy pytają, skąd zlecenia', subject:'', text:
+`Zlecenia dodają firmy i osoby prywatne, które szukają kogoś do cięcia. Każde zlecenie to jeden detal z rysunkiem i opisem, więc od razu widać, czy temat jest dla Was.`},
+  {id:'r4', group:'wyk', type:'reply', name:'Gdy proszą o pliki do wyceny', subject:'', text:
+`Dzień dobry, nie wysyłam teraz konkretnego zlecenia do wyceny. Piszę, bo robię zlecenialaser.pl, gdzie takie zlecenia trafiają od razu z rysunkiem i opisem. Zapraszam do rejestracji, wybieracie tylko to, co Wam pasuje.`},
+  {id:'r5', group:'wyk', type:'reply', name:'Gdy mają swoich klientów', subject:'', text:
+`Rozumiem, dzięki za odpowiedź. Konto nic nie kosztuje, więc może się przydać w spokojniejszy tydzień. Pozdrawiam.`},
+  {id:'f1', group:'wyk', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, wracam jeszcze do zlecenialaser.pl. Jak to nie dla Was, nie ma sprawy, więcej nie piszę.`},
-  {id:'D', group:'zle', name:'Opisujesz raz', subject:'Cięcie laserem bez obdzwaniania firm', text:
+  {id:'z1', group:'zle', type:'hook', name:'Widziałem Twój post', subject:'Twój post o cięciu laserem', text:
+`Dzień dobry, widziałem, że szukasz kogoś do cięcia laserem. Zamiast czekać na komentarze, wrzuć zlecenie na zlecenialaser.pl. Opisujesz raz, czego potrzebujesz, a firmy z laserami same się odzywają.`},
+  {id:'z2', group:'zle', type:'hook', name:'Opisujesz raz', subject:'Cięcie laserem bez obdzwaniania firm', text:
 `Dzień dobry, jeśli szukasz kogoś do cięcia laserem, wrzuć zlecenie na zlecenialaser.pl. Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. Bez tłumaczenia wszystkiego od nowa każdej firmie.`},
-  {id:'F', group:'zle', name:'Z filmem', subject:'Jak dodać zlecenie na cięcie laserem', text:
+  {id:'z3', group:'zle', type:'hook', name:'Z filmem', subject:'Jak dodać zlecenie na cięcie laserem', text:
 `Dzień dobry, tu krótki film, jak dodać zlecenie na cięcie laserem:
 {film}
 Opisujesz raz, czego potrzebujesz, a firmy same się odzywają. zlecenialaser.pl`},
-  {id:'FZ', group:'zle', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
+  {id:'zr1', group:'zle', type:'reply', name:'Gdy pytają o cenę', subject:'', text:
+`Dodanie zlecenia jest za darmo. Za samo cięcie płacisz firmie, którą sam wybierzesz.`},
+  {id:'zr2', group:'zle', type:'reply', name:'Gdy nie mają rysunku', subject:'', text:
+`Nie szkodzi. Wystarczy zdjęcie albo szkic z wymiarami, do tego materiał, grubość i ilość. Z tym firmy już spokojnie wycenią.`},
+  {id:'zf1', group:'zle', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, udało się już znaleźć kogoś do cięcia? Jak nie, wrzuć zlecenie na zlecenialaser.pl, to nic nie kosztuje.`}
 ];
 const DEFAULT_SIGNATURE = `Pozdrawiam
 Łukasz Orlikowski
 zlecenialaser.pl`;
+const DEFAULT_SETTINGS = {filmUrl:'', signature:DEFAULT_SIGNATURE, source:'', lastTpl:'', tplVer:TPL_VER};
 
 let state = load();
+save();
 let view = 'tpl';
-let tplFilter = 'all';
+let tplGroup = 'wyk', tplType = 'all', tplQ = '';
+let editTpl = null;
 let filters = {q:'', status:'all'};
 let found = [];
 let editingId = null, sendingId = null;
@@ -164,12 +224,18 @@ function load(){
     if(raw){
       const s = JSON.parse(raw);
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
-        s.settings = Object.assign({filmUrl:'', signature:DEFAULT_SIGNATURE, source:''}, s.settings||{});
+        s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1}, s.settings||{});
+        if((s.settings.tplVer||1) < 2){
+          const OLD = ['A','B','C','D','E','F','FW','FZ'];
+          const own = s.templates.filter(t=>!OLD.includes(t.id)).map(t=>Object.assign({type:'hook'}, t));
+          s.templates = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)).concat(own);
+          s.settings.tplVer = 2;
+        }
         return s;
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:{filmUrl:'', signature:DEFAULT_SIGNATURE, source:''}};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), settings:Object.assign({}, DEFAULT_SETTINGS)};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -209,43 +275,74 @@ function renderNav(){
   document.getElementById('nav').innerHTML = items.map(([k,l]) =>
     `<button class="${view===k?'active':''}" onclick="go('${k}')">${l}</button>`).join('');
 }
-function go(v){ view=v; render(); }
+function go(v){ view=v; editTpl=null; render(); }
 
 // ---------- TEMPLATES ----------
 function renderTemplates(){
-  const list = state.templates.filter(t=>tplFilter==='all' || t.group===tplFilter);
-  const chip = (k,l) => `<button class="${tplFilter===k?'active':''}" onclick="tplFilter='${k}';render()">${l}</button>`;
+  const inGroup = state.templates.filter(t=>t.group===tplGroup);
+  const cnt = ty => inGroup.filter(t=>ty==='all'||t.type===ty).length;
+  const q = tplQ.toLowerCase();
+  const list = inGroup.filter(t=>(tplType==='all'||t.type===tplType) && (!q || (t.name+' '+t.subject+' '+t.text).toLowerCase().includes(q)))
+    .sort((a,b)=>['hook','reply','follow'].indexOf(a.type)-['hook','reply','follow'].indexOf(b.type));
+  const seg = (cur, val, label, fn, n) => `<button class="${cur===val?'active':''}" onclick="${fn}='${val}';editTpl=null;render()">${label}${n!==undefined?`<span class="n">${n}</span>`:''}</button>`;
   return `
-  <div class="toolbar">
-    <div class="chips">${chip('all','Wszystkie')}${chip('wyk','Do firm z laserem')}${chip('zle','Do szukających cięcia')}</div>
+  <div class="intro">Zacznij od <b>pierwszej wiadomości</b>. Gdy ktoś odpisze, weź gotową <b>odpowiedź</b>. Po kilku dniach ciszy wyślij <b>przypomnienie</b>.</div>
+  <div class="bar">
+    <div class="seg">${seg(tplGroup,'wyk',GROUPS.wyk,'tplGroup')}${seg(tplGroup,'zle',GROUPS.zle,'tplGroup')}</div>
+    <div class="seg">${seg(tplType,'all','Wszystkie','tplType',cnt('all'))}${seg(tplType,'hook','Pierwsza wiadomość','tplType',cnt('hook'))}${seg(tplType,'reply','Odpowiedzi','tplType',cnt('reply'))}${seg(tplType,'follow','Przypomnienia','tplType',cnt('follow'))}</div>
     <div class="spacer"></div>
-    <button onclick="resetTemplates()">Przywróć domyślne</button>
-    <button class="primary" onclick="addTemplate()">+ Nowy szablon</button>
+    <input class="search" id="tplSearch" placeholder="Szukaj w treści…" value="${esc(tplQ)}" oninput="tplQ=this.value;keepFocus('tplSearch')">
+    <button class="primary" onclick="addTemplate()">+ Nowy</button>
   </div>
-  ${list.map(t=>`
-    <div class="tpl">
-      <div class="row">
-        <input style="flex:1;min-width:160px;font-weight:600" value="${esc(t.name)}" onchange="updTpl('${t.id}','name',this.value)">
-        <select style="width:auto" onchange="updTpl('${t.id}','group',this.value)">
-          <option value="wyk" ${t.group==='wyk'?'selected':''}>${GROUPS.wyk}</option>
-          <option value="zle" ${t.group==='zle'?'selected':''}>${GROUPS.zle}</option>
-        </select>
-        <button class="small primary" onclick="copyText(fillText(tplById('${t.id}').text),'Skopiowano treść')">Kopiuj treść</button>
-        <button class="small" onclick="copyText(tplById('${t.id}').subject||'','Skopiowano temat')">Kopiuj temat</button>
-        <button class="small ghost" onclick="delTemplate('${t.id}')" title="Usuń">✕</button>
-      </div>
-      <div class="row"><span class="lbl">Temat</span><input style="flex:1" value="${esc(t.subject||'')}" onchange="updTpl('${t.id}','subject',this.value)"></div>
-      <textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea>
-    </div>`).join('') || '<div class="card empty">Brak szablonów.</div>'}
-  <div class="card">
-    <h2>Ustawienia</h2>
-    <label class="f" style="margin-bottom:10px">🎬 Link do filmu (wstawiany w miejsce {film} w treści; bez linku ta linia znika)
-      <input value="${esc(state.settings.filmUrl)}" placeholder="np. link do rolki na FB albo filmu na YouTube" onchange="state.settings.filmUrl=this.value.trim();save();toast('Zapisano')">
-    </label>
-    <label class="f">Podpis dodawany na końcu maili (przy „Kopiuj treść” w szablonach podpisu nie ma, żeby pasowało też do Messengera)
+  <div class="grid">${list.map(tplCard).join('') || '<div class="card empty">Brak szablonów w tym widoku.</div>'}</div>
+  <details class="card" style="margin-top:22px">
+    <summary>Ustawienia: podpis, link do filmu</summary>
+    <label class="f" style="margin-bottom:12px">Podpis dodawany na końcu maili (przy kopiowaniu treści z karty podpisu nie ma, żeby pasowało też do Messengera)
       <textarea rows="3" onchange="state.settings.signature=this.value;save();toast('Zapisano')">${esc(state.settings.signature)}</textarea>
     </label>
-  </div>`;
+    <label class="f" style="margin-bottom:12px">Link do filmu, wstawiany w miejsce {film}. Bez linku ta linia znika z wiadomości.
+      <input value="${esc(state.settings.filmUrl)}" placeholder="np. link do rolki na FB albo filmu na YouTube" onchange="state.settings.filmUrl=this.value.trim();save();render();toast('Zapisano')">
+    </label>
+    <button onclick="resetTemplates()">Przywróć domyślne szablony</button>
+  </details>`;
+}
+function tplCard(t){
+  if(editTpl===t.id){
+    return `<div class="tpl editing"><div class="fields">
+      <label class="f">Nazwa<input value="${esc(t.name)}" onchange="updTpl('${t.id}','name',this.value)"></label>
+      <div class="row2">
+        <label class="f">Dla kogo<select onchange="updTpl('${t.id}','group',this.value)">${Object.entries(GROUPS).map(([k,v])=>`<option value="${k}" ${t.group===k?'selected':''}>${v}</option>`).join('')}</select></label>
+        <label class="f">Rodzaj<select onchange="updTpl('${t.id}','type',this.value)">${Object.entries(TYPES).map(([k,v])=>`<option value="${k}" ${t.type===k?'selected':''}>${v}</option>`).join('')}</select></label>
+      </div>
+      <label class="f">Temat maila<input value="${esc(t.subject||'')}" onchange="updTpl('${t.id}','subject',this.value)"></label>
+      <label class="f">Treść<textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea></label>
+    </div>
+    <div class="tpl-foot"><button class="ghost danger" onclick="delTemplate('${t.id}')">Usuń</button><div class="spacer"></div><button class="primary" onclick="editTpl=null;render()">Gotowe</button></div></div>`;
+  }
+  return `<div class="tpl">
+    <div class="tpl-head"><div class="tpl-name">${esc(t.name)}</div><span class="chip c-${t.type}">${TYPES[t.type]||''}</span></div>
+    ${t.subject?`<div class="tpl-subj">Temat: <b>${esc(t.subject)}</b></div>`:''}
+    <div class="tpl-body">${esc(fillText(t.text))}</div>
+    <div class="tpl-foot">
+      <button class="primary" onclick="copyTpl('${t.id}',this)">Kopiuj treść</button>
+      ${t.subject?`<button onclick="copyText(tplById('${t.id}').subject,'Skopiowano temat')">Temat</button>`:''}
+      <div class="spacer"></div>
+      <span class="uses">${t.uses?`użyto ${t.uses}×`:''}</span>
+      <button class="ghost" onclick="editTpl='${t.id}';render()">Edytuj</button>
+    </div></div>`;
+}
+async function copyTpl(id, btn){
+  const t = tplById(id);
+  if(await copyText(fillText(t.text),'Skopiowano treść')){
+    t.uses = (t.uses||0)+1; save();
+    btn.textContent='✓ Skopiowano'; btn.classList.add('done');
+    setTimeout(()=>render(), 1400);
+  }
+}
+function keepFocus(id){
+  const el=document.getElementById(id); const pos=el?.selectionStart;
+  render();
+  const n=document.getElementById(id); if(n){ n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){} }
 }
 function updTpl(id, field, val, silent){
   const t = tplById(id); if(!t) return;
@@ -253,21 +350,21 @@ function updTpl(id, field, val, silent){
 }
 function addTemplate(){
   const id = uid();
-  state.templates.unshift({id, group: tplFilter==='zle'?'zle':'wyk', name:'Nowy szablon', subject:'', text:'Dzień dobry, '});
-  save(); render();
+  state.templates.push({id, group:tplGroup, type: tplType==='all'?'hook':tplType, name:'Nowy szablon', subject:'', text:'Dzień dobry, '});
+  editTpl = id; save(); render();
 }
 function delTemplate(id){
   if(!confirm('Usunąć ten szablon?')) return;
-  state.templates = state.templates.filter(t=>t.id!==id); save(); render();
+  state.templates = state.templates.filter(t=>t.id!==id); editTpl=null; save(); render();
 }
 function resetTemplates(){
-  if(!confirm('Przywrócić domyślne szablony? Zmiany w nich zostaną nadpisane, Twoje nowe szablony zostaną.')) return;
+  if(!confirm('Przywrócić domyślne szablony? Zmiany w nich zostaną nadpisane, Twoje własne szablony zostaną.')) return;
   DEFAULT_TEMPLATES.forEach(d=>{
     const i = state.templates.findIndex(t=>t.id===d.id);
     const copy = JSON.parse(JSON.stringify(d));
-    if(i>=0) state.templates[i] = copy; else state.templates.push(copy);
+    if(i>=0){ copy.uses = state.templates[i].uses; state.templates[i] = copy; } else state.templates.push(copy);
   });
-  save(); render();
+  save(); render(); toast('Przywrócono');
 }
 
 // ---------- EMAIL EXTRACTION ----------
@@ -308,22 +405,22 @@ function guessName(e){
 // ---------- MAILS ----------
 function renderMails(){
   const all = state.contacts;
-  const toSend = all.filter(c=>!c.sentAt);
+  const nNew = all.filter(c=>!c.sentAt).length;
   let list = all.filter(c=>{
     if(filters.status==='new' && c.sentAt) return false;
     if(filters.status==='sent' && !c.sentAt) return false;
     if(filters.q){ const q=filters.q.toLowerCase(); if(![c.name,c.email,c.source,c.note].join(' ').toLowerCase().includes(q)) return false; }
     return true;
-  }).sort((a,b)=>(!!a.sentAt - !!b.sentAt) || (b.createdAt||'').localeCompare(a.createdAt||''));
+  }).sort((a,b)=>(!!a.sentAt - !!b.sentAt) || (a.name||'').localeCompare(b.name||'','pl'));
 
   const existing = new Set(all.map(c=>c.email));
   const foundHtml = found.length ? `
     <div class="found">${found.map((f,i)=>{
       const dup = existing.has(f.email);
-      return `<label><input type="checkbox" ${dup?'disabled':'checked'} data-i="${i}"><span class="${dup?'dup':''}" style="flex:1"><b>${esc(f.name)}</b> <span class="sub">${esc(f.email)}</span></span>${dup?'<span class="sub">już jest</span>':''}</label>`;
+      return `<label><input type="checkbox" ${dup?'disabled':'checked'} data-i="${i}"><span class="${dup?'dup':''}" style="flex:1"><b>${esc(f.name)}</b> <span class="em">${esc(f.email)}</span></span>${dup?'<span class="hint">już jest</span>':''}</label>`;
     }).join('')}</div>
-    <div class="toolbar" style="margin:0">
-      <input id="srcInput" style="max-width:280px" placeholder="Skąd (np. nazwa grupy FB)" value="${esc(state.settings.source)}">
+    <div class="bar" style="margin:0">
+      <input id="srcInput" style="max-width:300px" placeholder="Skąd (np. nazwa grupy FB)" value="${esc(state.settings.source)}">
       <div class="spacer"></div>
       <button onclick="found=[];render()">Anuluj</button>
       <button class="primary" onclick="addFound()">Dodaj zaznaczone</button>
@@ -331,52 +428,45 @@ function renderMails(){
 
   const rows = list.map(c=>{
     const t = c.tpl ? tplById(c.tpl) : null;
-    return `<tr>
-      <td><b>${esc(c.name)}</b>${c.note?`<div class="sub">${esc(c.note)}</div>`:''}</td>
-      <td class="mail">${esc(c.email)}</td>
-      <td class="hide-m"><span class="sub">${esc(c.source)}</span></td>
-      <td>${c.sentAt ? `<span class="badge b-sent" title="${t?esc(t.name):''}">wysłano ${fmtDate(c.sentAt)}</span>` : '<span class="badge b-new">do wysłania</span>'}</td>
+    return `<tr class="${c.sentAt?'sent':''}">
+      <td><div class="nm">${esc(c.name)}</div><div class="em">${esc(c.email)}</div>${c.note?`<div class="hint">${esc(c.note)}</div>`:''}</td>
+      <td class="hide-m"><span class="hint">${esc(c.source)}</span></td>
+      <td>${c.sentAt ? `<span class="badge b-sent">✓ wysłano ${fmtDate(c.sentAt)}</span>${t?`<div class="hint">${esc(t.name)}</div>`:''}` : '<span class="badge b-new">do wysłania</span>'}</td>
       <td class="actions">
-        <button class="small primary" onclick="openSend('${c.id}')">Napisz</button>
-        <button class="small" onclick="toggleSent('${c.id}')">${c.sentAt?'Cofnij':'Oznacz wysłany'}</button>
-        <button class="small" onclick="openContact('${c.id}')">Edytuj</button>
-        <button class="small ghost" onclick="delContact('${c.id}')" title="Usuń">✕</button>
+        <button class="small ${c.sentAt?'':'primary'}" onclick="openSend('${c.id}')">Napisz</button>
+        <button class="small ghost" onclick="toggleSent('${c.id}')" title="${c.sentAt?'Cofnij oznaczenie':'Oznacz jako wysłany'}">${c.sentAt?'Cofnij':'✓'}</button>
+        <button class="small ghost" onclick="openContact('${c.id}')">Edytuj</button>
+        <button class="small ghost danger" onclick="delContact('${c.id}')" title="Usuń">✕</button>
       </td></tr>`;
   }).join('');
+  const seg = (val,label,n) => `<button class="${filters.status===val?'active':''}" onclick="filters.status='${val}';render()">${label}<span class="n">${n}</span></button>`;
 
   return `
-  <div class="card">
-    <h2>Zbierz maile</h2>
-    <div class="hint" style="margin-bottom:8px">Wklej cały skopiowany tekst, np. komentarze spod posta na Facebooku. Panel sam wyciągnie adresy i dopasuje nazwę autora komentarza.</div>
+  <details class="card" ${(!all.length || found.length)?'open':''}>
+    <summary>Dodaj maile</summary>
+    <div class="hint" style="margin-bottom:8px">Wklej cały skopiowany tekst, np. komentarze spod posta na Facebooku. Panel sam wyciągnie adresy i dopisze nazwę autora komentarza.</div>
     <textarea id="pasteBox" rows="5" placeholder="Wklej tutaj tekst z adresami e-mail…"></textarea>
-    <div class="toolbar" style="margin:10px 0 0">
+    <div class="bar" style="margin:10px 0 0">
       <button class="primary" onclick="doExtract()">Wyciągnij maile</button>
-      <button onclick="openContact()">+ Dodaj ręcznie</button>
+      <button onclick="openContact()">Dodaj jeden ręcznie</button>
     </div>
     ${foundHtml}
-  </div>
-  <div class="toolbar">
-    <input placeholder="Szukaj…" value="${esc(filters.q)}" oninput="filters.q=this.value;renderKeepFocus('qInput')" id="qInput">
-    <select onchange="filters.status=this.value;render()">
-      <option value="all" ${filters.status==='all'?'selected':''}>Wszystkie (${all.length})</option>
-      <option value="new" ${filters.status==='new'?'selected':''}>Do wysłania (${toSend.length})</option>
-      <option value="sent" ${filters.status==='sent'?'selected':''}>Wysłane (${all.length-toSend.length})</option>
-    </select>
+  </details>
+  <div class="bar">
+    <div class="seg">${seg('all','Wszystkie',all.length)}${seg('new','Do wysłania',nNew)}${seg('sent','Wysłane',all.length-nNew)}</div>
+    <input class="search" placeholder="Szukaj…" value="${esc(filters.q)}" oninput="filters.q=this.value;keepFocusMail('qInput')" id="qInput">
     <div class="spacer"></div>
-    <button onclick="copyText(toSend().map(c=>c.email).join(', '),'Skopiowano adresy do wysłania')">Kopiuj adresy do wysłania</button>
+    <button onclick="copyText(state.contacts.filter(c=>!c.sentAt).map(c=>c.email).join(', '),'Skopiowano adresy do wysłania')">Kopiuj adresy do wysłania</button>
     <button onclick="exportCSV()">Eksport CSV</button>
   </div>
   ${list.length ? `<table>
-    <thead><tr><th>Nazwa</th><th>E-mail</th><th class="hide-m">Skąd</th><th>Status</th><th></th></tr></thead>
-    <tbody>${rows}</tbody></table>` : `<div class="card empty">${all.length?'Nic nie pasuje do filtra.':'Lista jest pusta. Wklej tekst z adresami powyżej.'}</div>`}`;
+    <thead><tr><th>Kto</th><th class="hide-m">Skąd</th><th>Status</th><th></th></tr></thead>
+    <tbody>${rows}</tbody></table>` : `<div class="card empty">${all.length?'Nic nie pasuje do filtra.':'Lista jest pusta. Kliknij „Dodaj maile” i wklej tekst z adresami.'}</div>`}`;
 }
-function toSend(){ return state.contacts.filter(c=>!c.sentAt); }
-function renderKeepFocus(id){
-  const el = document.getElementById(id); const pos = el?.selectionStart;
+function keepFocusMail(id){
   const paste = document.getElementById('pasteBox')?.value;
-  render();
+  keepFocus(id);
   const pb = document.getElementById('pasteBox'); if(pb && paste) pb.value = paste;
-  const n = document.getElementById(id); if(n){ n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){} }
 }
 function doExtract(){
   const txt = document.getElementById('pasteBox').value;
@@ -433,22 +523,31 @@ function toggleSent(id){
 function openSend(id){
   sendingId = id;
   const c = state.contacts.find(x=>x.id===id);
-  document.getElementById('dsTitle').textContent = 'Napisz do: ' + c.email;
-  const opts = g => state.templates.filter(t=>t.group===g).map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
-  sTpl.innerHTML = `<optgroup label="${GROUPS.wyk}">${opts('wyk')}</optgroup><optgroup label="${GROUPS.zle}">${opts('zle')}</optgroup>`;
-  if(c.tpl && tplById(c.tpl)) sTpl.value = c.tpl;
+  document.getElementById('dsTitle').textContent = 'Napisz do: ' + (c.name || c.email);
+  let html = '';
+  for(const [g,gl] of Object.entries(GROUPS)) for(const [ty,tl] of Object.entries(TYPES)){
+    const ts = state.templates.filter(t=>t.group===g && t.type===ty);
+    if(ts.length) html += `<optgroup label="${gl}: ${tl}">${ts.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('')}</optgroup>`;
+  }
+  sTpl.innerHTML = html;
+  const pick = c.sentAt ? (state.templates.find(t=>t.group==='wyk' && t.type==='follow')||{}).id : (c.tpl || state.settings.lastTpl);
+  if(pick && tplById(pick)) sTpl.value = pick;
   renderSendPreview();
   document.getElementById('dlgSend').showModal();
 }
 function renderSendPreview(){
   const t = tplById(sTpl.value);
-  sSubject.textContent = t ? (t.subject||'') : '';
+  sSubject.textContent = t ? (t.subject||'(bez tematu)') : '';
   sPreview.textContent = t ? mailBody(t) : '';
-  sHint.textContent = (t && t.text.includes('{film}') && !(state.settings.filmUrl||'').trim()) ? 'Nie ustawiono linku do filmu (zakładka Szablony), linia z filmem zostanie pominięta.' : '';
+  sHint.textContent = (t && t.text.includes('{film}') && !(state.settings.filmUrl||'').trim()) ? 'Nie ustawiono linku do filmu (Szablony, Ustawienia), linia z filmem zostanie pominięta.' : '';
 }
 function markSent(){
   const c = state.contacts.find(x=>x.id===sendingId);
-  c.sentAt = today(); c.tpl = sTpl.value; save();
+  const t = tplById(sTpl.value);
+  if(!c.sentAt) c.sentAt = today();
+  if(t && t.type==='hook'){ c.tpl = t.id; state.settings.lastTpl = t.id; }
+  if(t) t.uses = (t.uses||0)+1;
+  save();
 }
 async function copyFromSend(what){
   const c = state.contacts.find(x=>x.id===sendingId);
@@ -479,8 +578,8 @@ function importJSON(input){
       const s = JSON.parse(r.result);
       if(!Array.isArray(s.contacts) || !Array.isArray(s.templates)) throw 0;
       if(!confirm(`Wczytać kopię (${s.contacts.length} adresów)? Obecne dane w tej przeglądarce zostaną zastąpione.`)) return;
-      s.settings = Object.assign({filmUrl:'', signature:DEFAULT_SIGNATURE, source:''}, s.settings||{});
-      state = s; save(); render(); toast('Wczytano kopię');
+      localStorage.setItem(LS_KEY, JSON.stringify(s));
+      state = load(); save(); render(); toast('Wczytano kopię');
     }catch(e){ toast('To nie jest plik kopii z tego panelu'); }
     input.value='';
   };
@@ -488,7 +587,7 @@ function importJSON(input){
 }
 function exportCSV(){
   const q = v => `"${String(v??'').replace(/"/g,'""')}"`;
-  const head = ['Nazwa','E-mail','Skąd','Wysłano','Szablon','Notatka'];
+  const head = ['Nazwa','E-mail','Skąd','Wysłano','Wiadomość','Notatka'];
   const lines = state.contacts.map(c=>[c.name,c.email,c.source,c.sentAt,(tplById(c.tpl)||{}).name||'',c.note].map(q).join(';'));
   download(`maile-${today()}.csv`, '﻿'+[head.map(q).join(';'),...lines].join('\r\n'), 'text/csv;charset=utf-8');
 }
