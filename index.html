@@ -127,6 +127,23 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 .preview{white-space:pre-wrap;background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:16px;max-height:300px;overflow:auto;font-size:15px;line-height:1.6}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--head);color:#fff;padding:12px 20px;border-radius:10px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;font-size:15px}
 .toast.show{opacity:1}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.cats button{font-weight:700;font-size:15px;padding:9px 14px;border-radius:12px;border:2px solid var(--line);background:#fff}
+.cats button .n{margin-left:6px;font-weight:600;color:var(--muted)}
+.cats button.active{background:var(--acc);border-color:var(--acc);color:#fff}
+.cats button.active .n{color:rgba(255,255,255,.85)}
+.tpl.kom{border-top-color:var(--seek)}
+.tpl.kom.wyk{border-top-color:var(--firm)}
+.chip.aud{font-weight:800}
+.chip.aud.wyk{background:var(--firm-soft);color:#c2410c}
+.chip.aud.zle{background:var(--seek-soft);color:#0f766e}
+.kom-box{border:2px solid var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{display:inline-block;padding:4px 11px;border-radius:20px;font-size:13px;font-weight:600;background:#eef0f4;color:#3b4456}
+.chip.on{background:var(--seek-soft);color:#0f766e}
+.kom-warn{background:#fdecec;color:var(--bad);border-radius:10px;padding:10px 14px;font-weight:600;margin-bottom:12px}
+.kom-add{border:2px dashed var(--line);border-radius:var(--r);background:transparent;color:var(--muted);font-weight:700;min-height:120px}
+.kom-add:hover{border-color:var(--acc);color:var(--acc)}
 @media(max-width:800px){.hide-m{display:none}.row2,.who{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
 </style>
 </head>
@@ -342,6 +359,60 @@ zlecenialaser.pl/dodaj-zlecenie`},
 zlecenialaser.pl/dodaj-zlecenie`}
 ];
 
+const COMMENT_CATS = {
+  ogolne:{g:'zle', ic:'💬', name:'Kto wytnie?'},
+  bezrys:{g:'zle', ic:'✏️', name:'Nie ma rysunku'},
+  dxf:{g:'zle', ic:'📄', name:'Ma rysunek / DXF'},
+  malo:{g:'zle', ic:'🔹', name:'Jedna sztuka, mało'},
+  cena:{g:'zle', ic:'💰', name:'Pyta o cenę'},
+  pilne:{g:'zle', ic:'⏱️', name:'Pilne'},
+  kilka:{g:'zle', ic:'🧩', name:'Kilka detali'},
+  giecie:{g:'zle', ic:'📐', name:'Gięcie też'},
+  odp:{g:'zle', ic:'↩️', name:'Odpowiedzi na pytania'},
+  wolne:{g:'wyk', ic:'🏭', name:'Szukają zleceń'},
+  sprzet:{g:'wyk', ic:'⚙️', name:'Opisują maszynę'},
+  region:{g:'wyk', ic:'📍', name:'Podali region'},
+  wgiecie:{g:'wyk', ic:'📐', name:'Mają też gięcie'},
+  wodp:{g:'wyk', ic:'↩️', name:'Odpowiedzi na pytania'}
+};
+const DEFAULT_COMMENTS = [
+  {id:'c1', cat:'ogolne', text:'Wrzuć to na zlecenialaser.pl/dodaj-zlecenie. Opisujesz detal raz, a firmy z laserem same przysyłają ceny. Konta nie trzeba zakładać.'},
+  {id:'c2', cat:'ogolne', text:'Zapraszam na zlecenialaser.pl. Dodajesz zlecenie z wymiarami, materiałem i ilością, a oferty od firm masz w jednym miejscu, cena i termin obok siebie.'},
+  {id:'c3', cat:'ogolne', text:'Dodaj to jako zlecenie na zlecenialaser.pl. Firmy z laserem przeglądają tam zlecenia ze swojego województwa, a Twój numer zobaczy najwyżej 5 firm, więc telefon się nie urywa.'},
+  {id:'c4', cat:'bezrys', text:'Plik DXF nie jest potrzebny. Na zlecenialaser.pl wystarczy szkic z wymiarami, a jest tam też generator DXF i sprawdzanie pliku. zlecenialaser.pl/dodaj-zlecenie'},
+  {id:'c5', cat:'bezrys', text:'Ze zdjęcia bez wymiarów nikt dokładnie nie wyceni. Dopisz wymiary i grubość blachy i dodaj to na zlecenialaser.pl, wtedy firmy wycenią bez dopytywania.'},
+  {id:'c6', cat:'bezrys', text:'Jak nie masz rysunku, to nic. Na zlecenialaser.pl/dodaj-zlecenie dodajesz szkic z wymiarami, nawet z kartki, i firmy z laserem wyceniają z tego.'},
+  {id:'c7', cat:'dxf', text:'Skoro masz DXF, to wrzuć go na zlecenialaser.pl/dodaj-zlecenie. Portal sprawdzi plik, a firmy wycenią od razu, bez dopytywania.'},
+  {id:'c8', cat:'dxf', text:'Z gotowym rysunkiem najszybciej pójdzie przez zlecenialaser.pl. Dodajesz plik, materiał i ilość, a oferty od firm masz w jednym miejscu.'},
+  {id:'c9', cat:'malo', text:'Na jedną sztukę też się da. Dodaj zlecenie na zlecenialaser.pl, odezwą się firmy, którym taki mały temat pasuje. zlecenialaser.pl/dodaj-zlecenie'},
+  {id:'c10', cat:'malo', text:'Przy pojedynczych sztukach dużo zależy od minimalnej kwoty w danej firmie, więc warto porównać kilka ofert. Na zlecenialaser.pl dodajesz zlecenie raz i widzisz je obok siebie.'},
+  {id:'c11', cat:'malo', text:'Małe ilości często giną w mailach do firm. Na zlecenialaser.pl dodajesz zlecenie raz i widzisz, kto chce je zrobić i za ile.'},
+  {id:'c12', cat:'cena', text:'Orientacyjnie sprawdzisz w kalkulatorze: zlecenialaser.pl/ile-kosztuje-ciecie-laserem. Dokładną cenę dadzą firmy, jak dodasz zlecenie z wymiarami.'},
+  {id:'c13', cat:'cena', text:'Cena zależy głównie od materiału, grubości, długości cięcia i ilości. Dodaj zlecenie na zlecenialaser.pl, dostaniesz ceny od kilku firm i porównasz je w jednej tabeli.'},
+  {id:'c14', cat:'pilne', text:'Szybciej będzie wrzucić to raz na zlecenialaser.pl niż dzwonić po firmach. Dodaj wymiary, materiał i napisz, na kiedy potrzebujesz. Odezwą się te firmy, które zdążą.'},
+  {id:'c15', cat:'pilne', text:'Jak pilne, to dodaj zlecenie na zlecenialaser.pl/dodaj-zlecenie i w opisie wpisz termin. Firmy od razu widzą, czy dadzą radę, i nie tracisz czasu na telefony.'},
+  {id:'c16', cat:'kilka', text:'Na zlecenialaser.pl każdy detal dodajesz jako osobne zlecenie. Firmy wyceniają wtedy dokładnie to, co trzeba, i nic się nie miesza.'},
+  {id:'c17', cat:'kilka', text:'Dodaj każdy element osobno na zlecenialaser.pl, z wymiarami i ilością. Łatwiej porównasz oferty, a może się okazać, że różne detale taniej zrobią różne firmy.'},
+  {id:'c18', cat:'giecie', text:'Na zlecenialaser.pl są też firmy z prasą krawędziową. W opisie zlecenia napisz, że detal trzeba zagiąć, i dodaj kąty.'},
+  {id:'c19', cat:'giecie', text:'Cięcie z gięciem najlepiej zlecić jednej firmie. Dodaj zlecenie na zlecenialaser.pl z rysunkiem i kątami gięcia, odezwą się te, które robią jedno i drugie.'},
+  {id:'c20', cat:'odp', text:'Ja nie tnę, zapraszam na zlecenialaser.pl. Zlecenia widzą tam firmy z laserami z całej Polski, dodajesz raz i wybierasz najlepszą ofertę.'},
+  {id:'c21', cat:'odp', text:'Dodanie zlecenia nic nie kosztuje i nie trzeba zakładać konta. Numer potwierdzasz kodem SMS, a link do zlecenia dostajesz na maila.'},
+  {id:'c22', cat:'odp', text:'Tutaj: zlecenialaser.pl/dodaj-zlecenie. Wpisujesz wymiary, materiał, grubość i ilość, dodajesz rysunek albo szkic i gotowe.'},
+  {id:'c23', cat:'odp', text:'Twój numer widzi najwyżej 5 firm, które chcą zrobić zlecenie. Reszta widzi tylko opis detalu.'},
+  {id:'w1', cat:'wolne', text:'Zapraszam na zlecenialaser.pl. Ludzie wystawiają tam zlecenia na cięcie gotowe do wyceny: rysunek, materiał, grubość i ilość. Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie swoje województwa i nowe zlecenia przychodzą na maila.'},
+  {id:'w2', cat:'wolne', text:'Jak szukacie zleceń, to załóżcie konto na zlecenialaser.pl/moje-konto. Zaznaczacie obszar, z którego chcecie dostawać zlecenia, i bierzecie tylko te, które Wam pasują.'},
+  {id:'w3', cat:'wolne', text:'Wolny laser najlepiej zapełnić konkretnymi zleceniami. Na zlecenialaser.pl każde zlecenie ma od razu wymiary, materiał i ilość, bez dopytywania. Konto: zlecenialaser.pl/moje-konto'},
+  {id:'w4', cat:'sprzet', text:'Na zlecenialaser.pl filtrujecie zlecenia po materiale, grubości i technologii, więc widzicie tylko to, co zrobicie na swojej maszynie. Konto zakładacie na zlecenialaser.pl/moje-konto i zaznaczacie województwa.'},
+  {id:'w5', cat:'sprzet', text:'Z takim sprzętem warto mieć konto na zlecenialaser.pl. Przy zleceniach z plikiem DXF portal sam podpowiada cenę na podstawie Waszych stawek, sprawdzacie ją i wysyłacie ofertę.'},
+  {id:'w6', cat:'region', text:'Na zlecenialaser.pl zlecenia są podzielone na województwa. Zakładacie konto, zaznaczacie swój region i dostajecie powiadomienia o nowych zleceniach z okolicy. zlecenialaser.pl/moje-konto'},
+  {id:'w7', cat:'region', text:'Jak chcecie zlecenia z bliska, to na zlecenialaser.pl/moje-konto zaznaczacie województwa, które Was interesują. Przychodzą tylko zlecenia z tego obszaru.'},
+  {id:'w8', cat:'wgiecie', text:'Na zlecenialaser.pl są też zlecenia z gięciem. W filtrach zaznaczacie gięcie i widzicie tylko takie. Konto: zlecenialaser.pl/moje-konto'},
+  {id:'w9', cat:'wodp', text:'Zlecenia przeglądacie bez konta: zlecenialaser.pl/zlecenia. Płacicie dopiero za kontakt do klienta, którego zlecenie Was interesuje.'},
+  {id:'w10', cat:'wodp', text:'Zlecenia dodają ludzie i firmy, które szukają cięcia. Każde ma rysunek albo szkic z wymiarami, materiał, grubość i ilość.'},
+  {id:'w11', cat:'wodp', text:'Kontakt do jednego klienta widzi najwyżej 5 firm, więc nie walczycie z całą Polską o każde zlecenie.'},
+  {id:'w12', cat:'wodp', text:'Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie województwa, z których chcecie zlecenia, i tyle. Nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Was interesują.'}
+];
+
 let state = load();
 save();
 let view = 'tpl';
@@ -360,6 +431,8 @@ function load(){
         s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1, postVer:1}, s.settings||{});
         if(!Array.isArray(s.films)) s.films = JSON.parse(JSON.stringify(DEFAULT_FILMS));
         if(!Array.isArray(s.posts)) s.posts = JSON.parse(JSON.stringify(DEFAULT_POSTS));
+        if(!Array.isArray(s.comments)) s.comments = JSON.parse(JSON.stringify(DEFAULT_COMMENTS));
+        if(!Array.isArray(s.commented)) s.commented = [];
         if(!(s.settings.postVer >= 2)){
           DEFAULT_POSTS.forEach(d=>{ if(!s.posts.some(p=>p.id===d.id)) s.posts.push(JSON.parse(JSON.stringify(d))); });
           s.settings.postVer = 2;
@@ -380,7 +453,7 @@ function load(){
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), films:JSON.parse(JSON.stringify(DEFAULT_FILMS)), posts:JSON.parse(JSON.stringify(DEFAULT_POSTS)), settings:Object.assign({}, DEFAULT_SETTINGS)};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), films:JSON.parse(JSON.stringify(DEFAULT_FILMS)), posts:JSON.parse(JSON.stringify(DEFAULT_POSTS)), comments:JSON.parse(JSON.stringify(DEFAULT_COMMENTS)), commented:[], settings:Object.assign({}, DEFAULT_SETTINGS)};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -422,10 +495,10 @@ async function copyText(txt, msg){
 
 // ---------- NAV ----------
 function renderNav(){
-  const items = [['tpl','Szablony',''], ['posts','Posty',''], ['mail','Maile', `<span class="cnt">${state.contacts.filter(c=>!c.sentAt).length}</span>`]];
+  const items = [['tpl','Szablony',''], ['posts','Posty',''], ['kom','Komentarze',''], ['mail','Maile', `<span class="cnt">${state.contacts.filter(c=>!c.sentAt).length}</span>`]];
   document.getElementById('nav').innerHTML = items.map(([k,l,x]) =>
     `<button class="${view===k?'active':''}" onclick="go('${k}')">${l}${x}</button>`).join('');
-  document.body.classList.toggle('zle', (view==='tpl' && tplGroup==='zle') || (view==='posts' && postGroup==='zle'));
+  document.body.classList.toggle('zle', (view==='tpl' && tplGroup==='zle') || (view==='posts' && postGroup==='zle') || (view==='kom' && komGroup==='zle'));
 }
 function go(v){ view=v; editTpl=null; render(); }
 function setGroup(g){ tplGroup=g; editTpl=null; render(); }
@@ -579,6 +652,133 @@ async function copyPost(id, btn){
     btn.textContent='✓ Skopiowano'; btn.classList.add('done');
     setTimeout(()=>{ btn.textContent='Kopiuj tekst posta'; btn.classList.remove('done'); }, 1400);
   }
+}
+
+// ---------- KOMENTARZE ----------
+const KOM_RULES = [
+  ['bezrys', /bez rysunk|nie mam (rysunk|pliku|dxf|projekt)|nie mam [a-ząćęłńóśźż ]{0,12}(rysunk|pliku|dxf)|zdj[eę]ci|fotk|szkic|narysowa|na kartce|odrysowa/i],
+  ['dxf', /\bdxf\b|\bdwg\b|\bstep\b|mam rysunek|mam plik|mam projekt|rysunek techniczny|plik cad/i],
+  ['malo', /\b1 ?szt|jedn[aą] sztuk|jeden (detal|element)|pojedyncz|kilka sztuk|par[eę] sztuk|ma[łl][aą] ilo[sś][cć]|prototyp/i],
+  ['cena', /ile (by|mo[zż]e|kosztuj|to|za)|\bcen[aęy]\b|koszt|wycen|za ile/i],
+  ['pilne', /pilne|pilnie|na jutro|na dzi[sś]|na wczoraj|asap|jak najszybciej|w tym tygodniu|szybk/i],
+  ['kilka', /kilka (r[oó][zż]nych )?(detal|element|cz[eę][sś]ci)|r[oó][zż]ne (detale|elementy|kszta[łl]ty)|komplet/i],
+  ['giecie', /gi[eę](ci|t)|gi[aą][cć]|zag(n|i[eęą])|zgi[eęą]|zgin|kraw[eę]dziark|wygi[eę]/i]
+];
+const KOM_RULES_WYK = [
+  ['sprzet', /fiber|\bco2\b|\d+ ?kw\b|trumpf|bystronic|amada|mazak|bodor|\bhsg\b|salvagnini|prima power|\d{4} ?x ?\d{4}|do \d+ ?mm|st[oó][łl] /i],
+  ['region', /okolic|wojew[oó]dztw|powiat|ca[łl][aą] polsk|w promieniu|\d+ ?km\b/i],
+  ['wgiecie', /gi[eę](ci|t)|gi[aą][cć]|zgin|kraw[eę]dziark|pras[aąy] krawęd/i]
+];
+const KOM_FIRM = /wolne moce|moc(e|y) przerob|przyjm(ę|e|iemy|ujemy) zleceni|szuka(m|my) zlece[nń]|oferuj(ę|e|emy)|[śs]wiadcz|us[łl]ug[aiy]? ci[eę]cia|dysponuj|posiada(m|my) (laser|wycinark)|mamy (wolny|laser|wycinark)|tniemy|wytniemy|zaprasza(m|my) do wsp[oó][łl]pracy|nawi[aą][zż]emy wsp/i;
+const KOM_SEEK = /kto (wytnie|zrobi|potnie)|szukam (kogo|firm)|potrzebuj|polec(ie|i)cie|gdzie (wytn|zleci)/i;
+const KOM_INFO = [
+  ['nierdzewka', /nierdzew|\binox|kwasoodp/i], ['aluminium', /\balu/i], ['ocynk', /ocynk/i],
+  ['stal czarna', /stal czarn|czarn[aą] stal|\bdc0?1\b|\bs235|\bs355/i], ['mosiądz / miedź', /mosi[aą]dz|mied[zź]/i],
+  ['plexi / sklejka', /plexi|pleksi|sklejk|\bmdf\b/i]
+];
+const WOJ = ['dolnośląskie','kujawsko-pomorskie','lubelskie','lubuskie','łódzkie','małopolskie','mazowieckie','opolskie','podkarpackie','podlaskie','pomorskie','śląskie','świętokrzyskie','warmińsko-mazurskie','wielkopolskie','zachodniopomorskie'];
+let komGroup = 'zle', komCat = 'ogolne', komPost = '', komUrl = '', komAlt = {}, komForce = '';
+function komAnalyze(text){
+  const aud = komForce || (KOM_FIRM.test(text) && !KOM_SEEK.test(text) ? 'wyk' : 'zle');
+  const cats = (aud==='wyk' ? KOM_RULES_WYK : KOM_RULES).filter(([,re])=>re.test(text)).map(([k])=>k);
+  if(cats.includes('bezrys') && cats.includes('dxf')) cats.splice(cats.indexOf('dxf'), 1);
+  const info = KOM_INFO.filter(([,re])=>re.test(text)).map(([k])=>k);
+  const mm = text.match(/(\d+(?:[.,]\d+)?)\s?mm\b/i); if(mm) info.push('grubość ' + mm[1] + ' mm');
+  const low = text.toLowerCase();
+  WOJ.forEach(w=>{ if(new RegExp('(?<![a-ząćęłńóśźż-])' + w.slice(0, w.length-3)).test(low)) info.push('woj. ' + w); });
+  if(aud==='wyk' && !cats.includes('region') && info.some(i=>i.startsWith('woj.'))) cats.push('region');
+  return {aud, cats, info};
+}
+function komNorm(u){
+  u = (u||'').trim(); if(!u) return '';
+  try{ const x = new URL(u.startsWith('http')?u:'https://'+u); return (x.hostname.replace(/^(www|m|web)\./,'') + x.pathname).replace(/\/+$/,'').toLowerCase(); }
+  catch(e){ return u.toLowerCase(); }
+}
+function komDone(u){ const n = komNorm(u); return n ? state.commented.find(c=>komNorm(c.url)===n) : null; }
+function komPick(cat){
+  const list = state.comments.filter(c=>c.cat===cat);
+  if(!list.length) return null;
+  let base = 0; list.forEach((c,i)=>{ if((c.uses||0) < (list[base].uses||0)) base = i; });
+  return list[(base + (komAlt[cat]||0)) % list.length];
+}
+function komSugHtml(){
+  const done = komDone(komUrl);
+  const warn = done ? `<div class="kom-warn">Ten post jest już skomentowany (${fmtDate(done.at)}). Lepiej nie komentować drugi raz.</div>` : '';
+  if(!komPost.trim()) return warn + `<div class="hint">Wklej treść posta, a pod spodem pojawią się pasujące komentarze.</div>`;
+  const {aud, cats, info} = komAnalyze(komPost);
+  const base = aud==='wyk' ? 'wolne' : 'ogolne';
+  const show = cats.concat(cats.includes(base)?[]:[base]).slice(0,4);
+  const audChip = aud==='wyk'
+    ? `<span class="chip aud wyk">🏭 Post firmy z laserem</span><button class="small ghost" onclick="komForce='zle';komRefresh()">to jednak ktoś, kto szuka cięcia</button>`
+    : `<span class="chip aud zle">📐 Ktoś szuka cięcia</span><button class="small ghost" onclick="komForce='wyk';komRefresh()">to jednak firma z laserem</button>`;
+  const chips = audChip + cats.map(k=>`<span class="chip on">${COMMENT_CATS[k].ic} ${COMMENT_CATS[k].name}</span>`).join('') + info.map(i=>`<span class="chip">${esc(i)}</span>`).join('');
+  return warn + `<div class="chips">${chips}</div>
+    <div class="grid">${show.map(k=>{ const c = komPick(k); if(!c) return ''; const n = state.comments.filter(x=>x.cat===k).length;
+      return `<div class="tpl kom ${COMMENT_CATS[k].g}">
+        <div class="tpl-head"><div class="tpl-name">${COMMENT_CATS[k].ic} ${COMMENT_CATS[k].name}</div></div>
+        <div class="tpl-body">${esc(c.text)}</div>
+        <div class="tpl-foot"><button class="primary" onclick="copyKom('${c.id}',this)">Kopiuj komentarz</button>${n>1?`<button onclick="komAlt['${k}']=(komAlt['${k}']||0)+1;komRefresh()">Inna wersja</button>`:''}<div class="spacer"></div><span class="uses">${c.uses?`użyto ${c.uses}×`:''}</span></div>
+      </div>`; }).join('')}</div>`;
+}
+function komRefresh(){ const el = document.getElementById('komSug'); if(el) el.innerHTML = komSugHtml(); }
+function renderComments(){
+  const list = state.comments.filter(c=>c.cat===komCat);
+  const cnt = k => state.comments.filter(c=>c.cat===k).length;
+  const hist = state.commented.slice().sort((a,b)=>(b.ts||0)-(a.ts||0));
+  return `
+  <div class="card kom-box">
+    <div class="tpl-name" style="margin-bottom:4px">Pod jakim postem komentujesz?</div>
+    <div class="hint" style="margin-bottom:12px">Wklej treść posta z grupy. Panel sam rozpozna, czy to ktoś, kto szuka cięcia, czy firma z laserem, która szuka zleceń. Link do posta jest opcjonalny: po skopiowaniu komentarza post trafi na listę skomentowanych i panel ostrzeże, gdy trafisz na niego drugi raz.</div>
+    <div class="row2">
+      <textarea id="komPost" rows="5" placeholder="Np. Szukam kogoś, kto wytnie 4 blaszki z nierdzewki 2 mm, mam tylko zdjęcie… albo: Mamy wolne moce na laserze fiber 6 kW, okolice Łodzi" oninput="komPost=this.value;komForce='';komRefresh()">${esc(komPost)}</textarea>
+      <div style="display:grid;gap:10px;align-content:start">
+        <input id="komUrl" placeholder="Link do posta (opcjonalnie)" value="${esc(komUrl)}" oninput="komUrl=this.value;komRefresh()">
+        <button onclick="komPost='';komUrl='';komAlt={};komForce='';render()">Wyczyść</button>
+      </div>
+    </div>
+    <div id="komSug" style="margin-top:16px">${komSugHtml()}</div>
+  </div>
+  <div class="stephint" style="margin:6px 0 12px"><span><b>Wszystkie komentarze.</b> Zmieniaj wersje: ten sam tekst wklejany w wielu grupach naraz Facebook może uznać za spam.</span></div>
+  <div class="who">
+    <button class="seek ${komGroup==='zle'?'active':''}" onclick="komSetGroup('zle')"><span class="ic">📐</span><span><b>Pod postami szukających cięcia</b><small>zaproszenie do dodania zlecenia</small></span></button>
+    <button class="firm ${komGroup==='wyk'?'active':''}" onclick="komSetGroup('wyk')"><span class="ic">🏭</span><span><b>Pod postami firm z laserem</b><small>konto, wybór województw, zlecenia na maila</small></span></button>
+  </div>
+  <div class="cats">${Object.entries(COMMENT_CATS).filter(([,v])=>v.g===komGroup).map(([k,v])=>`<button class="${komCat===k?'active':''}" onclick="komCat='${k}';render()">${v.ic} ${v.name}<span class="n">${cnt(k)}</span></button>`).join('')}</div>
+  <div class="grid">${list.map(c=>`
+    <div class="tpl kom ${komGroup}">
+      <textarea class="post-text" style="border-top:none;min-height:130px" oninput="updKom('${c.id}',this.value)">${esc(c.text)}</textarea>
+      <div class="tpl-foot"><button class="primary" onclick="copyKom('${c.id}',this)">Kopiuj komentarz</button><div class="spacer"></div><span class="uses">${c.uses?`użyto ${c.uses}×`:''}</span><button class="ghost danger" onclick="delKom('${c.id}')">Usuń</button></div>
+    </div>`).join('') || '<div class="card empty">Brak komentarzy w tej grupie.</div>'}
+    <button class="kom-add" onclick="addKom()">+ Nowy komentarz w grupie „${COMMENT_CATS[komCat].name}”</button>
+  </div>
+  <details class="card" style="margin-top:26px">
+    <summary>Skomentowane posty (${hist.length})</summary>
+    ${hist.length ? `<table><thead><tr><th>Data</th><th>Post</th><th class="hide-m">Komentarz</th><th></th></tr></thead><tbody>${hist.map(h=>`<tr>
+      <td>${fmtDate(h.at)}</td>
+      <td><a href="${esc(/^https?:/.test(h.url)?h.url:'https://'+h.url)}" target="_blank" rel="noopener">${esc(h.url.replace(/^https?:\/\/(www\.)?/,'').slice(0,60))}</a></td>
+      <td class="hide-m hint">${esc((h.text||'').slice(0,70))}${(h.text||'').length>70?'…':''}</td>
+      <td class="actions"><button class="small ghost danger" onclick="delKomHist('${h.id}')">✕</button></td></tr>`).join('')}</tbody></table>` : '<div class="hint">Jeszcze nic. Wpisz link do posta przed skopiowaniem komentarza, a pojawi się tutaj.</div>'}
+    <div style="margin-top:18px"><button onclick="resetKom()">Przywróć domyślne komentarze</button></div>
+  </details>`;
+}
+async function copyKom(id, btn){
+  const c = state.comments.find(x=>x.id===id); if(!c) return;
+  if(!(await copyText(c.text,'Skopiowano komentarz'))) return;
+  c.uses = (c.uses||0)+1;
+  if(komUrl.trim() && !komDone(komUrl)) state.commented.push({id:uid(), url:komUrl.trim(), at:today(), ts:Date.now(), text:c.text});
+  save();
+  btn.textContent='✓ Skopiowano'; btn.classList.add('done');
+  setTimeout(()=>render(), 1200);
+}
+function komSetGroup(g){ komGroup = g; komCat = g==='wyk' ? 'wolne' : 'ogolne'; render(); }
+function updKom(id, val){ const c = state.comments.find(x=>x.id===id); if(c){ c.text = val; save(); } }
+function addKom(){ state.comments.push({id:uid(), cat:komCat, text:''}); save(); render(); const t = document.querySelectorAll('.kom textarea'); if(t.length) t[t.length-1].focus(); }
+function delKom(id){ if(!confirm('Usunąć ten komentarz?')) return; state.comments = state.comments.filter(c=>c.id!==id); save(); render(); }
+function delKomHist(id){ state.commented = state.commented.filter(c=>c.id!==id); save(); render(); }
+function resetKom(){
+  if(!confirm('Przywrócić domyślne komentarze? Zmiany w nich zostaną nadpisane, Twoje własne zostaną.')) return;
+  DEFAULT_COMMENTS.forEach(d=>{ const i = state.comments.findIndex(c=>c.id===d.id); const copy = Object.assign({}, d); if(i>=0){ copy.uses = state.comments[i].uses; state.comments[i] = copy; } else state.comments.push(copy); });
+  save(); render(); toast('Przywrócono');
 }
 
 // ---------- EMAIL EXTRACTION ----------
@@ -810,7 +1010,7 @@ function exportCSV(){
 // ---------- RENDER ----------
 function render(){
   renderNav();
-  document.getElementById('main').innerHTML = view==='mail' ? renderMails() : view==='posts' ? renderPosts() : renderTemplates();
+  document.getElementById('main').innerHTML = view==='mail' ? renderMails() : view==='posts' ? renderPosts() : view==='kom' ? renderComments() : renderTemplates();
 }
 render();
 </script>
