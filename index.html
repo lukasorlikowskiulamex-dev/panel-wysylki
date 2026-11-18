@@ -297,7 +297,7 @@ Dodaj zlecenie: zlecenialaser.pl/dodaj-zlecenie`,
 • Twój numer widzi najwyżej 5 firm
 • zlecenie widzą firmy z Twojego województwa i z całej Polski
 • nie masz pliku DXF? Jest kalkulator ceny, generator DXF i sprawdzanie pliku`,
-  source:'', lastTpl:'', tplVer:TPL_VER, postVer:2, komVer:2
+  source:'', lastTpl:'', tplVer:TPL_VER, postVer:2, komVer:3
 };
 const DEFAULT_POSTS = [
   {id:'p1', group:'wyk', title:'Wszystkie zlecenia w jednym miejscu', img:'img/g1-wszystkie-zlecenia.jpg', canva:'https://canva.link/kkz6ggz28zkig4x', text:
@@ -423,7 +423,15 @@ const DEFAULT_COMMENTS = [
   {id:'kz2', cat:'kzle', text:'Witam,\nZapraszam do dodania zlecenia na zlecenialaser.pl/dodaj-zlecenie. Bez zakładania konta, oferty od firm w jednym miejscu.'},
   {id:'kz3', cat:'kzle', text:'Witam,\nNa zlecenialaser.pl dodasz zlecenie na cięcie laserem i porównasz oferty firm z całej Polski. Zapraszam.'},
   {id:'kz4', cat:'kzle', text:'Dzień dobry,\nZapraszam na zlecenialaser.pl. Opisujesz detal raz, a firmy z laserem same odzywają się z ceną.'},
-  {id:'kz5', cat:'kzle', text:'Witam,\nZapraszam na zlecenialaser.pl. Wystawiasz zlecenie na cięcie, a firmy wyceniają je bez dopytywania.'}
+  {id:'kz5', cat:'kzle', text:'Witam,\nZapraszam na zlecenialaser.pl. Wystawiasz zlecenie na cięcie, a firmy wyceniają je bez dopytywania.'},
+  {id:'kw7', cat:'kwyk', text:'Zapraszam Was do grona firm, które aktywnie poszukują zleceń na zlecenialaser.pl, wszystkie dane podane przez klienta bez domyślania - tylko ciąć i wysyłać :)'},
+  {id:'kw8', cat:'kwyk', text:'Zapraszam na zlecenialaser.pl. Klient od razu podaje wymiary, materiał, grubość i ilość, więc nie ma dopytywania. Wyceniacie, tniecie i wysyłacie :)'},
+  {id:'kw9', cat:'kwyk', text:'Szukacie zleceń na laser? Zapraszam na zlecenialaser.pl. Wszystko podane przez klienta od razu, bez zgadywania, co autor miał na myśli :)'},
+  {id:'kw10', cat:'kwyk', text:'Zapraszam Was na zlecenialaser.pl, do firm, które biorą zlecenia na cięcie z całej Polski. Komplet danych od klienta, zostaje tylko ciąć :)'},
+  {id:'kw11', cat:'kwyk', text:'Dołączcie do firm, które szukają zleceń na zlecenialaser.pl. Rysunek, materiał, grubość i ilość są w zleceniu od początku, bez maili w tę i z powrotem :)'},
+  {id:'kw12', cat:'kwyk', text:'Zapraszam na zlecenialaser.pl. Zlecenia na cięcie z kompletem danych, bez telefonów z pytaniem „a jaka grubość?” :)'},
+  {id:'kz6', cat:'kzle', text:'Zapraszam na zlecenialaser.pl. Podajesz wszystko raz: wymiary, materiał, grubość i ilość, a firmy z laserem tylko wyceniają, tną i wysyłają :)'},
+  {id:'kz7', cat:'kzle', text:'Dodaj zlecenie na zlecenialaser.pl i masz spokój. Firmy widzą komplet danych, więc nikt nie dzwoni z pytaniami, tylko przysyłają ceny :)'}
 ];
 
 let state = load();
@@ -446,9 +454,9 @@ function load(){
         if(!Array.isArray(s.posts)) s.posts = JSON.parse(JSON.stringify(DEFAULT_POSTS));
         if(!Array.isArray(s.comments)) s.comments = JSON.parse(JSON.stringify(DEFAULT_COMMENTS));
         if(!Array.isArray(s.commented)) s.commented = [];
-        if(!(s.settings.komVer >= 2)){
+        if(!(s.settings.komVer >= 3)){
           DEFAULT_COMMENTS.forEach(d=>{ if(!s.comments.some(c=>c.id===d.id)) s.comments.push(Object.assign({}, d)); });
-          s.settings.komVer = 2;
+          s.settings.komVer = 3;
         }
         if(!(s.settings.postVer >= 2)){
           DEFAULT_POSTS.forEach(d=>{ if(!s.posts.some(p=>p.id===d.id)) s.posts.push(JSON.parse(JSON.stringify(d))); });
