@@ -43,6 +43,11 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--acc-soft);border
 .hint{color:var(--muted);font-size:14px}
 
 .who{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.who.who3{grid-template-columns:repeat(3,1fr)}
+.who button.ordb.active{border-color:#7c3aed;background:#f3eefe}
+.who button.ordb.active b{color:#6d28d9}
+.ord-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;align-content:start}
+.ord-fields .f{margin:0}
 .who button{display:flex;align-items:center;gap:14px;text-align:left;padding:16px 20px;border:2px solid var(--line);border-radius:var(--r);background:#fff}
 .who button .ic{font-size:28px;line-height:1}
 .who button b{display:block;font-size:19px}
@@ -145,7 +150,7 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 .kom-warn{background:#fdecec;color:var(--bad);border-radius:10px;padding:10px 14px;font-weight:600;margin-bottom:12px}
 .kom-add{border:2px dashed var(--line);border-radius:var(--r);background:transparent;color:var(--muted);font-weight:700;min-height:120px}
 .kom-add:hover{border-color:var(--acc);color:var(--acc)}
-@media(max-width:800px){.hide-m{display:none}.row2,.who{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+@media(max-width:800px){.hide-m{display:none}.row2,.who,.who.who3,.ord-fields{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -720,13 +725,136 @@ function delFilm(id){
 
 // ---------- POSTS ----------
 let postGroup = 'wyk';
+// ---------- NOWE ZLECENIE (generator postów) ----------
+const ORD_FIELDS = [
+  ['title','Co to jest','np. Kryza ze stali nierdzewnej'],
+  ['material','Materiał','np. Nierdzewna 304'],
+  ['gr','Grubość','np. 10 mm'],
+  ['qty','Ilość','np. 10 szt.'],
+  ['loc','Lokalizacja','np. Kościan, woj. wielkopolskie'],
+  ['termin','Termin','np. 20.11 albo pusto'],
+  ['odbior','Odbiór','Wysyłka / Odbiór osobisty'],
+  ['matBy','Materiał dostarcza','np. Materiał po stronie wykonawcy'],
+  ['rys','Rysunek','np. rysunek w pliku JPG'],
+  ['tech','Technologia','dowolna / laser fiber / plazma…']
+];
+let ord = {link:'', raw:'', nr:'', title:'', material:'', gr:'', qty:'', loc:'', termin:'', odbior:'', matBy:'', rys:'', tech:'', opis:'', offers:null};
+function ordParse(){
+  const o = ord, raw = (o.raw||'');
+  const lm = (o.link + ' ' + raw).match(/(https?:\/\/)?(www\.)?zlecenialaser\.pl\/zlecenie\/([^\s\/?#]+)\/?/i);
+  if(lm){ o.link = 'https://zlecenialaser.pl/zlecenie/' + lm[3] + '/'; const n = lm[3].match(/-(\d+)$/); if(n) o.nr = n[1];
+    if(!o.title){ const w = lm[3].replace(/-\d+$/,'').replace(/-/g,' '); o.title = w.charAt(0).toUpperCase() + w.slice(1); } }
+  if(!raw.trim()) return;
+  const text = raw.split(/Inne aktualne zlecenia/i)[0];
+  const L = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  const hi = L.findIndex(l=>/Zlecenie nr\s*\d+/i.test(l));
+  const after = lab => { const i = L.findIndex(l=>l.toLowerCase()===lab); return i>=0 && L[i+1] ? L[i+1] : ''; };
+  if(hi>=0){
+    const h = L[hi], m = h.match(/Zlecenie nr\s*(\d+)\s*,?\s*(.*)$/i);
+    if(m){ o.nr = m[1]; const parts = m[2].split(',').map(s=>s.trim()).filter(p=>p && !/dodane|temu|^\d/i.test(p)); if(parts.length) o.loc = parts.join(', '); }
+    if(L[hi+1]) o.title = L[hi+1];
+    o.gr = ''; o.qty = ''; o.material = '';
+    for(let i=hi+2; i<Math.min(L.length, hi+7); i++){
+      const l = L[i];
+      if(/^opis$/i.test(l) || /^rysunek|^bez rysunku/i.test(l)) break;
+      if(!o.gr && /^\d+([.,]\d+)?\s*mm$/i.test(l)) o.gr = l.replace(/\s*mm$/i,' mm');
+      else if(!o.qty && /^\d+\s*szt/i.test(l)) o.qty = l;
+      else if(!o.material) o.material = l;
+    }
+  }
+  const rm = text.match(/Rysunek jest w pliku\s+(\w+)/i);
+  o.rys = rm ? 'rysunek w pliku ' + rm[1].toUpperCase() : (/bez rysunku/i.test(L.slice(0, hi>=0?hi+1:3).join(' ')) ? 'bez rysunku' : (/\bdxf\b/i.test(text) ? 'plik DXF' : o.rys));
+  o.tech = after('technologia') || o.tech;
+  o.matBy = after('materiał dostarcza') || o.matBy;
+  o.odbior = after('odbiór') || o.odbior;
+  const t = after('termin');
+  if(t){ if(/bez terminu/i.test(t)) o.termin = ''; else { const d = t.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/); o.termin = d ? (d[3]==String(new Date().getFullYear()) ? d[1].padStart(2,'0')+'.'+d[2].padStart(2,'0') : d[1].padStart(2,'0')+'.'+d[2].padStart(2,'0')+'.'+d[3]) : t.replace(/\s*\(.*\)$/,''); } }
+  if(!o.loc) o.loc = after('lokalizacja');
+  const oi = L.findIndex(l=>l.toLowerCase()==='opis');
+  if(oi>=0){ const stop = /^(technologia|materiał dostarcza|odbiór|termin|lokalizacja|zleceniodawca)$/i; const op=[]; for(let i=oi+1;i<L.length && !stop.test(L[i]);i++) op.push(L[i]); o.opis = op.join(' '); }
+  const om = text.match(/Oferty wykonawców\s*(\d+)/i); o.offers = om ? +om[1] : null;
+}
+function ordLow(s){ s = (s||'').trim(); return /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]/.test(s) ? s[0].toLowerCase()+s.slice(1) : s; }
+function ordDot(s){ return /[.!?]$/.test(s) ? s : s + '.'; }
+function ordTexts(){
+  const o = ord, link = o.link || 'zlecenialaser.pl/zlecenia';
+  const spec = [o.material && ordLow(o.material), o.gr, o.qty].filter(Boolean).join(', ');
+  const title0 = (o.title||'Nowe zlecenie na cięcie').trim();
+  const title = (o.gr ? title0.replace(/\s*\b\d+([.,]\d+)?\s?mm\b/gi,'') : title0).trim() || title0;
+  const matTok = (o.material||'').toLowerCase().split(/[^a-z0-9ąćęłńóśźż]+/).filter(t=>t.length>=3);
+  const matInTitle = matTok.length && matTok.every(t=>title.toLowerCase().includes(/\d/.test(t) ? t : t.slice(0,6)));
+  const sspec = [!matInTitle && o.material && ordLow(o.material), o.gr, o.qty].filter(Boolean).join(', ');
+  const ship = /wysy/i.test(o.odbior), pick = /osobi/i.test(o.odbior);
+  const woj = ((o.loc||'').match(/woj\.\s*([a-ząćęłńóśźż-]+)/i)||[])[1] || '';
+  const wojGen = woj ? woj.replace(/ie$/,'iego') : '';
+  const tech = o.tech && !/dowoln/i.test(o.tech) ? o.tech : '';
+  const machine = /plazm/i.test(tech) ? 'plazmie' : /water|wod/i.test(tech) ? 'waterjecie' : /gię|gie/i.test(tech) ? 'prasie' : 'laserze';
+  const termin = o.termin ? 'termin ' + o.termin : '';
+  const shipNote = ship ? 'Klient chce wysyłkę, więc nie musicie być z okolicy.' : pick ? 'Odbiór osobisty, więc najlepiej dla firm z okolicy.' : '';
+  const titleWords = (title+' '+spec).toLowerCase();
+  const extra = (o.opis||'').split(/[^a-ząćęłńóśźż]+/i).filter(w=>w.length>3 && !/grubo|sztuk|szt|mm/i.test(w) && !titleWords.includes(w.toLowerCase()));
+  const opisLine = o.opis && o.opis.length<=200 && extra.length>=3 ? `💬 „${o.opis}”` : '';
+  const v = [];
+  v.push(['Konkret z ikonkami', [
+    'Nowe zlecenie na zlecenialaser.pl 🔥', title0,
+    spec && '🔩 ' + spec,
+    (o.loc || o.odbior) && '📍 ' + [o.loc, ship?'odbiór wysyłką':pick?'odbiór osobisty':ordLow(o.odbior)].filter(Boolean).join(', '),
+    '📅 ' + (o.termin ? 'termin: ' + o.termin : 'bez sztywnego terminu'),
+    [o.rys, o.matBy && ordLow(o.matBy)].filter(Boolean).length ? '📎 ' + [o.rys, o.matBy && ordLow(o.matBy)].filter(Boolean).join(', ') : '',
+    tech && '⚙️ technologia: ' + ordLow(tech),
+    opisLine,
+    'Kontakt do klienta zobaczy najwyżej 5 firm.',
+    '👉 ' + link].filter(Boolean).join('\n')]);
+  v.push(['Pytanie do grupy', `Wolne moce na ${machine}? Jest nowe zlecenie: ${ordLow(title)}${sspec?' ('+sspec+')':''}${termin?', '+termin:''}. ${shipNote}${shipNote?' ':''}Szczegóły${/rysunek|dxf/i.test(o.rys)?' i rysunek':''}:\n${link}`]);
+  v.push(['Krótko', ordDot(`Świeże zlecenie: ${ordLow(title)}${sspec?', '+sspec:''}${termin?', '+termin:''}${ship?', wysyłka':''}`) + `\n${link}`]);
+  if(wojGen) v.push(['Z regionu', ordDot(`Ktoś z ${wojGen} albo okolic? Nowe zlecenie na cięcie: ${ordLow(title)}${sspec?', '+sspec:''}${termin?', '+termin:''}`) + `${ship?' Odbiór wysyłką, więc firmy z innych województw też mogą brać.':''}\n${link}`]);
+  v.push(['Zlecenie i zaproszenie do konta', ordDot(`Nowe zlecenie na cięcie: ${ordLow(title)}${sspec?', '+sspec:''}${o.loc?', '+o.loc:''}${termin?', '+termin:''}`) + `\nTakie zlecenia mogą przychodzić Wam od razu na maila: zakładacie konto na zlecenialaser.pl/moje-konto i zaznaczacie województwa, które Was interesują.\nTo zlecenie: ${link}`]);
+  if(o.offers===0) v.push(['Na razie bez ofert', ordDot(`Pierwsza oferta ma największą szansę, a do tego zlecenia jeszcze nikt jej nie złożył: ${ordLow(title)}${sspec?', '+sspec:''}${termin?', '+termin:''}`) + `\n${link}`]);
+  return v;
+}
+function ordOutHtml(){
+  if(!ord.link && !ord.title) return '<div class="hint">Wklej link do zlecenia albo treść jego strony, a tutaj pojawią się gotowe opisy posta.</div>';
+  const warn = ord.link ? '' : '<div class="kom-warn">Brak linku do zlecenia. Wklej go w pierwsze pole, inaczej w poście będzie ogólny link do listy zleceń.</div>';
+  return warn + `<div class="grid">${ordTexts().map(([n,t],i)=>`<div class="tpl">
+    <div class="tpl-head"><div class="tpl-name">${esc(n)}</div>${n==='Na razie bez ofert'?'<div class="tpl-subj" style="padding:4px 0 0">Sprawdź przed wklejeniem, czy dalej nikt nie złożył oferty</div>':''}</div>
+    <div class="tpl-body">${esc(t)}</div>
+    <div class="tpl-foot"><button class="primary" onclick="copyOrd(${i},this)">Kopiuj opis</button></div></div>`).join('')}</div>`;
+}
+function ordRefresh(){ const el = document.getElementById('ordOut'); if(el) el.innerHTML = ordOutHtml(); }
+function ordSet(k,v){ ord[k]=v; ordRefresh(); }
+function ordFill(){ ORD_FIELDS.forEach(([k])=>{ const el = document.getElementById('ord_'+k); if(el) el.value = ord[k]||''; }); const l = document.getElementById('ordLink'); if(l && document.activeElement!==l) l.value = ord.link; }
+function ordInput(k,v){ ord[k]=v; if(k==='link'){ ord.title=''; } ordParse(); ordFill(); ordRefresh(); }
+function ordClear(){ ord = {link:'', raw:'', nr:'', title:'', material:'', gr:'', qty:'', loc:'', termin:'', odbior:'', matBy:'', rys:'', tech:'', opis:'', offers:null}; render(); }
+async function copyOrd(i, btn){
+  const t = ordTexts()[i]; if(!t) return;
+  if(await copyText(t[1],'Skopiowano opis posta')){ btn.textContent='✓ Skopiowano'; btn.classList.add('done'); setTimeout(()=>{ btn.textContent='Kopiuj opis'; btn.classList.remove('done'); },1400); }
+}
+function renderOrderGen(){
+  return `<div class="card kom-box" style="border-color:#7c3aed">
+    <div class="tpl-name" style="margin-bottom:4px">Nowe zlecenie na portalu</div>
+    <div class="hint" style="margin-bottom:12px">1. Wklej link do zlecenia. 2. Otwórz zlecenie, zaznacz całą stronę (Ctrl+A), skopiuj (Ctrl+C) i wklej w duże pole. Panel sam odczyta materiał, grubość, ilość, termin i resztę. Wszystko możesz poprawić w polach niżej.</div>
+    <div class="row2">
+      <div style="display:grid;gap:10px;align-content:start">
+        <input id="ordLink" placeholder="Link do zlecenia, np. https://zlecenialaser.pl/zlecenie/…" value="${esc(ord.link)}" oninput="ordInput('link',this.value)">
+        <textarea id="ordRaw" rows="6" placeholder="Tu wklej skopiowaną stronę zlecenia (Ctrl+A, Ctrl+C)" oninput="ordInput('raw',this.value)">${esc(ord.raw)}</textarea>
+      </div>
+      <div class="ord-fields">${ORD_FIELDS.map(([k,l,ph])=>`<label class="f">${l}<input id="ord_${k}" placeholder="${esc(ph)}" value="${esc(ord[k]||'')}" oninput="ordSet('${k}',this.value)"></label>`).join('')}
+        <button onclick="ordClear()">Wyczyść</button></div>
+    </div>
+  </div>
+  <div id="ordOut" style="margin-top:18px">${ordOutHtml()}</div>`;
+}
+
 function renderPosts(){
   const list = state.posts.filter(p=>p.group===postGroup);
-  return `
-  <div class="who">
+  const who = `
+  <div class="who who3">
     <button class="firm ${postGroup==='wyk'?'active':''}" onclick="postGroup='wyk';render()"><span class="ic">🏭</span><span><b>Posty dla firm z laserem</b><small>grupy laserowe, CNC, ślusarskie</small></span></button>
     <button class="seek ${postGroup==='zle'?'active':''}" onclick="postGroup='zle';render()"><span class="ic">📐</span><span><b>Posty dla szukających cięcia</b><small>grupy majsterkowiczów, warsztatów, budowlane</small></span></button>
-  </div>
+    <button class="ordb ${postGroup==='nowe'?'active':''}" onclick="postGroup='nowe';render()"><span class="ic">🆕</span><span><b>Nowe zlecenie na portalu</b><small>opis posta z linkiem do zlecenia</small></span></button>
+  </div>`;
+  if(postGroup==='nowe') return who + renderOrderGen();
+  return who + `
   <div class="stephint" style="margin:0 0 18px"><span>Grafiki z Canvy z gotowym tekstem. Pobierz grafikę, skopiuj tekst i wrzuć jako post. Tekst możesz poprawić w polu pod grafiką.</span></div>
   <div class="grid">${list.map(p=>`
     <div class="tpl">
