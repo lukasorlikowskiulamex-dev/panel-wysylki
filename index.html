@@ -297,7 +297,7 @@ Dodaj zlecenie: zlecenialaser.pl/dodaj-zlecenie`,
 • Twój numer widzi najwyżej 5 firm
 • zlecenie widzą firmy z Twojego województwa i z całej Polski
 • nie masz pliku DXF? Jest kalkulator ceny, generator DXF i sprawdzanie pliku`,
-  source:'', lastTpl:'', tplVer:TPL_VER, postVer:2
+  source:'', lastTpl:'', tplVer:TPL_VER, postVer:2, komVer:2
 };
 const DEFAULT_POSTS = [
   {id:'p1', group:'wyk', title:'Wszystkie zlecenia w jednym miejscu', img:'img/g1-wszystkie-zlecenia.jpg', canva:'https://canva.link/kkz6ggz28zkig4x', text:
@@ -361,6 +361,7 @@ zlecenialaser.pl/dodaj-zlecenie`}
 
 const COMMENT_CATS = {
   ogolne:{g:'zle', ic:'💬', name:'Kto wytnie?'},
+  kzle:{g:'zle', ic:'⚡', name:'Krótkie zaproszenie'},
   bezrys:{g:'zle', ic:'✏️', name:'Nie ma rysunku'},
   dxf:{g:'zle', ic:'📄', name:'Ma rysunek / DXF'},
   malo:{g:'zle', ic:'🔹', name:'Jedna sztuka, mało'},
@@ -370,6 +371,7 @@ const COMMENT_CATS = {
   giecie:{g:'zle', ic:'📐', name:'Gięcie też'},
   odp:{g:'zle', ic:'↩️', name:'Odpowiedzi na pytania'},
   wolne:{g:'wyk', ic:'🏭', name:'Szukają zleceń'},
+  kwyk:{g:'wyk', ic:'⚡', name:'Krótkie zaproszenie'},
   sprzet:{g:'wyk', ic:'⚙️', name:'Opisują maszynę'},
   region:{g:'wyk', ic:'📍', name:'Podali region'},
   wgiecie:{g:'wyk', ic:'📐', name:'Mają też gięcie'},
@@ -410,7 +412,18 @@ const DEFAULT_COMMENTS = [
   {id:'w9', cat:'wodp', text:'Zlecenia przeglądacie bez konta: zlecenialaser.pl/zlecenia. Płacicie dopiero za kontakt do klienta, którego zlecenie Was interesuje.'},
   {id:'w10', cat:'wodp', text:'Zlecenia dodają ludzie i firmy, które szukają cięcia. Każde ma rysunek albo szkic z wymiarami, materiał, grubość i ilość.'},
   {id:'w11', cat:'wodp', text:'Kontakt do jednego klienta widzi najwyżej 5 firm, więc nie walczycie z całą Polską o każde zlecenie.'},
-  {id:'w12', cat:'wodp', text:'Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie województwa, z których chcecie zlecenia, i tyle. Nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Was interesują.'}
+  {id:'w12', cat:'wodp', text:'Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie województwa, z których chcecie zlecenia, i tyle. Nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Was interesują.'},
+  {id:'kw1', cat:'kwyk', text:'Witam,\nZapraszam do dołączenia na zlecenialaser.pl, zlecenia cięcia laserowego z całej Polski do wyboru.'},
+  {id:'kw2', cat:'kwyk', text:'Witam,\nZapraszam na zlecenialaser.pl. Zlecenia na cięcie laserem z całej Polski, wybieracie tylko te, które Wam pasują.'},
+  {id:'kw3', cat:'kwyk', text:'Witam,\nZapraszam do założenia konta na zlecenialaser.pl. Zaznaczacie swoje województwa i zlecenia na cięcie przychodzą na maila.'},
+  {id:'kw4', cat:'kwyk', text:'Witam,\nNa zlecenialaser.pl są zlecenia na cięcie laserem gotowe do wyceny: wymiary, materiał, ilość. Zapraszam.'},
+  {id:'kw5', cat:'kwyk', text:'Witam,\nZapraszam na zlecenialaser.pl. Zlecenia cięcia laserowego z Waszego regionu, bez dopytywania klienta o szczegóły.'},
+  {id:'kw6', cat:'kwyk', text:'Dzień dobry,\nZapraszam do dołączenia na zlecenialaser.pl. Zlecenia cięcia laserowego z całej Polski w jednym miejscu.'},
+  {id:'kz1', cat:'kzle', text:'Witam,\nZapraszam na zlecenialaser.pl. Dodajesz zlecenie na cięcie laserem, a firmy z całej Polski same przysyłają oferty.'},
+  {id:'kz2', cat:'kzle', text:'Witam,\nZapraszam do dodania zlecenia na zlecenialaser.pl/dodaj-zlecenie. Bez zakładania konta, oferty od firm w jednym miejscu.'},
+  {id:'kz3', cat:'kzle', text:'Witam,\nNa zlecenialaser.pl dodasz zlecenie na cięcie laserem i porównasz oferty firm z całej Polski. Zapraszam.'},
+  {id:'kz4', cat:'kzle', text:'Dzień dobry,\nZapraszam na zlecenialaser.pl. Opisujesz detal raz, a firmy z laserem same odzywają się z ceną.'},
+  {id:'kz5', cat:'kzle', text:'Witam,\nZapraszam na zlecenialaser.pl. Wystawiasz zlecenie na cięcie, a firmy wyceniają je bez dopytywania.'}
 ];
 
 let state = load();
@@ -428,11 +441,15 @@ function load(){
     if(raw){
       const s = JSON.parse(raw);
       if(s && Array.isArray(s.contacts) && Array.isArray(s.templates)){
-        s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1, postVer:1}, s.settings||{});
+        s.settings = Object.assign({}, DEFAULT_SETTINGS, {tplVer:1, postVer:1, komVer:1}, s.settings||{});
         if(!Array.isArray(s.films)) s.films = JSON.parse(JSON.stringify(DEFAULT_FILMS));
         if(!Array.isArray(s.posts)) s.posts = JSON.parse(JSON.stringify(DEFAULT_POSTS));
         if(!Array.isArray(s.comments)) s.comments = JSON.parse(JSON.stringify(DEFAULT_COMMENTS));
         if(!Array.isArray(s.commented)) s.commented = [];
+        if(!(s.settings.komVer >= 2)){
+          DEFAULT_COMMENTS.forEach(d=>{ if(!s.comments.some(c=>c.id===d.id)) s.comments.push(Object.assign({}, d)); });
+          s.settings.komVer = 2;
+        }
         if(!(s.settings.postVer >= 2)){
           DEFAULT_POSTS.forEach(d=>{ if(!s.posts.some(p=>p.id===d.id)) s.posts.push(JSON.parse(JSON.stringify(d))); });
           s.settings.postVer = 2;
@@ -707,7 +724,7 @@ function komSugHtml(){
   if(!komPost.trim()) return warn + `<div class="hint">Wklej treść posta, a pod spodem pojawią się pasujące komentarze.</div>`;
   const {aud, cats, info} = komAnalyze(komPost);
   const base = aud==='wyk' ? 'wolne' : 'ogolne';
-  const show = cats.concat(cats.includes(base)?[]:[base]).slice(0,4);
+  const show = [...new Set(cats.concat([base, aud==='wyk' ? 'kwyk' : 'kzle']))].slice(0,5);
   const audChip = aud==='wyk'
     ? `<span class="chip aud wyk">🏭 Post firmy z laserem</span><button class="small ghost" onclick="komForce='zle';komRefresh()">to jednak ktoś, kto szuka cięcia</button>`
     : `<span class="chip aud zle">📐 Ktoś szuka cięcia</span><button class="small ghost" onclick="komForce='wyk';komRefresh()">to jednak firma z laserem</button>`;
