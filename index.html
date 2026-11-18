@@ -51,13 +51,14 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--acc-soft);border
 .who button.firm.active b{color:#c2410c}
 .who button.seek.active{border-color:var(--seek);background:var(--seek-soft)}
 .who button.seek.active b{color:#0f766e}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
 .steps button{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;border:2px solid transparent;background:#e7e9ee;font-weight:700;font-size:16px;color:#3b4456}
 .steps .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;font-size:15px}
 .steps .n{margin-left:auto;font-weight:600;color:var(--muted);font-size:14px}
 .steps button.hook.active{background:var(--hook);color:#fff}
 .steps button.reply.active{background:var(--reply);color:#fff}
 .steps button.follow.active{background:var(--follow);color:#fff}
+.steps button.mail.active{background:#7c3aed;color:#fff}
 .steps button.active .num{color:var(--ink)}
 .steps button.active .n{color:rgba(255,255,255,.85)}
 .steps button:not(.active):hover{background:#dde0e7}
@@ -67,7 +68,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--acc-soft);border
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:18px}
 @media(max-width:560px){.grid{grid-template-columns:1fr}}
 .tpl{background:#fff;border:1px solid var(--line);border-top:5px solid var(--hook);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden}
-.tpl.reply{border-top-color:var(--reply)} .tpl.follow{border-top-color:var(--follow)}
+.tpl.reply{border-top-color:var(--reply)} .tpl.follow{border-top-color:var(--follow)} .tpl.mail{border-top-color:#7c3aed}
 .tpl-head{padding:16px 18px 0}
 .tpl-name{font-weight:800;font-size:18px}
 .tpl-subj{padding:4px 18px 0;font-size:14px;color:var(--muted)}
@@ -194,13 +195,14 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 
 <script>
 const LS_KEY = 'zlecenialaser_panel_v2';
-const TPL_VER = 4;
+const TPL_VER = 5;
 const GROUPS = {wyk:'Firmy z laserem', zle:'Szukający cięcia'};
-const TYPES = {hook:'Pierwsza wiadomość', reply:'Odpowiedzi', follow:'Przypomnienia'};
+const TYPES = {hook:'Pierwsza wiadomość', reply:'Odpowiedzi', follow:'Przypomnienia', mail:'Maile do firm'};
 const TYPE_HINT = {
   hook:'Wysyłasz jako pierwszą. Na końcu dochodzi lista funkcji portalu i podpis z linkiem.',
   reply:'Gdy ktoś odpisze, wybierz odpowiedź pasującą do tego, o co pyta.',
-  follow:'Po kilku dniach bez odpowiedzi, jedno krótkie przypomnienie.'
+  follow:'Po kilku dniach bez odpowiedzi, jedno krótkie przypomnienie.',
+  mail:'Pełne maile z tematem, każdy z innym argumentem. Podpis z linkiem dochodzi sam. Wysyłasz je z zakładki Maile.'
 };
 
 const DEFAULT_FILMS = [
@@ -255,6 +257,71 @@ Zapraszam na zlecenialaser.pl. To miejsce, gdzie firmy znajdą ogłoszenia, a lu
 `Rozumiem, dzięki za odpowiedź. Konto nic nie kosztuje, więc może się przydać w spokojniejszy tydzień. Pozdrawiam.`},
   {id:'f1', group:'wyk', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, wracam jeszcze do zlecenialaser.pl. Jak to nie dla Was, nie ma sprawy, więcej nie piszę.`},
+  {id:'m1', group:'wyk', type:'mail', name:'Zlecenia z Waszego województwa na maila', subject:'Zlecenia na cięcie laserem z Waszego województwa', text:
+`Dzień dobry,
+
+zapraszam Waszą firmę na zlecenialaser.pl. To portal, na którym ludzie i firmy wystawiają zlecenia na cięcie laserem, a firmy z laserami wybierają te, które im pasują.
+
+Jak to działa:
+• zakładacie konto na zlecenialaser.pl/moje-konto
+• zaznaczacie województwa, z których chcecie dostawać zlecenia
+• nowe zlecenia z tego obszaru przychodzą Wam na maila
+• bierzecie tylko te, które Was interesują
+
+Konto zakładacie raz, a nowe zlecenia same do Was trafiają.`},
+  {id:'m2', group:'wyk', type:'mail', name:'Klient podaje wszystko od razu', subject:'Zlecenia, w których klient od razu podaje wszystko', text:
+`Dzień dobry,
+
+ile czasu schodzi Wam na wyciąganie od klienta grubości, materiału i ilości, zanim w ogóle coś wycenicie?
+
+Na zlecenialaser.pl każde zlecenie ma to od początku: rysunek albo szkic z wymiarami, materiał, grubość i ilość. Bez domyślania się. Wyceniacie, tniecie i wysyłacie.
+
+Zapraszam do założenia konta na zlecenialaser.pl/moje-konto. Zaznaczacie swój obszar, nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Wam pasują.`},
+  {id:'m3', group:'wyk', type:'mail', name:'Najwyżej 5 firm na zlecenie', subject:'Zlecenie, o które nie walczy cała Polska', text:
+`Dzień dobry,
+
+pod jednym postem „kto wytnie?” na Facebooku odzywa się zwykle mnóstwo firm i wygrywa ten, kto pierwszy zadzwoni.
+
+Na zlecenialaser.pl jest inaczej: kontakt do klienta przy danym zleceniu widzi najwyżej 5 firm. Mniej przepychanki, większa szansa, że robotę dostaniecie Wy.
+
+Zapraszam do założenia konta na zlecenialaser.pl/moje-konto. Zaznaczacie województwa, z których chcecie zlecenia, i wybieracie tylko te, które Was interesują.`},
+  {id:'m4', group:'wyk', type:'mail', name:'Najpierw zobaczcie zlecenia', subject:'Zobaczcie zlecenia na cięcie, zanim cokolwiek założycie', text:
+`Dzień dobry,
+
+zanim cokolwiek zakładacie, zobaczcie, jakie zlecenia na cięcie laserem są teraz na zlecenialaser.pl:
+zlecenialaser.pl/zlecenia
+
+Przeglądanie nic nie kosztuje i nie wymaga konta. Jeśli coś Wam podpasuje, zakładacie konto, zaznaczacie województwa i dostajecie powiadomienia o nowych zleceniach na maila. Płacicie dopiero za kontakt do klienta przy zleceniu, które chcecie wziąć. Bez abonamentu.`},
+  {id:'m5', group:'wyk', type:'mail', name:'Pod Waszą maszynę i wycena z DXF', subject:'Tylko zlecenia, które zrobicie na swojej maszynie', text:
+`Dzień dobry,
+
+zapraszam na zlecenialaser.pl, portal ze zleceniami na cięcie z całej Polski. Dwie rzeczy, które oszczędzają najwięcej czasu:
+
+• filtry po materiale, grubości i technologii (laser fiber, CO2, plazma, waterjet, gięcie), więc widzicie tylko to, co zrobicie na swojej maszynie
+• przy zleceniach z plikiem DXF portal sam podpowiada cenę na podstawie Waszych stawek, Wy ją tylko sprawdzacie i wysyłacie ofertę
+
+Konto założycie tutaj: zlecenialaser.pl/moje-konto. Zaznaczacie województwa i wybieracie tylko interesujące zlecenia.`},
+  {id:'m6', group:'wyk', type:'mail', name:'Wolne moce na laserze (z filmem)', subject:'Wolne moce na laserze? Tu są zlecenia', film:'j4YSCj9U5F8', text:
+`Dzień dobry,
+
+jeśli laser ma czasem przestoje, warto mieć pod ręką zlecenialaser.pl. Ludzie i firmy wystawiają tam zlecenia na cięcie gotowe do wyceny, a Wy wybieracie te, które pasują Wam terminem i materiałem.
+
+Tu krótki film, jak to wygląda:
+{film}
+
+Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie swój obszar i nowe zlecenia przychodzą na maila.`},
+  {id:'m7', group:'wyk', type:'mail', name:'Forum pomocy przy maszynach', subject:'Forum dla tych, którzy tną laserem na co dzień', text:
+`Dzień dobry,
+
+na zlecenialaser.pl oprócz zleceń na cięcie jest forum pomocy przy maszynach: gazy, zadziory, przebijanie grubej blachy, przygotowanie plików DXF. Odpowiadają ludzie, którzy pracują na laserach na co dzień.
+
+Przy okazji zapraszam do założenia konta firmy: zlecenialaser.pl/moje-konto. Zaznaczacie województwa, z których chcecie dostawać zlecenia, i bierzecie tylko te, które Was interesują.`},
+  {id:'m8', group:'wyk', type:'mail', name:'Przypomnienie mailem', subject:'Jeszcze w sprawie zlecenialaser.pl', text:
+`Dzień dobry,
+
+piszę jeszcze raz w sprawie zlecenialaser.pl. Aktualne zlecenia na cięcie możecie przejrzeć bez zakładania konta: zlecenialaser.pl/zlecenia
+
+Jeśli to nie dla Was, nie ma sprawy, więcej nie piszę.`},
   {id:'z1', group:'zle', type:'hook', name:'Widziałem Twój post', subject:'Twój post o cięciu laserem', text:
 `Dzień dobry, widziałem, że szukasz kogoś do cięcia laserem. Zamiast czekać na komentarze, zapraszam na zlecenialaser.pl. Wystawiasz tam ofertę gotową do wyceny, a firmy z laserami same ją znajdą.`},
   {id:'z2', group:'zle', type:'hook', name:'Opisujesz raz', subject:'Cięcie laserem bez obdzwaniania firm', text:
@@ -275,7 +342,7 @@ Zapraszam na zlecenialaser.pl. Wystawiasz ofertę gotową do wyceny, a firmy z l
   {id:'zf1', group:'zle', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, udało się już znaleźć kogoś do cięcia? Jak nie, zapraszam na zlecenialaser.pl, dodanie zlecenia nic nie kosztuje.`}
 ];
-DEFAULT_TEMPLATES.forEach(t=>{ if(t.type==='hook') t.features = t.id!=='k5'; });
+DEFAULT_TEMPLATES.forEach(t=>{ if(t.type==='hook') t.features = t.id!=='k5'; if(t.type==='mail') t.features = false; });
 const DEFAULT_SETTINGS = {
   sigWyk:`Pozdrawiam
 Łukasz Orlikowski
@@ -466,6 +533,10 @@ function load(){
           s.templates.forEach(t=>{ const d = DEFAULT_TEMPLATES.find(x=>x.id===t.id); if(d && d.type==='hook') t.features = d.features; });
           s.settings.tplVer = 4;
         }
+        if(s.settings.tplVer === 4){
+          DEFAULT_TEMPLATES.forEach(d=>{ if(!s.templates.some(t=>t.id===d.id)) s.templates.push(JSON.parse(JSON.stringify(d))); });
+          s.settings.tplVer = 5;
+        }
         if(s.settings.tplVer < 3){
           const OLD = ['A','B','C','D','E','F','FW','FZ'].concat(DEFAULT_TEMPLATES.map(t=>t.id), ['k1','k2','k3','k4','k5','k6','r1','r2','r3','r4','r5','f1','z1','z2','z3','zr1','zr2','zf1']);
           const uses = {}; s.templates.forEach(t=>{ if(t.uses) uses[t.id]=t.uses; });
@@ -496,11 +567,11 @@ function bodyText(t){
   return t.text.split('\n').filter(l=>!l.includes('{film}')).join('\n');
 }
 function sigFor(t){
-  if(t.type!=='hook') return '';
+  if(t.type!=='hook' && t.type!=='mail') return '';
   return ((t.group==='zle' ? state.settings.sigZle : state.settings.sigWyk) || '').trim();
 }
 function featFor(t){
-  if(t.type!=='hook' || !t.features) return '';
+  if((t.type!=='hook' && t.type!=='mail') || !t.features) return '';
   return ((t.group==='zle' ? state.settings.featZle : state.settings.featWyk) || '').trim();
 }
 function fullText(t){ return [bodyText(t), featFor(t), sigFor(t)].filter(Boolean).join('\n\n'); }
@@ -526,7 +597,7 @@ function renderNav(){
   document.body.classList.toggle('zle', (view==='tpl' && tplGroup==='zle') || (view==='posts' && postGroup==='zle') || (view==='kom' && komGroup==='zle'));
 }
 function go(v){ view=v; editTpl=null; render(); }
-function setGroup(g){ tplGroup=g; editTpl=null; render(); }
+function setGroup(g){ tplGroup=g; editTpl=null; if(g!=='wyk' && tplType==='mail') tplType='hook'; render(); }
 function setType(t){ tplType=t; editTpl=null; render(); }
 
 // ---------- TEMPLATES ----------
@@ -541,7 +612,7 @@ function renderTemplates(){
     <button class="firm ${tplGroup==='wyk'?'active':''}" onclick="setGroup('wyk')"><span class="ic">🏭</span><span><b>Firmy z laserem</b><small>zaproszenie do założenia konta</small></span></button>
     <button class="seek ${tplGroup==='zle'?'active':''}" onclick="setGroup('zle')"><span class="ic">📐</span><span><b>Szukający cięcia</b><small>zaproszenie do dodania zlecenia</small></span></button>
   </div>
-  <div class="steps">${step('hook',1)}${step('reply',2)}${step('follow',3)}</div>
+  <div class="steps">${step('hook',1)}${step('reply',2)}${step('follow',3)}${tplGroup==='wyk'?step('mail','✉'):''}</div>
   <div class="stephint"><span>${TYPE_HINT[tplType]}</span><input id="tplSearch" placeholder="Szukaj w treści…" value="${esc(tplQ)}" oninput="tplQ=this.value;keepFocus('tplSearch')"><button class="primary" onclick="addTemplate()">+ Nowy</button></div>
   <div class="grid">${list.map(tplCard).join('') || '<div class="card empty">Brak wiadomości w tym widoku.</div>'}</div>
   <details class="card" style="margin-top:26px">
@@ -579,8 +650,8 @@ function tplCard(t){
       </div>
       <label class="f">Temat maila<input value="${esc(t.subject||'')}" onchange="updTpl('${t.id}','subject',this.value)"></label>
       <label class="f">Film (wstawiany w miejsce {film})<select onchange="updTpl('${t.id}','film',this.value)"><option value="">bez filmu</option>${state.films.map(f=>`<option value="${f.id}" ${t.film===f.id?'selected':''}>${esc(f.title)}</option>`).join('')}</select></label>
-      ${t.type==='hook'?`<label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" style="width:auto" ${t.features?'checked':''} onchange="updTpl('${t.id}','features',this.checked)"> Dodaj listę funkcji portalu (z ustawień na dole)</label>`:''}
-      <label class="f">Treść${t.type==='hook'?' (lista funkcji i podpis dochodzą same)':''}<textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea></label>
+      ${(t.type==='hook'||t.type==='mail')?`<label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" style="width:auto" ${t.features?'checked':''} onchange="updTpl('${t.id}','features',this.checked)"> Dodaj listę funkcji portalu (z ustawień na dole)</label>`:''}
+      <label class="f">Treść${t.type==='hook'?' (lista funkcji i podpis dochodzą same)':t.type==='mail'?' (podpis dochodzi sam)':''}<textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea></label>
     </div>
     <div class="tpl-foot"><button class="ghost danger" onclick="delTemplate('${t.id}')">Usuń</button><div class="spacer"></div><button class="primary" onclick="editTpl=null;render()">Gotowe</button></div></div>`;
   }
@@ -972,7 +1043,8 @@ function openSend(id){
     if(ts.length) html += `<optgroup label="${gl}: ${tl}">${ts.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('')}</optgroup>`;
   }
   sTpl.innerHTML = html;
-  const pick = c.sentAt ? (state.templates.find(t=>t.group==='wyk' && t.type==='follow')||{}).id : (state.settings.lastTpl || 'k1');
+  const last = tplById(state.settings.lastTpl);
+  const pick = c.sentAt ? ((tplById('m8') ? 'm8' : (state.templates.find(t=>t.group==='wyk' && t.type==='follow')||{}).id)) : (last && last.type==='mail' ? last.id : (tplById('m1') ? 'm1' : (state.settings.lastTpl || 'k1')));
   if(pick && tplById(pick)) sTpl.value = pick;
   renderSendPreview();
   document.getElementById('dlgSend').showModal();
@@ -986,7 +1058,7 @@ function markSent(){
   const c = state.contacts.find(x=>x.id===sendingId);
   const t = tplById(sTpl.value);
   if(!c.sentAt) c.sentAt = today();
-  if(t && t.type==='hook'){ c.tpl = t.id; state.settings.lastTpl = t.id; }
+  if(t && (t.type==='hook' || (t.type==='mail' && t.id!=='m8'))){ c.tpl = t.id; state.settings.lastTpl = t.id; }
   if(t) t.uses = (t.uses||0)+1;
   save();
 }
