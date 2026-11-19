@@ -186,6 +186,7 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
       <label class="f">Wiadomość<select id="sTpl" onchange="renderSendPreview()"></select></label>
       <div class="hint">Temat: <b id="sSubject" style="color:var(--ink)"></b></div>
       <div class="preview" id="sPreview"></div>
+      <div class="hint" id="sFmtHint" style="display:none">Pogrubienia, kolory i przycisk zostaną, gdy klikniesz <b>Kopiuj treść</b> i wkleisz do Gmaila albo Outlooka. <b>Otwórz w poczcie</b> wstawia zwykły tekst.</div>
     </div>
     <div class="df">
       <button onclick="copyFromSend('mail')">Kopiuj adres</button>
@@ -200,7 +201,7 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 
 <script>
 const LS_KEY = 'zlecenialaser_panel_v2';
-const TPL_VER = 6;
+const TPL_VER = 7;
 const GROUPS = {wyk:'Firmy z laserem', zle:'Szukający cięcia'};
 const TYPES = {hook:'Pierwsza wiadomość', reply:'Odpowiedzi', follow:'Przypomnienia', mail:'Maile do firm'};
 const TYPE_HINT = {
@@ -335,19 +336,78 @@ Przy okazji zapraszam do założenia konta firmy: zlecenialaser.pl/rejestracja-f
 piszę jeszcze raz w sprawie zlecenialaser.pl. Aktualne zlecenia na cięcie możecie przejrzeć bez zakładania konta: zlecenialaser.pl/zlecenia
 
 Jeśli to nie dla Was, nie ma sprawy, więcej nie piszę.`},
-  {id:'m9', group:'wyk', type:'mail', name:'Co zyskujecie (z emotikonami)', subject:'Dołączcie do firm z laserem na zlecenialaser.pl 🚀', text:
+  {id:'m9', group:'wyk', type:'mail', name:'Wszystko, co dostaje firma', subject:'Co dostaje firma z laserem na zlecenialaser.pl', text:
 `Dzień dobry,
 
-zapraszam Waszą firmę na zlecenialaser.pl 👋 Co zyskujecie po dołączeniu:
+krótko, co daje Waszej firmie konto na zlecenialaser.pl 👇
 
-✅ zlecenia na cięcie z całej Polski, każde z rysunkiem, materiałem, grubością i ilością
-📩 nowe zlecenia z wybranych województw prosto na maila
-🎯 kontakt do klienta widzi najwyżej 5 firm, więc macie realną szansę na robotę
-⭐ profil firmy w wykazie firm, z maszynami i ocenami klientów
-✔️ znaczek „zweryfikowana firma” po potwierdzeniu NIP
-💳 płacicie tylko za kontakt, który Was interesuje, BLIK-iem, z jedną fakturą w miesiącu
+📩 **Zlecenia na maila**, tylko z województw, materiałów i grubości, które sami wybierzecie
+📐 **Komplet danych w zleceniu**: rysunek DXF albo szkic, materiał, grubość, ilość i termin
+🎯 **Najwyżej 5 firm** widzi kontakt do jednego klienta
+💡 **Podpowiedź ceny**: przy zleceniach z plikiem DXF portal liczy orientacyjną cenę według Waszych stawek
+⭐ **Profil w wykazie firm** z maszynami i ocenami klientów, którzy wybrali Waszą ofertę
+✔️ **Znaczek „zweryfikowana firma”** po potwierdzeniu NIP
+💳 **Bez abonamentu**: płacicie BLIK-iem tylko za kontakt, który Was interesuje, a fakturę dostajecie raz w miesiącu
+🛡️ **Zwrot za nieprawdziwy kontakt**, jeśli zgłosicie to w ciągu 7 dni
 
-Rejestracja zajmuje kilka minut: zlecenialaser.pl/rejestracja-firmy`},
+==Na start 2 pierwsze zlecenia odkrywacie za darmo==, więc pierwsze zlecenia sprawdzicie bez płacenia.
+
+[[Zarejestruj firmę|https://zlecenialaser.pl/rejestracja-firmy]]
+
+Rejestracja zajmuje kilka minut.`},
+  {id:'m10', group:'wyk', type:'mail', name:'2 zlecenia na start za darmo', subject:'2 pierwsze zlecenia na cięcie odkrywacie bez płacenia', text:
+`Dzień dobry,
+
+zapraszam Waszą firmę na zlecenialaser.pl, portal ze zleceniami na cięcie laserem z całej Polski 👋
+
+==Na start 2 pierwsze zlecenia odkrywacie za darmo==, więc możecie sprawdzić portal **bez płacenia ani złotówki**. Wystarczy, że przy rejestracji potwierdzicie NIP firmy.
+
+Co dostajecie:
+✅ **zlecenia prosto na maila**, tylko z województw, które sami zaznaczycie
+✅ w każdym zleceniu **rysunek, materiał, grubość i ilość**, bez dopytywania klienta
+✅ kontakt do klienta widzi **najwyżej 5 firm**
+✅ **bez abonamentu**: później płacicie tylko za kontakt, który Was interesuje
+
+[[Zarejestruj firmę|https://zlecenialaser.pl/rejestracja-firmy]]
+
+Rejestracja zajmuje kilka minut.`},
+  {id:'m11', group:'wyk', type:'mail', name:'Zlecenia z Waszego regionu na maila', subject:'Zlecenia na cięcie z Waszego regionu prosto na maila', text:
+`Dzień dobry,
+
+szukanie zleceń po grupach na Facebooku zajmuje mnóstwo czasu. Na zlecenialaser.pl działa to odwrotnie: **to zlecenia przychodzą do Was** 📩
+
+Jak to działa:
+1. zakładacie konto firmy,
+2. zaznaczacie **województwa, które obsługujecie**, a jeśli chcecie, także materiały i grubości,
+3. ==nowe zlecenia z tego obszaru przychodzą na Wasz adres e-mail==, od razu po dodaniu albo raz dziennie.
+
+Nie dostajecie nic spoza swojego regionu, a w każdym zleceniu macie od razu **rysunek, materiał, grubość i ilość**.
+
+==2 pierwsze zlecenia odkrywacie za darmo==, więc łatwo sprawdzić, czy to dla Was.
+
+[[Załóż konto firmy|https://zlecenialaser.pl/rejestracja-firmy]]`},
+  {id:'m12', group:'wyk', type:'mail', name:'Najwyżej 5 firm (nowa wersja)', subject:'Zlecenie, o które nie walczy cała Polska', text:
+`Dzień dobry,
+
+pod postem „kto wytnie?” odzywa się zwykle kilkadziesiąt firm, a wygrywa ten, kto pierwszy zadzwoni.
+
+Na zlecenialaser.pl ==kontakt do klienta przy jednym zleceniu widzi najwyżej 5 firm== 🎯 Na każdej karcie widać, ile miejsc zostało, więc od razu wiecie, czy warto się odezwać.
+
+Do tego:
+✅ **komplet danych od klienta**: rysunek, materiał, grubość, ilość
+✅ **powiadomienia mailem** tylko z obsługiwanych województw
+✅ **2 pierwsze zlecenia do odkrycia za darmo**
+✅ **bez abonamentu**, płatność BLIK-iem tylko za wybrane kontakty
+
+[[Dołączcie do zlecenialaser.pl|https://zlecenialaser.pl/rejestracja-firmy]]`},
+  {id:'m13', group:'wyk', type:'mail', name:'Przypomnienie: 2 zlecenia za darmo', subject:'Jeszcze o zlecenialaser.pl: 2 zlecenia na start bez płacenia', text:
+`Dzień dobry,
+
+wracam jeszcze do zlecenialaser.pl. Przypominam, że ==2 pierwsze zlecenia odkrywacie za darmo==, a nowe zlecenia na cięcie **z Waszych województw przychodzą na maila** 📩
+
+[[Zarejestruj firmę|https://zlecenialaser.pl/rejestracja-firmy]]
+
+Jeśli to nie dla Was, nie ma sprawy, więcej nie piszę.`},
   {id:'z1', group:'zle', type:'hook', name:'Widziałem Twój post', subject:'Twój post o cięciu laserem', text:
 `Dzień dobry, widziałem, że szukasz kogoś do cięcia laserem. Zamiast czekać na komentarze, zapraszam na zlecenialaser.pl. Wystawiasz tam ofertę gotową do wyceny, a firmy z laserami same ją znajdą.`},
   {id:'z2', group:'zle', type:'hook', name:'Opisujesz raz', subject:'Cięcie laserem bez obdzwaniania firm', text:
@@ -371,12 +431,11 @@ Zapraszam na zlecenialaser.pl. Wystawiasz ofertę gotową do wyceny, a firmy z l
 DEFAULT_TEMPLATES.forEach(t=>{ if(t.type==='hook') t.features = !['k5','k7'].includes(t.id); if(t.type==='mail') t.features = false; });
 const DEFAULT_SETTINGS = {
   sigWyk:`Pozdrawiam
-Łukasz Orlikowski
-kontakt@zlecenialaser.pl
-zlecenialaser.pl/rejestracja-firmy`,
+Łukasz
+zlecenialaser.pl`,
   sigZle:`Pozdrawiam
-Łukasz Orlikowski
-kontakt@zlecenialaser.pl
+Łukasz
+zlecenialaser.pl
 Dodaj zlecenie: zlecenialaser.pl/dodaj-zlecenie`,
   featWyk:`Co znajdziecie na zlecenialaser.pl:
 • wszystkie zlecenia na cięcie w jednym miejscu, z całej Polski
@@ -584,6 +643,14 @@ function load(){
           DEFAULT_TEMPLATES.forEach(d=>{ if(!s.templates.some(t=>t.id===d.id)) s.templates.push(JSON.parse(JSON.stringify(d))); });
           s.settings.komVer = 4; s.settings.postVer = 3; if(s.settings.tplVer === 5) s.settings.tplVer = 6;
         }
+        if(s.settings.tplVer === 6){
+          const OLD_M9 = {"text": "Dzień dobry,\n\nzapraszam Waszą firmę na zlecenialaser.pl 👋 Co zyskujecie po dołączeniu:\n\n✅ zlecenia na cięcie z całej Polski, każde z rysunkiem, materiałem, grubością i ilością\n📩 nowe zlecenia z wybranych województw prosto na maila\n🎯 kontakt do klienta widzi najwyżej 5 firm, więc macie realną szansę na robotę\n⭐ profil firmy w wykazie firm, z maszynami i ocenami klientów\n✔️ znaczek „zweryfikowana firma” po potwierdzeniu NIP\n💳 płacicie tylko za kontakt, który Was interesuje, BLIK-iem, z jedną fakturą w miesiącu\n\nRejestracja zajmuje kilka minut: zlecenialaser.pl/rejestracja-firmy"};
+          const m9 = s.templates.find(t=>t.id==='m9'); const d9 = DEFAULT_TEMPLATES.find(t=>t.id==='m9');
+          if(m9 && m9.text===OLD_M9.text){ m9.text=d9.text; m9.subject=d9.subject; m9.name=d9.name; }
+          DEFAULT_TEMPLATES.forEach(d=>{ if(!s.templates.some(t=>t.id===d.id)) s.templates.push(JSON.parse(JSON.stringify(d))); });
+          ['sigWyk','sigZle'].forEach(k=>{ if(typeof s.settings[k]==='string') s.settings[k] = s.settings[k].replace('Łukasz Orlikowski\nkontakt@zlecenialaser.pl\nzlecenialaser.pl/rejestracja-firmy','Łukasz\nzlecenialaser.pl').replace('Łukasz Orlikowski\nkontakt@zlecenialaser.pl','Łukasz\nzlecenialaser.pl'); });
+          s.settings.tplVer = 7;
+        }
         if(s.settings.tplVer < 3){
           const OLD = ['A','B','C','D','E','F','FW','FZ'].concat(DEFAULT_TEMPLATES.map(t=>t.id), ['k1','k2','k3','k4','k5','k6','r1','r2','r3','r4','r5','f1','z1','z2','z3','zr1','zr2','zf1']);
           const uses = {}; s.templates.forEach(t=>{ if(t.uses) uses[t.id]=t.uses; });
@@ -621,7 +688,41 @@ function featFor(t){
   if((t.type!=='hook' && t.type!=='mail') || !t.features) return '';
   return ((t.group==='zle' ? state.settings.featZle : state.settings.featWyk) || '').trim();
 }
-function fullText(t){ return [bodyText(t), featFor(t), sigFor(t)].filter(Boolean).join('\n\n'); }
+function fullText(t){ return stripFmt([bodyText(t), featFor(t), sigFor(t)].filter(Boolean).join('\n\n')); }
+// Formatowanie w treści: **pogrubienie**, ==wyróżnienie kolorem==, [[Tekst przycisku|https://adres]]
+const FMT_RE = /\*\*|==|\[\[/;
+function hasFmt(t){ return FMT_RE.test([bodyText(t), featFor(t), sigFor(t)].join('')); }
+function stripFmt(s){
+  return String(s||'').replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g,(m,l,u)=>`${l}: ${u.replace(/^https?:\/\//,'')}`).replace(/\*\*(.+?)\*\*/g,'$1').replace(/==(.+?)==/g,'$1');
+}
+function fmtHtml(s, br){
+  const btns=[];
+  let h = String(s||'').replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g,(m,l,u)=>{ btns.push([l,u]); return '\u0001'+(btns.length-1)+'\u0001'; });
+  h = esc(h);
+  h = h.replace(/(^|[\s(])((?:https?:\/\/)?(?:www\.)?(?:zlecenialaser\.pl|youtube\.com|youtu\.be)[^\s<)]*)/g,(m,pre,u)=>{ const clean=u.replace(/[.,:;!?]+$/,''); const tail=u.slice(clean.length); return `${pre}<a href="${/^https?:/.test(clean)?clean:'https://'+clean}" style="color:#0E4C92">${clean}</a>${tail}`; });
+  h = h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  h = h.replace(/==(.+?)==/g,'<span style="background:#FFF1C2;color:#9A3412;font-weight:700;padding:1px 4px;border-radius:3px">$1</span>');
+  h = h.replace(/\u0001(\d+)\u0001/g,(m,i)=>{ const [l,u]=btns[+i]; return `<a href="${esc(u)}" style="display:inline-block;background:#0E4C92;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:6px">${esc(l)} →</a>`; });
+  return br ? h.replace(/\n/g,'<br>') : h;
+}
+function fullHtml(t){
+  const parts=[bodyText(t), featFor(t), sigFor(t)].filter(Boolean).map(x=>fmtHtml(x,true));
+  return `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#172033">${parts.join('<br><br>')}</div>`;
+}
+async function copyRich(html, plain, msg){
+  let ok=false;
+  try{ await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([plain],{type:'text/plain'})})]); ok=true; }
+  catch(e){
+    const d=document.createElement('div'); d.contentEditable='true'; d.style.cssText='position:fixed;left:-9999px;top:0'; d.innerHTML=html; document.body.appendChild(d);
+    const r=document.createRange(); r.selectNodeContents(d); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    try{ ok=document.execCommand('copy'); }catch(_){}
+    sel.removeAllRanges(); d.remove();
+    if(!ok) return copyText(plain, msg);
+  }
+  toast(ok ? (msg||'Skopiowano') : 'Nie udało się skopiować');
+  return ok;
+}
+async function copyTplBody(t, msg){ return hasFmt(t) ? copyRich(fullHtml(t), fullText(t), (msg||'Skopiowano')+' z pogrubieniami') : copyText(fullText(t), msg); }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200); }
 function closeDlg(id){ document.getElementById(id).close(); }
 async function copyText(txt, msg){
@@ -699,6 +800,7 @@ function tplCard(t){
       <label class="f">Film (wstawiany w miejsce {film})<select onchange="updTpl('${t.id}','film',this.value)"><option value="">bez filmu</option>${state.films.map(f=>`<option value="${f.id}" ${t.film===f.id?'selected':''}>${esc(f.title)}</option>`).join('')}</select></label>
       ${(t.type==='hook'||t.type==='mail')?`<label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" style="width:auto" ${t.features?'checked':''} onchange="updTpl('${t.id}','features',this.checked)"> Dodaj listę funkcji portalu (z ustawień na dole)</label>`:''}
       <label class="f">Treść${t.type==='hook'?' (lista funkcji i podpis dochodzą same)':t.type==='mail'?' (podpis dochodzi sam)':''}<textarea oninput="updTpl('${t.id}','text',this.value,true)">${esc(t.text)}</textarea></label>
+      <div class="hint">Formatowanie: **pogrubienie**, ==wyróżnienie kolorem==, [[Tekst przycisku|https://adres]]</div>
     </div>
     <div class="tpl-foot"><button class="ghost danger" onclick="delTemplate('${t.id}')">Usuń</button><div class="spacer"></div><button class="primary" onclick="editTpl=null;render()">Gotowe</button></div></div>`;
   }
@@ -708,7 +810,7 @@ function tplCard(t){
   return `<div class="tpl ${t.type}">
     <div class="tpl-head"><div class="tpl-name">${esc(t.name)}</div></div>
     ${t.subject?`<div class="tpl-subj">Temat: <b>${esc(t.subject)}</b></div>`:''}
-    <div class="tpl-body">${esc(bodyText(t))}${feat?`<span class="feat">\n\n${esc(feat)}</span>`:''}${sig?`<span class="sig">\n\n${esc(sig)}</span>`:''}</div>
+    <div class="tpl-body">${fmtHtml(bodyText(t))}${feat?`<span class="feat">\n\n${fmtHtml(feat)}</span>`:''}${sig?`<span class="sig">\n\n${fmtHtml(sig)}</span>`:''}</div>
     ${f?`<a class="film" href="${esc(f.url)}" target="_blank" rel="noopener">▶ ${esc(f.title)}</a>`:''}
     <div class="tpl-foot">
       <button class="primary" onclick="copyTpl('${t.id}',this)">Kopiuj treść</button>
@@ -720,7 +822,7 @@ function tplCard(t){
 }
 async function copyTpl(id, btn){
   const t = tplById(id);
-  if(await copyText(fullText(t),'Skopiowano treść')){
+  if(await copyTplBody(t,'Skopiowano treść')){
     t.uses = (t.uses||0)+1; save();
     btn.textContent='✓ Skopiowano'; btn.classList.add('done');
     setTimeout(()=>render(), 1400);
@@ -1214,7 +1316,7 @@ function openSend(id){
   }
   sTpl.innerHTML = html;
   const last = tplById(state.settings.lastTpl);
-  const pick = c.sentAt ? ((tplById('m8') ? 'm8' : (state.templates.find(t=>t.group==='wyk' && t.type==='follow')||{}).id)) : (last && last.type==='mail' ? last.id : (tplById('m1') ? 'm1' : (state.settings.lastTpl || 'k1')));
+  const pick = c.sentAt ? ((tplById('m13') ? 'm13' : tplById('m8') ? 'm8' : (state.templates.find(t=>t.group==='wyk' && t.type==='follow')||{}).id)) : (last && last.type==='mail' ? last.id : (tplById('m10') ? 'm10' : tplById('m1') ? 'm1' : (state.settings.lastTpl || 'k1')));
   if(pick && tplById(pick)) sTpl.value = pick;
   renderSendPreview();
   document.getElementById('dlgSend').showModal();
@@ -1222,13 +1324,14 @@ function openSend(id){
 function renderSendPreview(){
   const t = tplById(sTpl.value);
   sSubject.textContent = t ? (t.subject||'(bez tematu)') : '';
-  sPreview.textContent = t ? fullText(t) : '';
+  sPreview.innerHTML = t ? fmtHtml([bodyText(t), featFor(t), sigFor(t)].filter(Boolean).join('\n\n')) : '';
+  const fh=document.getElementById('sFmtHint'); if(fh) fh.style.display = t && hasFmt(t) ? '' : 'none';
 }
 function markSent(){
   const c = state.contacts.find(x=>x.id===sendingId);
   const t = tplById(sTpl.value);
   if(!c.sentAt) c.sentAt = today();
-  if(t && (t.type==='hook' || (t.type==='mail' && t.id!=='m8'))){ c.tpl = t.id; state.settings.lastTpl = t.id; }
+  if(t && (t.type==='hook' || (t.type==='mail' && !['m8','m13'].includes(t.id)))){ c.tpl = t.id; state.settings.lastTpl = t.id; }
   if(t) t.uses = (t.uses||0)+1;
   save();
 }
@@ -1237,7 +1340,7 @@ async function copyFromSend(what){
   const t = tplById(sTpl.value);
   if(what==='mail') await copyText(c.email,'Skopiowano adres');
   if(what==='subject') await copyText(t.subject||'','Skopiowano temat');
-  if(what==='body'){ await copyText(fullText(t),'Skopiowano treść'); markSent(); render(); }
+  if(what==='body'){ await copyTplBody(t,'Skopiowano treść'); markSent(); render(); }
 }
 function openMail(){
   const c = state.contacts.find(x=>x.id===sendingId);
