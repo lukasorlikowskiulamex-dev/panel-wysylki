@@ -200,7 +200,7 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 
 <script>
 const LS_KEY = 'zlecenialaser_panel_v2';
-const TPL_VER = 5;
+const TPL_VER = 6;
 const GROUPS = {wyk:'Firmy z laserem', zle:'Szukający cięcia'};
 const TYPES = {hook:'Pierwsza wiadomość', reply:'Odpowiedzi', follow:'Przypomnienia', mail:'Maile do firm'};
 const TYPE_HINT = {
@@ -249,15 +249,23 @@ Zapraszam na zlecenialaser.pl. To miejsce, gdzie ludzie wystawiają ofertę od r
 {film}
 
 Zapraszam na zlecenialaser.pl. To miejsce, gdzie firmy znajdą ogłoszenia, a ludzie wystawiają ofertę gotową do wyceny. Wybieracie tylko te zlecenia, które Was interesują.`},
+  {id:'k7', group:'wyk', type:'hook', name:'Z emotikonami: dołączcie', subject:'Zlecenia na cięcie laserem z kompletem danych', text:
+`Dzień dobry 👋
+
+Zapraszam do dołączenia na zlecenialaser.pl, do firm, które biorą zlecenia na cięcie laserem z całej Polski 🔥
+
+Klient od razu podaje rysunek, materiał, grubość i ilość, a kontakt do niego widzi najwyżej 5 firm. Wy tylko wybieracie, wyceniacie i tniecie 💪
+
+Rejestracja firmy: zlecenialaser.pl/rejestracja-firmy`},
   {id:'r1', group:'wyk', type:'reply', name:'Gdy odpisze „tak”', subject:'', text:
-`Super. W takim razie zapraszam na zlecenialaser.pl. Ludzie wystawiają tam ofertę gotową do wyceny: rysunek, materiał, grubość, ilość. Konto firmy założycie tutaj: zlecenialaser.pl/moje-konto`},
+`Super. W takim razie zapraszam na zlecenialaser.pl. Ludzie wystawiają tam ofertę gotową do wyceny: rysunek, materiał, grubość, ilość. Konto firmy założycie tutaj: zlecenialaser.pl/rejestracja-firmy`},
   {id:'r2', group:'wyk', type:'reply', name:'Gdy pytają o cenę', subject:'', text:
 `Przeglądanie zleceń jest za darmo. Płacicie dopiero wtedy, gdy chcecie zobaczyć kontakt do klienta przy konkretnym zleceniu. Bez abonamentu i bez stałych opłat.`},
   {id:'r3', group:'wyk', type:'reply', name:'Gdy pytają, skąd zlecenia', subject:'', film:'DRKYWs2a1dE', text:
 `Zlecenia dodają firmy i osoby prywatne, które szukają kogoś do cięcia. Każde to jeden detal z danymi do wyceny, więc od razu widać, czy temat jest dla Was. Tu krótko, co dostajecie w zleceniu:
 {film}`},
   {id:'r4', group:'wyk', type:'reply', name:'Gdy proszą o pliki do wyceny', subject:'', text:
-`Dzień dobry, nie mam teraz konkretnego detalu do wyceny. Piszę z zaproszeniem na zlecenialaser.pl, gdzie ludzie wystawiają ofertę gotową do wyceny, z rysunkiem i opisem. Konto firmy: zlecenialaser.pl/moje-konto`},
+`Dzień dobry, nie mam teraz konkretnego detalu do wyceny. Piszę z zaproszeniem na zlecenialaser.pl, gdzie ludzie wystawiają ofertę gotową do wyceny, z rysunkiem i opisem. Konto firmy: zlecenialaser.pl/rejestracja-firmy`},
   {id:'r5', group:'wyk', type:'reply', name:'Gdy mają swoich klientów', subject:'', text:
 `Rozumiem, dzięki za odpowiedź. Konto nic nie kosztuje, więc może się przydać w spokojniejszy tydzień. Pozdrawiam.`},
   {id:'f1', group:'wyk', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
@@ -268,7 +276,7 @@ Zapraszam na zlecenialaser.pl. To miejsce, gdzie firmy znajdą ogłoszenia, a lu
 zapraszam Waszą firmę na zlecenialaser.pl. To portal, na którym ludzie i firmy wystawiają zlecenia na cięcie laserem, a firmy z laserami wybierają te, które im pasują.
 
 Jak to działa:
-• zakładacie konto na zlecenialaser.pl/moje-konto
+• zakładacie konto na zlecenialaser.pl/rejestracja-firmy
 • zaznaczacie województwa, z których chcecie dostawać zlecenia
 • nowe zlecenia z tego obszaru przychodzą Wam na maila
 • bierzecie tylko te, które Was interesują
@@ -281,7 +289,7 @@ ile czasu schodzi Wam na wyciąganie od klienta grubości, materiału i ilości,
 
 Na zlecenialaser.pl każde zlecenie ma to od początku: rysunek albo szkic z wymiarami, materiał, grubość i ilość. Bez domyślania się. Wyceniacie, tniecie i wysyłacie.
 
-Zapraszam do założenia konta na zlecenialaser.pl/moje-konto. Zaznaczacie swój obszar, nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Wam pasują.`},
+Zapraszam do założenia konta na zlecenialaser.pl/rejestracja-firmy. Zaznaczacie swój obszar, nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Wam pasują.`},
   {id:'m3', group:'wyk', type:'mail', name:'Najwyżej 5 firm na zlecenie', subject:'Zlecenie, o które nie walczy cała Polska', text:
 `Dzień dobry,
 
@@ -289,7 +297,7 @@ pod jednym postem „kto wytnie?” na Facebooku odzywa się zwykle mnóstwo fir
 
 Na zlecenialaser.pl jest inaczej: kontakt do klienta przy danym zleceniu widzi najwyżej 5 firm. Mniej przepychanki, większa szansa, że robotę dostaniecie Wy.
 
-Zapraszam do założenia konta na zlecenialaser.pl/moje-konto. Zaznaczacie województwa, z których chcecie zlecenia, i wybieracie tylko te, które Was interesują.`},
+Zapraszam do założenia konta na zlecenialaser.pl/rejestracja-firmy. Zaznaczacie województwa, z których chcecie zlecenia, i wybieracie tylko te, które Was interesują.`},
   {id:'m4', group:'wyk', type:'mail', name:'Najpierw zobaczcie zlecenia', subject:'Zobaczcie zlecenia na cięcie, zanim cokolwiek założycie', text:
 `Dzień dobry,
 
@@ -305,7 +313,7 @@ zapraszam na zlecenialaser.pl, portal ze zleceniami na cięcie z całej Polski. 
 • filtry po materiale, grubości i technologii (laser fiber, CO2, plazma, waterjet, gięcie), więc widzicie tylko to, co zrobicie na swojej maszynie
 • przy zleceniach z plikiem DXF portal sam podpowiada cenę na podstawie Waszych stawek, Wy ją tylko sprawdzacie i wysyłacie ofertę
 
-Konto założycie tutaj: zlecenialaser.pl/moje-konto. Zaznaczacie województwa i wybieracie tylko interesujące zlecenia.`},
+Konto założycie tutaj: zlecenialaser.pl/rejestracja-firmy. Zaznaczacie województwa i wybieracie tylko interesujące zlecenia.`},
   {id:'m6', group:'wyk', type:'mail', name:'Wolne moce na laserze (z filmem)', subject:'Wolne moce na laserze? Tu są zlecenia', film:'j4YSCj9U5F8', text:
 `Dzień dobry,
 
@@ -314,19 +322,32 @@ jeśli laser ma czasem przestoje, warto mieć pod ręką zlecenialaser.pl. Ludzi
 Tu krótki film, jak to wygląda:
 {film}
 
-Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie swój obszar i nowe zlecenia przychodzą na maila.`},
+Zakładacie konto na zlecenialaser.pl/rejestracja-firmy, zaznaczacie swój obszar i nowe zlecenia przychodzą na maila.`},
   {id:'m7', group:'wyk', type:'mail', name:'Forum pomocy przy maszynach', subject:'Forum dla tych, którzy tną laserem na co dzień', text:
 `Dzień dobry,
 
 na zlecenialaser.pl oprócz zleceń na cięcie jest forum pomocy przy maszynach: gazy, zadziory, przebijanie grubej blachy, przygotowanie plików DXF. Odpowiadają ludzie, którzy pracują na laserach na co dzień.
 
-Przy okazji zapraszam do założenia konta firmy: zlecenialaser.pl/moje-konto. Zaznaczacie województwa, z których chcecie dostawać zlecenia, i bierzecie tylko te, które Was interesują.`},
+Przy okazji zapraszam do założenia konta firmy: zlecenialaser.pl/rejestracja-firmy. Zaznaczacie województwa, z których chcecie dostawać zlecenia, i bierzecie tylko te, które Was interesują.`},
   {id:'m8', group:'wyk', type:'mail', name:'Przypomnienie mailem', subject:'Jeszcze w sprawie zlecenialaser.pl', text:
 `Dzień dobry,
 
 piszę jeszcze raz w sprawie zlecenialaser.pl. Aktualne zlecenia na cięcie możecie przejrzeć bez zakładania konta: zlecenialaser.pl/zlecenia
 
 Jeśli to nie dla Was, nie ma sprawy, więcej nie piszę.`},
+  {id:'m9', group:'wyk', type:'mail', name:'Co zyskujecie (z emotikonami)', subject:'Dołączcie do firm z laserem na zlecenialaser.pl 🚀', text:
+`Dzień dobry,
+
+zapraszam Waszą firmę na zlecenialaser.pl 👋 Co zyskujecie po dołączeniu:
+
+✅ zlecenia na cięcie z całej Polski, każde z rysunkiem, materiałem, grubością i ilością
+📩 nowe zlecenia z wybranych województw prosto na maila
+🎯 kontakt do klienta widzi najwyżej 5 firm, więc macie realną szansę na robotę
+⭐ profil firmy w wykazie firm, z maszynami i ocenami klientów
+✔️ znaczek „zweryfikowana firma” po potwierdzeniu NIP
+💳 płacicie tylko za kontakt, który Was interesuje, BLIK-iem, z jedną fakturą w miesiącu
+
+Rejestracja zajmuje kilka minut: zlecenialaser.pl/rejestracja-firmy`},
   {id:'z1', group:'zle', type:'hook', name:'Widziałem Twój post', subject:'Twój post o cięciu laserem', text:
 `Dzień dobry, widziałem, że szukasz kogoś do cięcia laserem. Zamiast czekać na komentarze, zapraszam na zlecenialaser.pl. Wystawiasz tam ofertę gotową do wyceny, a firmy z laserami same ją znajdą.`},
   {id:'z2', group:'zle', type:'hook', name:'Opisujesz raz', subject:'Cięcie laserem bez obdzwaniania firm', text:
@@ -347,12 +368,12 @@ Zapraszam na zlecenialaser.pl. Wystawiasz ofertę gotową do wyceny, a firmy z l
   {id:'zf1', group:'zle', type:'follow', name:'Przypomnienie', subject:'zlecenialaser.pl', text:
 `Dzień dobry, udało się już znaleźć kogoś do cięcia? Jak nie, zapraszam na zlecenialaser.pl, dodanie zlecenia nic nie kosztuje.`}
 ];
-DEFAULT_TEMPLATES.forEach(t=>{ if(t.type==='hook') t.features = t.id!=='k5'; if(t.type==='mail') t.features = false; });
+DEFAULT_TEMPLATES.forEach(t=>{ if(t.type==='hook') t.features = !['k5','k7'].includes(t.id); if(t.type==='mail') t.features = false; });
 const DEFAULT_SETTINGS = {
   sigWyk:`Pozdrawiam
 Łukasz Orlikowski
 kontakt@zlecenialaser.pl
-zlecenialaser.pl/moje-konto`,
+zlecenialaser.pl/rejestracja-firmy`,
   sigZle:`Pozdrawiam
 Łukasz Orlikowski
 kontakt@zlecenialaser.pl
@@ -369,7 +390,7 @@ Dodaj zlecenie: zlecenialaser.pl/dodaj-zlecenie`,
 • Twój numer widzi najwyżej 5 firm
 • zlecenie widzą firmy z Twojego województwa i z całej Polski
 • nie masz pliku DXF? Jest kalkulator ceny, generator DXF i sprawdzanie pliku`,
-  source:'', lastTpl:'', tplVer:TPL_VER, postVer:2, komVer:3
+  source:'', lastTpl:'', tplVer:TPL_VER, postVer:3, komVer:4
 };
 const DEFAULT_POSTS = [
   {id:'p1', group:'wyk', title:'Wszystkie zlecenia w jednym miejscu', img:'img/g1-wszystkie-zlecenia.jpg', canva:'https://canva.link/kkz6ggz28zkig4x', text:
@@ -379,7 +400,7 @@ Zobacz aktualne zlecenia: zlecenialaser.pl/zlecenia`},
   {id:'p2', group:'wyk', title:'Zlecenia z Twojego regionu', img:'img/g2-twoj-region.jpg', canva:'https://canva.link/fhuz8mv53u4zz2d', text:
 `Szukasz zleceń blisko siebie? Na zlecenialaser.pl zlecenia są podzielone na 16 województw. Wybierasz swój region i dostajesz powiadomienia o nowych zleceniach na maila.
 
-zlecenialaser.pl/moje-konto`},
+zlecenialaser.pl/rejestracja-firmy`},
   {id:'p3', group:'wyk', title:'Koniec z dopytywaniem', img:'img/g3-bez-dopytywania.jpg', canva:'https://canva.link/uwnmj6hkld58qq5', text:
 `Klient pisze „ile za to?” i wysyła zdjęcie bez wymiarów. Znasz to?
 Na zlecenialaser.pl zlecenie ma od razu rysunek, materiał, grubość i ilość. Ty tylko wyceniasz i tniesz.
@@ -392,7 +413,7 @@ zlecenialaser.pl/forum`},
   {id:'p5', group:'wyk', title:'Kontakt widzi najwyżej 5 firm', img:'img/g5-max-5-firm.jpg', canva:'https://www.canva.com/d/y6x4D2BuccA9Gbx', text:
 `Na zlecenialaser.pl kontakt do klienta widzi najwyżej 5 firm. Mniej konkurencji przy każdym zleceniu, a Ty wybierasz tylko te, które Cię interesują.
 
-zlecenialaser.pl/moje-konto`},
+zlecenialaser.pl/rejestracja-firmy`},
   {id:'p6', group:'zle', title:'Dodaj zlecenie za darmo', img:'img/g6-dodaj-za-darmo.jpg', canva:'https://www.canva.com/d/K7Nv9uZqj-jfviq', text:
 `Potrzebujesz coś wyciąć laserem z blachy? Dodaj zlecenie na zlecenialaser.pl za darmo i bez zakładania konta. Opisujesz detal raz, a firmy z laserami same się odzywają.
 
@@ -412,7 +433,7 @@ zlecenialaser.pl/zlecenia`},
   {id:'p10', group:'wyk', title:'Wycena z pliku DXF w kilka sekund', img:'img/g10-wycena-dxf.jpg', canva:'https://canva.link/xss5880t7ucny3t', text:
 `Zlecenie przyszło z plikiem DXF? Na zlecenialaser.pl portal sam podpowiada cenę na podstawie Twoich stawek. Sprawdzasz, poprawiasz, jeśli trzeba, i wysyłasz ofertę.
 
-zlecenialaser.pl/moje-konto`},
+zlecenialaser.pl/rejestracja-firmy`},
   {id:'p11', group:'wyk', title:'Zobacz zlecenia bez rejestracji', img:'img/g11-bez-rejestracji.jpg', canva:'https://www.canva.com/d/c-R3q_FmVVLVT3D', text:
 `Chcesz najpierw zobaczyć, jakie są zlecenia? Na zlecenialaser.pl przeglądasz je bez zakładania konta. Rejestrujesz firmę dopiero wtedy, gdy trafisz na coś dla siebie.
 
@@ -444,6 +465,7 @@ const COMMENT_CATS = {
   odp:{g:'zle', ic:'↩️', name:'Odpowiedzi na pytania'},
   wolne:{g:'wyk', ic:'🏭', name:'Szukają zleceń'},
   kwyk:{g:'wyk', ic:'⚡', name:'Krótkie zaproszenie'},
+  kzap:{g:'wyk', ic:'🚀', name:'Zaproszenie z linkiem'},
   sprzet:{g:'wyk', ic:'⚙️', name:'Opisują maszynę'},
   region:{g:'wyk', ic:'📍', name:'Podali region'},
   wgiecie:{g:'wyk', ic:'📐', name:'Mają też gięcie'},
@@ -473,18 +495,18 @@ const DEFAULT_COMMENTS = [
   {id:'c21', cat:'odp', text:'Dodanie zlecenia nic nie kosztuje i nie trzeba zakładać konta. Numer potwierdzasz kodem SMS, a link do zlecenia dostajesz na maila.'},
   {id:'c22', cat:'odp', text:'Tutaj: zlecenialaser.pl/dodaj-zlecenie. Wpisujesz wymiary, materiał, grubość i ilość, dodajesz rysunek albo szkic i gotowe.'},
   {id:'c23', cat:'odp', text:'Twój numer widzi najwyżej 5 firm, które chcą zrobić zlecenie. Reszta widzi tylko opis detalu.'},
-  {id:'w1', cat:'wolne', text:'Zapraszam na zlecenialaser.pl. Ludzie wystawiają tam zlecenia na cięcie gotowe do wyceny: rysunek, materiał, grubość i ilość. Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie swoje województwa i nowe zlecenia przychodzą na maila.'},
-  {id:'w2', cat:'wolne', text:'Jak szukacie zleceń, to załóżcie konto na zlecenialaser.pl/moje-konto. Zaznaczacie obszar, z którego chcecie dostawać zlecenia, i bierzecie tylko te, które Wam pasują.'},
-  {id:'w3', cat:'wolne', text:'Wolny laser najlepiej zapełnić konkretnymi zleceniami. Na zlecenialaser.pl każde zlecenie ma od razu wymiary, materiał i ilość, bez dopytywania. Konto: zlecenialaser.pl/moje-konto'},
-  {id:'w4', cat:'sprzet', text:'Na zlecenialaser.pl filtrujecie zlecenia po materiale, grubości i technologii, więc widzicie tylko to, co zrobicie na swojej maszynie. Konto zakładacie na zlecenialaser.pl/moje-konto i zaznaczacie województwa.'},
+  {id:'w1', cat:'wolne', text:'Zapraszam na zlecenialaser.pl. Ludzie wystawiają tam zlecenia na cięcie gotowe do wyceny: rysunek, materiał, grubość i ilość. Zakładacie konto na zlecenialaser.pl/rejestracja-firmy, zaznaczacie swoje województwa i nowe zlecenia przychodzą na maila.'},
+  {id:'w2', cat:'wolne', text:'Jak szukacie zleceń, to załóżcie konto na zlecenialaser.pl/rejestracja-firmy. Zaznaczacie obszar, z którego chcecie dostawać zlecenia, i bierzecie tylko te, które Wam pasują.'},
+  {id:'w3', cat:'wolne', text:'Wolny laser najlepiej zapełnić konkretnymi zleceniami. Na zlecenialaser.pl każde zlecenie ma od razu wymiary, materiał i ilość, bez dopytywania. Konto: zlecenialaser.pl/rejestracja-firmy'},
+  {id:'w4', cat:'sprzet', text:'Na zlecenialaser.pl filtrujecie zlecenia po materiale, grubości i technologii, więc widzicie tylko to, co zrobicie na swojej maszynie. Konto zakładacie na zlecenialaser.pl/rejestracja-firmy i zaznaczacie województwa.'},
   {id:'w5', cat:'sprzet', text:'Z takim sprzętem warto mieć konto na zlecenialaser.pl. Przy zleceniach z plikiem DXF portal sam podpowiada cenę na podstawie Waszych stawek, sprawdzacie ją i wysyłacie ofertę.'},
-  {id:'w6', cat:'region', text:'Na zlecenialaser.pl zlecenia są podzielone na województwa. Zakładacie konto, zaznaczacie swój region i dostajecie powiadomienia o nowych zleceniach z okolicy. zlecenialaser.pl/moje-konto'},
-  {id:'w7', cat:'region', text:'Jak chcecie zlecenia z bliska, to na zlecenialaser.pl/moje-konto zaznaczacie województwa, które Was interesują. Przychodzą tylko zlecenia z tego obszaru.'},
-  {id:'w8', cat:'wgiecie', text:'Na zlecenialaser.pl są też zlecenia z gięciem. W filtrach zaznaczacie gięcie i widzicie tylko takie. Konto: zlecenialaser.pl/moje-konto'},
+  {id:'w6', cat:'region', text:'Na zlecenialaser.pl zlecenia są podzielone na województwa. Zakładacie konto, zaznaczacie swój region i dostajecie powiadomienia o nowych zleceniach z okolicy. zlecenialaser.pl/rejestracja-firmy'},
+  {id:'w7', cat:'region', text:'Jak chcecie zlecenia z bliska, to na zlecenialaser.pl/rejestracja-firmy zaznaczacie województwa, które Was interesują. Przychodzą tylko zlecenia z tego obszaru.'},
+  {id:'w8', cat:'wgiecie', text:'Na zlecenialaser.pl są też zlecenia z gięciem. W filtrach zaznaczacie gięcie i widzicie tylko takie. Konto: zlecenialaser.pl/rejestracja-firmy'},
   {id:'w9', cat:'wodp', text:'Zlecenia przeglądacie bez konta: zlecenialaser.pl/zlecenia. Płacicie dopiero za kontakt do klienta, którego zlecenie Was interesuje.'},
   {id:'w10', cat:'wodp', text:'Zlecenia dodają ludzie i firmy, które szukają cięcia. Każde ma rysunek albo szkic z wymiarami, materiał, grubość i ilość.'},
   {id:'w11', cat:'wodp', text:'Kontakt do jednego klienta widzi najwyżej 5 firm, więc nie walczycie z całą Polską o każde zlecenie.'},
-  {id:'w12', cat:'wodp', text:'Zakładacie konto na zlecenialaser.pl/moje-konto, zaznaczacie województwa, z których chcecie zlecenia, i tyle. Nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Was interesują.'},
+  {id:'w12', cat:'wodp', text:'Zakładacie konto na zlecenialaser.pl/rejestracja-firmy, zaznaczacie województwa, z których chcecie zlecenia, i tyle. Nowe zlecenia przychodzą na maila, a Wy wybieracie tylko te, które Was interesują.'},
   {id:'kw1', cat:'kwyk', text:'Witam,\nZapraszam do dołączenia na zlecenialaser.pl, zlecenia cięcia laserowego z całej Polski do wyboru.'},
   {id:'kw2', cat:'kwyk', text:'Witam,\nZapraszam na zlecenialaser.pl. Zlecenia na cięcie laserem z całej Polski, wybieracie tylko te, które Wam pasują.'},
   {id:'kw3', cat:'kwyk', text:'Witam,\nZapraszam do założenia konta na zlecenialaser.pl. Zaznaczacie swoje województwa i zlecenia na cięcie przychodzą na maila.'},
@@ -503,7 +525,17 @@ const DEFAULT_COMMENTS = [
   {id:'kw11', cat:'kwyk', text:'Dołączcie do firm, które szukają zleceń na zlecenialaser.pl. Rysunek, materiał, grubość i ilość są w zleceniu od początku, bez maili w tę i z powrotem :)'},
   {id:'kw12', cat:'kwyk', text:'Zapraszam na zlecenialaser.pl. Zlecenia na cięcie z kompletem danych, bez telefonów z pytaniem „a jaka grubość?” :)'},
   {id:'kz6', cat:'kzle', text:'Zapraszam na zlecenialaser.pl. Podajesz wszystko raz: wymiary, materiał, grubość i ilość, a firmy z laserem tylko wyceniają, tną i wysyłają :)'},
-  {id:'kz7', cat:'kzle', text:'Dodaj zlecenie na zlecenialaser.pl i masz spokój. Firmy widzą komplet danych, więc nikt nie dzwoni z pytaniami, tylko przysyłają ceny :)'}
+  {id:'kz7', cat:'kzle', text:'Dodaj zlecenie na zlecenialaser.pl i masz spokój. Firmy widzą komplet danych, więc nikt nie dzwoni z pytaniami, tylko przysyłają ceny :)'},
+  {id:'kp1', cat:'kzap', text:'Witam 👋\nZapraszam do dołączenia na zlecenialaser.pl. Zlecenia cięcia laserowego z całej Polski z kompletem danych od klienta: rysunek, materiał, grubość, ilość. Tylko wyceniać, ciąć i wysyłać 🔥\nRejestracja firmy: zlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp2', cat:'kzap', text:'Dzień dobry 👋\nNajlepsze w zlecenialaser.pl? Kontakt do klienta dostaje najwyżej 5 firm, więc nie walczycie z całą Polską o każde zlecenie 💪\nDołączcie tutaj: zlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp3', cat:'kzap', text:'Witam,\nZaznaczacie swoje województwa, a nowe zlecenia na cięcie same przychodzą na maila 📩 Bez szukania po grupach i bez dopytywania klienta.\nZapraszam: zlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp4', cat:'kzap', text:'Laser czasem stoi? ⏸️ Na zlecenialaser.pl czekają zlecenia na cięcie z całej Polski, od razu gotowe do wyceny. Rejestracja firmy zajmuje kilka minut ⚡\nzlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp5', cat:'kzap', text:'Witam 👋\nZapraszam Was do grona firm z laserem na zlecenialaser.pl ✅ Po potwierdzeniu NIP firma trafia do wykazu firm z województwem, maszynami i ocenami klientów, więc klienci znajdą Was też sami.\nzlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp6', cat:'kzap', text:'Dzień dobry,\nNa zlecenialaser.pl płacicie tylko za kontakt do zlecenia, które Was interesuje. Bez obowiązkowego abonamentu, płatność BLIK i jedna faktura w miesiącu 👍\nRejestracja: zlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp7', cat:'kzap', text:'Witam,\nKlient podaje wszystko od razu, bez zgadywania „a jaka grubość?” 😉 Zostaje tylko wycenić i ciąć. Zapraszam do dołączenia na zlecenialaser.pl 🚀\nzlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp8', cat:'kzap', text:'Dzień dobry 👋\nSzukacie dodatkowych zleceń na laser? Zlecenia z Waszego regionu i z całej Polski w jednym miejscu, każde z rysunkiem i ilością 📐\nKonto firmy założycie tutaj: zlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp9', cat:'kzap', text:'Witam,\nPo potwierdzeniu NIP Wasze oferty dostają znaczek „zweryfikowana firma” ✔️ Klient od razu widzi, że rozmawia z prawdziwą firmą. Zapraszam na zlecenialaser.pl\nzlecenialaser.pl/rejestracja-firmy'},
+  {id:'kp10', cat:'kzap', text:'Dzień dobry 👋\nZlecenia na cięcie laserem i gięcie z kompletem danych od klienta. Wybieracie tylko te, które Wam pasują 🎯 Dołączcie do zlecenialaser.pl:\nzlecenialaser.pl/rejestracja-firmy'}
 ];
 
 let state = load();
@@ -541,6 +573,16 @@ function load(){
         if(s.settings.tplVer === 4){
           DEFAULT_TEMPLATES.forEach(d=>{ if(!s.templates.some(t=>t.id===d.id)) s.templates.push(JSON.parse(JSON.stringify(d))); });
           s.settings.tplVer = 5;
+        }
+        if(!(s.settings.komVer >= 4) || !(s.settings.postVer >= 3) || s.settings.tplVer === 5){
+          const fx = v => typeof v==='string' ? v.split('zlecenialaser.pl/moje-konto').join('zlecenialaser.pl/rejestracja-firmy') : v;
+          (s.templates||[]).forEach(t=>{ t.text = fx(t.text); t.subject = fx(t.subject); });
+          (s.comments||[]).forEach(c=>{ c.text = fx(c.text); });
+          (s.posts||[]).forEach(p=>{ Object.keys(p).forEach(k=>{ p[k] = fx(p[k]); }); });
+          Object.keys(s.settings).forEach(k=>{ s.settings[k] = fx(s.settings[k]); });
+          DEFAULT_COMMENTS.forEach(d=>{ if(!s.comments.some(c=>c.id===d.id)) s.comments.push(Object.assign({}, d)); });
+          DEFAULT_TEMPLATES.forEach(d=>{ if(!s.templates.some(t=>t.id===d.id)) s.templates.push(JSON.parse(JSON.stringify(d))); });
+          s.settings.komVer = 4; s.settings.postVer = 3; if(s.settings.tplVer === 5) s.settings.tplVer = 6;
         }
         if(s.settings.tplVer < 3){
           const OLD = ['A','B','C','D','E','F','FW','FZ'].concat(DEFAULT_TEMPLATES.map(t=>t.id), ['k1','k2','k3','k4','k5','k6','r1','r2','r3','r4','r5','f1','z1','z2','z3','zr1','zr2','zf1']);
@@ -808,7 +850,7 @@ function ordTexts(){
   v.push(['Pytanie do grupy', `Wolne moce na ${machine}? Jest nowe zlecenie: ${ordLow(title)}${sspec?' ('+sspec+')':''}${termin?', '+termin:''}. ${shipNote}${shipNote?' ':''}Szczegóły${/rysunek|dxf/i.test(o.rys)?' i rysunek':''}:\n${link}`]);
   v.push(['Krótko', ordDot(`Świeże zlecenie: ${ordLow(title)}${sspec?', '+sspec:''}${termin?', '+termin:''}${ship?', wysyłka':''}`) + `\n${link}`]);
   if(wojGen) v.push(['Z regionu', ordDot(`Ktoś z ${wojGen} albo okolic? Nowe zlecenie na cięcie: ${ordLow(title)}${sspec?', '+sspec:''}${termin?', '+termin:''}`) + `${ship?' Odbiór wysyłką, więc firmy z innych województw też mogą brać.':''}\n${link}`]);
-  v.push(['Zlecenie i zaproszenie do konta', ordDot(`Nowe zlecenie na cięcie: ${ordLow(title)}${sspec?', '+sspec:''}${o.loc?', '+o.loc:''}${termin?', '+termin:''}`) + `\nTakie zlecenia mogą przychodzić Wam od razu na maila: zakładacie konto na zlecenialaser.pl/moje-konto i zaznaczacie województwa, które Was interesują.\nTo zlecenie: ${link}`]);
+  v.push(['Zlecenie i zaproszenie do konta', ordDot(`Nowe zlecenie na cięcie: ${ordLow(title)}${sspec?', '+sspec:''}${o.loc?', '+o.loc:''}${termin?', '+termin:''}`) + `\nTakie zlecenia mogą przychodzić Wam od razu na maila: zakładacie konto na zlecenialaser.pl/rejestracja-firmy i zaznaczacie województwa, które Was interesują.\nTo zlecenie: ${link}`]);
   if(o.offers===0) v.push(['Na razie bez ofert', ordDot(`Pierwsza oferta ma największą szansę, a do tego zlecenia jeszcze nikt jej nie złożył: ${ordLow(title)}${sspec?', '+sspec:''}${termin?', '+termin:''}`) + `\n${link}`]);
   return v;
 }
