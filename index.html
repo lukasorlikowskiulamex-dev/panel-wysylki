@@ -44,6 +44,13 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--acc-soft);border
 
 .who{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
 .who.who3{grid-template-columns:repeat(3,1fr)}
+.who.who4{grid-template-columns:repeat(4,1fr)}
+.who button.nfb.active{border-color:#16a34a;background:#ecfdf3}
+.who button.nfb.active b{color:#15803d}
+.nf-list{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.nf-list button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:10px 14px;border:2px solid var(--line);border-radius:10px;background:#fff;min-width:200px}
+.nf-list button.active{border-color:#16a34a;background:#ecfdf3}
+.nf-list small{color:var(--muted)}
 .who button.ordb.active{border-color:#7c3aed;background:#f3eefe}
 .who button.ordb.active b{color:#6d28d9}
 .ord-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;align-content:start}
@@ -150,7 +157,8 @@ dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justi
 .kom-warn{background:#fdecec;color:var(--bad);border-radius:10px;padding:10px 14px;font-weight:600;margin-bottom:12px}
 .kom-add{border:2px dashed var(--line);border-radius:var(--r);background:transparent;color:var(--muted);font-weight:700;min-height:120px}
 .kom-add:hover{border-color:var(--acc);color:var(--acc)}
-@media(max-width:800px){.hide-m{display:none}.row2,.who,.who.who3,.ord-fields{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+@media(max-width:1000px){.who.who4{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.hide-m{display:none}.row2,.who,.who.who3,.who.who4,.ord-fields{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -617,6 +625,7 @@ function load(){
         if(!Array.isArray(s.posts)) s.posts = JSON.parse(JSON.stringify(DEFAULT_POSTS));
         if(!Array.isArray(s.comments)) s.comments = JSON.parse(JSON.stringify(DEFAULT_COMMENTS));
         if(!Array.isArray(s.commented)) s.commented = [];
+        if(!Array.isArray(s.welcomed)) s.welcomed = [];
         if(!(s.settings.komVer >= 3)){
           DEFAULT_COMMENTS.forEach(d=>{ if(!s.comments.some(c=>c.id===d.id)) s.comments.push(Object.assign({}, d)); });
           s.settings.komVer = 3;
@@ -663,7 +672,7 @@ function load(){
       }
     }
   }catch(e){}
-  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), films:JSON.parse(JSON.stringify(DEFAULT_FILMS)), posts:JSON.parse(JSON.stringify(DEFAULT_POSTS)), comments:JSON.parse(JSON.stringify(DEFAULT_COMMENTS)), commented:[], settings:Object.assign({}, DEFAULT_SETTINGS)};
+  return {contacts:[], templates:JSON.parse(JSON.stringify(DEFAULT_TEMPLATES)), films:JSON.parse(JSON.stringify(DEFAULT_FILMS)), posts:JSON.parse(JSON.stringify(DEFAULT_POSTS)), comments:JSON.parse(JSON.stringify(DEFAULT_COMMENTS)), commented:[], welcomed:[], settings:Object.assign({}, DEFAULT_SETTINGS)};
 }
 function save(){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -989,15 +998,115 @@ function renderOrderGen(){
   <div id="ordOut" style="margin-top:18px">${ordOutHtml()}</div>`;
 }
 
+// ---------- NOWA FIRMA (posty powitalne) ----------
+const NF_API = 'https://zlecenialaser.pl/wp-json/zlx/v1/nowe-firmy';
+let nf = {loaded:false, loading:false, err:'', count:0, firms:[], sel:null, f:{name:'', city:'', woj:'', park:'', serv:'', profile:''}};
+async function nfLoad(force){
+  if(nf.loading || (nf.loaded && !force)) return;
+  nf.loading = true; nf.err = '';
+  try{
+    const r = await fetch(NF_API + '?t=' + Date.now(), {cache:'no-store'});
+    const j = await r.json();
+    nf.firms = Array.isArray(j.firms) ? j.firms : []; nf.count = j.count || nf.firms.length;
+    if(nf.sel===null && nf.firms.length) nfPick(nf.firms.find(f=>!(state.welcomed||[]).includes(f.id)) ? nf.firms.find(f=>!(state.welcomed||[]).includes(f.id)).id : nf.firms[0].id, true);
+  }catch(e){ nf.err = 'Nie udało się pobrać listy firm z zlecenialaser.pl. Możesz wpisać dane ręcznie.'; }
+  nf.loading = false; nf.loaded = true;
+  if(view==='posts' && postGroup==='firma') render();
+}
+function nfPick(id, quiet){
+  const x = nf.firms.find(f=>f.id===id); if(!x) return;
+  nf.sel = id;
+  nf.f = {name:x.name||'', city:x.city||'', woj:x.woj||'', park:(x.lines||[]).join('; '), serv:(x.services||[]).join(', '), profile:x.profile||''};
+  if(!quiet) render();
+}
+function nfSet(k,v){ nf.f[k]=v; const el=document.getElementById('nfOut'); if(el) el.innerHTML = nfOutHtml(); }
+function nfLoc(w){ return (w||'').replace(/e$/,'m'); }
+function nfTexts(){
+  const f = nf.f, name = (f.name||'').trim() || 'Nowa firma';
+  const loc = [f.city, f.woj && 'woj. ' + f.woj].filter(Boolean).join(', ');
+  const prof = (f.profile||'').trim();
+  const REG = 'zlecenialaser.pl/rejestracja-firmy';
+  const v = [];
+  v.push(['Powitanie z korzyściami', [
+    'Witamy nową firmę na zlecenialaser.pl! 👋',
+    `${name}${loc ? ' (' + loc + ')' : ''} dołącza do firm, które biorą zlecenia na cięcie przez nasz portal.`,
+    f.park ? '⚙️ ' + f.park : null,
+    f.serv ? '🔧 ' + f.serv : null,
+    prof ? 'Profil firmy: ' + prof : null,
+    '',
+    'Masz laser i też szukasz zleceń? Kiedy dołączysz, zyskujesz:',
+    '✅ zlecenia z wybranych województw prosto na maila',
+    '✅ w każdym zleceniu rysunek, materiał, grubość i ilość',
+    '✅ kontakt do klienta widzi najwyżej 5 firm',
+    '✅ 2 pierwsze zlecenia odkrywasz za darmo',
+    '👉 Rejestracja firmy: ' + REG].filter(x=>x!==null).join('\n')]);
+  v.push(['Krótko', `Kolejna firma na pokładzie zlecenialaser.pl 🚀 Witamy firmę ${name}${f.city ? ' (' + f.city + ')' : ''}!\nDołącz i Ty: zlecenia na cięcie z Twojego regionu przychodzą na maila, a 2 pierwsze odkrywasz za darmo.\n👉 ${REG}`]);
+  if(f.woj) v.push(['Dla klientów z regionu', [
+    `Szukasz cięcia laserem w województwie ${nfLoc(f.woj)}? 📍`,
+    `Do zlecenialaser.pl dołączyła firma ${name}${f.city ? ' (' + f.city + ')' : ''}.${f.park ? ' Maszyny: ' + f.park + '.' : ''}`,
+    'Dodaj zlecenie, a firmy z okolicy same się odezwą z ceną: zlecenialaser.pl/dodaj-zlecenie',
+    'Masz laser? Dołącz do wykazu firm: ' + REG].join('\n')]);
+  if(nf.count >= 5) v.push(['Rośniemy', `Rośniemy! 🙌 W wykazie firm na zlecenialaser.pl jest już ${nf.count} firm z laserem, a dziś dołącza firma ${name}${f.city ? ' (' + f.city + ')' : ''}.\nWszystkie firmy zobaczysz tutaj: zlecenialaser.pl/firmy\nMasz laser? Kiedy dołączysz, zlecenia z Twoich województw przyjdą na maila, a 2 pierwsze odkryjesz za darmo 👉 ${REG}`]);
+  return v;
+}
+function nfOutHtml(){
+  if(!(nf.f.name||'').trim()) return '<div class="hint">Wybierz firmę z listy albo wpisz jej nazwę, a tutaj pojawią się gotowe posty.</div>';
+  return `<div class="grid">${nfTexts().map(([n,t],i)=>`<div class="tpl">
+    <div class="tpl-head"><div class="tpl-name">${esc(n)}</div></div>
+    <div class="tpl-body">${esc(t)}</div>
+    <div class="tpl-foot"><button class="primary" onclick="copyNf(${i},this)">Kopiuj post</button></div></div>`).join('')}</div>`;
+}
+async function copyNf(i, btn){
+  const t = nfTexts()[i]; if(!t) return;
+  if(await copyText(t[1],'Skopiowano post')){ btn.textContent='✓ Skopiowano'; btn.classList.add('done'); setTimeout(()=>{ btn.textContent='Kopiuj post'; btn.classList.remove('done'); },1400); }
+}
+function nfToggle(id){
+  state.welcomed = state.welcomed || [];
+  state.welcomed = state.welcomed.includes(id) ? state.welcomed.filter(x=>x!==id) : state.welcomed.concat(id);
+  save(); render();
+}
+function renderNewFirm(){
+  if(!nf.loaded) nfLoad();
+  const W = state.welcomed || [];
+  const fd = d => { if(!d) return ''; const x = new Date(d); return isNaN(x) ? '' : x.toLocaleDateString('pl-PL'); };
+  const list = nf.loading && !nf.loaded ? '<div class="hint">Pobieram firmy z zlecenialaser.pl…</div>'
+    : nf.firms.length ? `<div class="nf-list">${nf.firms.map(f=>`<button class="${nf.sel===f.id?'active':''}" onclick="nfPick(${f.id})"><b>${W.includes(f.id)?'✓ ':''}${esc(f.name)}</b><small>${esc([f.city, f.woj && 'woj. '+f.woj].filter(Boolean).join(', '))}${f.since?' · w wykazie od '+fd(f.since):''}</small></button>`).join('')}</div>`
+    : '<div class="hint">W wykazie nie ma jeszcze firm.</div>';
+  const sel = nf.firms.find(f=>f.id===nf.sel);
+  return `<div class="card kom-box" style="border-color:#16a34a">
+    <div class="tpl-name" style="margin-bottom:4px">Nowa firma w portalu</div>
+    <div class="hint" style="margin-bottom:12px">Lista sama pobiera się z zlecenialaser.pl: są tu firmy z publicznym profilem i potwierdzonym NIP, najnowsze na początku. Gdy nowa firma trafi do wykazu, dostaniesz też maila z gotowym postem. Wybierz firmę, skopiuj post i wrzuć na Facebooka. Firmy już opisane oznacz ptaszkiem ✓.</div>
+    ${nf.err?`<div class="kom-warn">${esc(nf.err)}</div>`:''}
+    ${list}
+    <div class="bar" style="margin:0 0 12px">
+      <button onclick="nfLoad(true)">Odśwież listę</button>
+      ${sel?`<button class="${W.includes(sel.id)?'':'primary'}" onclick="nfToggle(${sel.id})">${W.includes(sel.id)?'Cofnij oznaczenie':'✓ Oznacz jako opisaną na FB'}</button>`:''}
+      <div class="spacer"></div>
+      <a href="https://zlecenialaser.pl/firmy/" target="_blank" rel="noopener"><button class="ghost">Wykaz firm</button></a>
+    </div>
+    <div class="ord-fields">
+      <label class="f">Nazwa firmy<input value="${esc(nf.f.name)}" oninput="nfSet('name',this.value)"></label>
+      <label class="f">Miejscowość<input value="${esc(nf.f.city)}" oninput="nfSet('city',this.value)"></label>
+      <label class="f">Województwo<input value="${esc(nf.f.woj)}" placeholder="np. małopolskie" oninput="nfSet('woj',this.value)"></label>
+      <label class="f">Maszyny<input value="${esc(nf.f.park)}" placeholder="np. Laser 6 kW, stół 3000 × 1500 mm" oninput="nfSet('park',this.value)"></label>
+      <label class="f">Usługi<input value="${esc(nf.f.serv)}" placeholder="np. gięcie, spawanie" oninput="nfSet('serv',this.value)"></label>
+      <label class="f">Link do profilu<input value="${esc(nf.f.profile)}" oninput="nfSet('profile',this.value)"></label>
+    </div>
+  </div>
+  <div id="nfOut" style="margin-top:18px">${nfOutHtml()}</div>`;
+}
+
 function renderPosts(){
   const list = state.posts.filter(p=>p.group===postGroup);
   const who = `
-  <div class="who who3">
+  <div class="who who4">
     <button class="firm ${postGroup==='wyk'?'active':''}" onclick="postGroup='wyk';render()"><span class="ic">🏭</span><span><b>Posty dla firm z laserem</b><small>grupy laserowe, CNC, ślusarskie</small></span></button>
     <button class="seek ${postGroup==='zle'?'active':''}" onclick="postGroup='zle';render()"><span class="ic">📐</span><span><b>Posty dla szukających cięcia</b><small>grupy majsterkowiczów, warsztatów, budowlane</small></span></button>
     <button class="ordb ${postGroup==='nowe'?'active':''}" onclick="postGroup='nowe';render()"><span class="ic">🆕</span><span><b>Nowe zlecenie na portalu</b><small>opis posta z linkiem do zlecenia</small></span></button>
+    <button class="nfb ${postGroup==='firma'?'active':''}" onclick="postGroup='firma';render()"><span class="ic">🤝</span><span><b>Nowa firma w portalu</b><small>powitanie i zaproszenie dla innych</small></span></button>
   </div>`;
   if(postGroup==='nowe') return who + renderOrderGen();
+  if(postGroup==='firma') return who + renderNewFirm();
   return who + `
   <div class="stephint" style="margin:0 0 18px"><span>Grafiki z Canvy z gotowym tekstem. Pobierz grafikę, skopiuj tekst i wrzuć jako post. Tekst możesz poprawić w polu pod grafiką.</span></div>
   <div class="grid">${list.map(p=>`
